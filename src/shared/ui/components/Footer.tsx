@@ -38,7 +38,7 @@ export function Footer() {
           </div>
           <div>
             <p className="font-semibold">Paga como prefieras</p>
-            <p className="text-sm opacity-90">Transferencia, tarjetas, Nequi, Daviplata y más.</p>
+            <p className="text-sm opacity-90">Transferencia, Nequi, Daviplata y más.</p>
           </div>
         </div>
       </div>
@@ -48,7 +48,7 @@ export function Footer() {
           <div>
             <p className="font-display text-2xl text-primary tracking-widest mb-3">DALÚ</p>
             <p className="text-sm text-text-secondary">
-              Creamos piezas que combinan comodidad, estilo y calidad para que te sientas increíble en cada momento.
+              Buescamos cada pieza que combine comodidad, estilo y calidad para que te sientas increíble en cada momento.
             </p>
             <div className="flex gap-4 mt-4 text-text-primary">
               <a href="https://instagram.com/dalusiendotu" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Dalú" className="hover:text-primary transition-colors">
@@ -83,18 +83,6 @@ export function Footer() {
             </ul>
           </div>
 
-          <div>
-            <p className="font-semibold text-sm mb-4 text-text-primary">Suscríbete</p>
-            <p className="text-sm text-text-secondary mb-3">Recibe novedades y ofertas exclusivas.</p>
-            <form className="flex flex-col gap-2" onSubmit={(e) => e.preventDefault()}>
-              <input
-                type="email"
-                placeholder="Tu correo electrónico"
-                className="border border-border rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
-              />
-              <Button type="submit" size="sm">Suscribirme</Button>
-            </form>
-          </div>
         </div>
 
         <div className="border-t border-border text-center text-xs text-text-secondary py-5">

@@ -43,7 +43,7 @@ const favorite = isFavorite(product.id)
       <nav className="text-xs text-text-secondary mb-6">
         <Link to="/" className="hover:text-primary">Inicio</Link>
         <span className="mx-2">›</span>
-        <Link to="/pijamas" className="hover:text-primary">Pijamas</Link>
+        <Link to="/pijamas" className="hover:text-primary">Sleepwear</Link>
         <span className="mx-2">›</span>
         <span className="text-text-primary">{product.name}</span>
       </nav>
@@ -199,7 +199,7 @@ const favorite = isFavorite(product.id)
             <div>
               <p className="text-sm font-semibold text-text-primary">Hecho con amor</p>
               <p className="text-xs text-text-secondary mt-1">
-                Creamos cada pieza pensando en tu comodidad y bienestar.
+                Buscamos cada pieza pensando en tu comodidad y bienestar.
               </p>
             </div>
           </div>

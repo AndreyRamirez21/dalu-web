@@ -7,8 +7,8 @@ import { SearchModal } from './SearchModal'
 
 const links = [
   { to: '/', label: 'Inicio' },
-  { to: '/pijamas', label: 'Pijamas' },
-  { to: '/pantuflas', label: 'Pantuflas' },
+  { to: '/pijamas', label: 'Sleepwear' },
+  { to: '/pantuflas', label: 'Slippers' },
   { to: '/antifaces', label: 'Antifaces' },
   { to: '/accesorios', label: 'Accesorios' },
 ]
