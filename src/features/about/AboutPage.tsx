@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { Heart, Leaf, Sparkles } from 'lucide-react'
 import { Button } from '@/shared/ui/components/Button'
 
 export function AboutPage() {

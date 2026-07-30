@@ -36,7 +36,7 @@ export const products: Product[] = [
   },
   {
     id: '4', slug: 'pantuflas-soft-mint', name: 'Pantuflas Soft Mint', price: 75000,
-    category: 'pantuflas', colors: ['#82BBBD'], sizes: ['38','40'],
+    category: 'pantuflas', colors: ['#82BBBD'], sizes: ['S', 'M', 'L', 'XL'],
     images: [
     '/images/products/Pan2.jpg',
 
@@ -102,7 +102,7 @@ export const products: Product[] = [
   {
     id: '10', slug: 'Pantufla', name: 'Pantufla', price: 60000,
     category: 'pantuflas', colors: ['#F4A6B7', '#EAD9BF', '#82BBBD'],
-    sizes: ['38', '40', '42', '44'],
+    sizes: ['S', 'M', 'L', 'XL'],
     images: [
     '/images/products/Pan1.jpg',
     ],
@@ -113,7 +113,7 @@ export const products: Product[] = [
   {
     id: '10', slug: 'Antifaz soft', name: 'Antifaz', price: 60000,
     category: 'antifaces', colors: ['#F4A6B7', '#EAD9BF', '#82BBBD'],
-    sizes: ['Unico'],
+    sizes: ['S', 'M', 'L', 'XL'],
     images: [
     '/images/products/Anti1.jpeg',
     ],
@@ -123,7 +123,7 @@ export const products: Product[] = [
   {
     id: '11', slug: 'Gorro', name: 'Gorro', price: 60000,
     category: 'accesorios', colors: ['#F4A6B7', '#EAD9BF', '#82BBBD'],
-    sizes: ['Unico'],
+    sizes: ['S', 'M', 'L', 'XL'],
     images: [
     '/images/products/Acc1.jpg',
     ],
