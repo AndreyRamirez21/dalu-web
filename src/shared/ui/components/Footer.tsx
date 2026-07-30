@@ -43,7 +43,7 @@ export function Footer() {
       </div>
 
       <div className="bg-surface">
-        <div className="max-w-8xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 px-6 py-14">
+        <div className="max-w-8xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 px-6 py-14">
           <div>
             <p className="font-display text-2xl text-primary tracking-widest mb-3">DALÚ</p>
             <p className="text-sm text-text-secondary">
