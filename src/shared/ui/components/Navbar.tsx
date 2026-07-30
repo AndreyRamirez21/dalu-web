@@ -21,7 +21,6 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 bg-surface">
       <div className="bg-primary text-white text-xs text-center py-2 px-4">
-        Envío gratis por compras superiores a $150.000 COP
       </div>
 
       <div className="border-b border-border">
