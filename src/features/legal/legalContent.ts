@@ -1,0 +1,127 @@
+export interface LegalSection {
+  heading: string
+  body: string
+}
+
+export interface LegalPageContent {
+  title: string
+  intro: string
+  sections: LegalSection[]
+  images?: string[]
+
+}
+
+export const legalContentBySlug: Record<string, LegalPageContent> = {
+  envios: {
+    title: 'Políticas de envío',
+    intro: 'Todo lo que debes saber sobre cómo despachamos tus pedidos en Dalú.',
+    sections: [
+      {
+        heading: 'Cobertura',
+        body: 'Realizamos envíos a todo Colombia a través de transportadoras aliadas. El tiempo de entrega puede variar según la ciudad de destino.',
+      },
+      {
+        heading: 'Tiempos de entrega',
+        body: 'Los pedidos se despachan entre 1 y 3 días hábiles después de confirmado el pago. Ciudades principales suelen recibir el pedido en 2 a 4 días hábiles; ciudades intermedias o zonas rurales pueden tardar un poco más.',
+      },
+      {
+        heading: 'Costo de envío',
+        body: 'El envío es gratuito en compras superiores a $150.000 COP. Para compras menores, el costo se calcula según destino y se informa antes de confirmar el pedido.',
+      },
+      {
+        heading: 'Seguimiento',
+        body: 'Una vez despachado tu pedido, te compartimos el número de guía para que puedas hacer seguimiento con la transportadora.',
+      },
+    ],
+  },
+  cambios: {
+    title: 'Cambios y devoluciones',
+    intro: 'Queremos que ames tu pijama Dalú. Si algo no es como esperabas, aquí te explicamos cómo proceder.',
+    sections: [
+      {
+        heading: 'Plazo',
+        body: 'Tienes 15 días calendario desde que recibes tu pedido para solicitar un cambio o devolución.',
+      },
+      {
+        heading: 'Condiciones',
+        body: 'El producto debe estar sin uso, con sus etiquetas originales y en su empaque original, sin señales de haber sido lavado o utilizado.',
+      },
+      {
+        heading: 'Cómo solicitarlo',
+        body: 'Escríbenos por WhatsApp indicando tu número de pedido y el motivo del cambio o devolución. Te guiaremos en todo el proceso.',
+      },
+      {
+        heading: 'Reembolsos',
+        body: 'En caso de devolución, el reembolso se realiza por el mismo método de pago original, una vez verificado el estado del producto.',
+      },
+    ],
+  },
+  terminos: {
+    title: 'Términos y condiciones',
+    intro: 'Al comprar en Dalú, aceptas los siguientes términos y condiciones de uso.',
+    sections: [
+      {
+        heading: 'Uso del sitio',
+        body: 'Este sitio web es propiedad de Dalú. La información aquí publicada es referencial y puede actualizarse sin previo aviso.',
+      },
+      {
+        heading: 'Disponibilidad de productos',
+        body: 'Los productos están sujetos a disponibilidad de inventario. Nos reservamos el derecho de limitar la cantidad de unidades por compra.',
+      },
+      {
+        heading: 'Precios',
+        body: 'Todos los precios publicados están expresados en pesos colombianos (COP) e incluyen los impuestos aplicables, salvo que se indique lo contrario.',
+      },
+      {
+        heading: 'Propiedad intelectual',
+        body: 'Todo el contenido de este sitio (imágenes, textos, diseños) es propiedad de Dalú y no puede reproducirse sin autorización.',
+      },
+    ],
+  },
+tallas: {
+  title: 'Guía de tallas',
+  intro: 'Encuentra tu talla ideal para que tu pijama Dalú te quede perfecta.',
+  sections: [],
+  images: ['/images/tallas/Guia-tallas-1.png', '/images/tallas/Guia-tallas-2.png'],
+},
+  pagos: {
+    title: 'Métodos de pago',
+    intro: 'Estas son las formas en las que puedes pagar tu pedido en Dalú.',
+    sections: [
+      {
+        heading: 'Transferencia bancaria',
+        body: 'Realiza tu pago por transferencia a nuestra cuenta y envíanos el comprobante por WhatsApp.',
+      },
+      {
+        heading: 'Nequi y Daviplata',
+        body: 'Aceptamos pagos a través de Nequi y Daviplata para mayor comodidad y rapidez.',
+      },
+      {
+        heading: 'Tarjetas de crédito y débito',
+        body: 'Próximamente podrás pagar directamente en línea con tarjeta. Por ahora, coordinamos el pago por WhatsApp.',
+      },
+    ],
+  },
+  faq: {
+    title: 'Preguntas frecuentes',
+    intro: 'Resolvemos las dudas más comunes de nuestras clientas.',
+    sections: [
+      {
+        heading: '¿Cuánto tarda el envío?',
+        body: 'Los envíos a todo Colombia tardan entre 1 y 3 días hábiles después de confirmado el pago.',
+      },
+      {
+        heading: '¿Puedo cambiar o devolver un producto?',
+        body: 'Sí, aceptamos cambios y devoluciones dentro de los primeros 15 días de compra, siempre que el producto esté sin uso y con sus etiquetas originales.',
+      },
+      {
+        heading: '¿Qué métodos de pago aceptan?',
+        body: 'Aceptamos transferencia bancaria, Nequi, Daviplata y próximamente tarjetas de crédito o débito.',
+      },
+      {
+        heading: '¿Cómo sé qué talla elegir?',
+        body: 'Revisa nuestra guía de tallas o escríbenos por WhatsApp y te ayudamos a elegir.',
+      },
+    ],
+  },
+}
