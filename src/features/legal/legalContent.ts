@@ -22,7 +22,7 @@ export const legalContentBySlug: Record<string, LegalPageContent> = {
       },
       {
         heading: 'Tiempos de entrega',
-        body: 'Los pedidos se despachan entre 1 y 3 días hábiles después de confirmado el pago. Ciudades principales suelen recibir el pedido en 2 a 4 días hábiles; ciudades intermedias o zonas rurales pueden tardar un poco más.',
+        body: 'Los pedidos se despachan entre 1 y 3 días hábiles después de confirmado el pago. Ciudades principales suelen recibir el pedido en 3 a 5 días hábiles; ciudades intermedias o zonas rurales pueden tardar un poco más.',
       },
       {
         heading: 'Costo de envío',
@@ -40,7 +40,7 @@ export const legalContentBySlug: Record<string, LegalPageContent> = {
     sections: [
       {
         heading: 'Plazo',
-        body: 'Tienes 15 días calendario desde que recibes tu pedido para solicitar un cambio o devolución.',
+        body: 'Tienes 4 días calendario desde que recibes tu pedido para solicitar un cambio o devolución.',
       },
       {
         heading: 'Condiciones',
@@ -52,7 +52,7 @@ export const legalContentBySlug: Record<string, LegalPageContent> = {
       },
       {
         heading: 'Reembolsos',
-        body: 'En caso de devolución, el reembolso se realiza por el mismo método de pago original, una vez verificado el estado del producto.',
+        body: 'En caso de devolución, este se hará intercambiandolo por otro producto.',
       },
     ],
   },
@@ -108,11 +108,11 @@ tallas: {
     sections: [
       {
         heading: '¿Cuánto tarda el envío?',
-        body: 'Los envíos a todo Colombia tardan entre 1 y 3 días hábiles después de confirmado el pago.',
+        body: 'Los envíos a todo Colombia tardan entre 3 y 5 días hábiles después de confirmado el pago.',
       },
       {
         heading: '¿Puedo cambiar o devolver un producto?',
-        body: 'Sí, aceptamos cambios y devoluciones dentro de los primeros 15 días de compra, siempre que el producto esté sin uso y con sus etiquetas originales.',
+        body: 'Sí, aceptamos cambios y devoluciones dentro de los primeros 4 días de compra, siempre que el producto esté sin uso y con sus etiquetas originales.',
       },
       {
         heading: '¿Qué métodos de pago aceptan?',
