@@ -40,11 +40,11 @@ export const legalContentBySlug: Record<string, LegalPageContent> = {
     sections: [
       {
         heading: 'Plazo',
-        body: 'Tienes 4 días calendario desde que recibes tu pedido para solicitar un cambio o devolución.',
+        body: 'Se aceptan cambios dentro de los 3 días calendario posteriores a la compra.(APLICA SOLO EN TALLAJE)',
       },
       {
         heading: 'Condiciones',
-        body: 'El producto debe estar sin uso, con sus etiquetas originales y en su empaque original, sin señales de haber sido lavado o utilizado.',
+        body: 'El producto debe estar sin uso, EN PERFECTO ESTADO, con etiquetas y en su empaque, EN CASO TAL DE NO CUMPLIR NO SE REALIZARA EL CAMBIO.',
       },
       {
         heading: 'Cómo solicitarlo',
@@ -52,7 +52,7 @@ export const legalContentBySlug: Record<string, LegalPageContent> = {
       },
       {
         heading: 'Reembolsos',
-        body: 'En caso de devolución, este se hará intercambiandolo por otro producto.',
+        body: 'No se realizan devoluciones de dinero, El cliente podrá cambiar el producto por otro de igual valor o por diferentes productos que, en conjunto, sumen el valor del producto original. Si el nuevo producto tiene un valor mayor, el cliente deberá asumir la diferencia.',
       },
     ],
   },
