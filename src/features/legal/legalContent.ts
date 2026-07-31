@@ -18,20 +18,24 @@ export const legalContentBySlug: Record<string, LegalPageContent> = {
     sections: [
       {
         heading: 'Cobertura',
-        body: 'Realizamos envíos a todo Colombia a través de transportadoras aliadas. El tiempo de entrega puede variar según la ciudad de destino.',
+        body: 'Realizamos envíos a todo Colombia. (tRANSPORTADORA DE PREFERENCIA). Contamos con servicio de envío dentro de la ciudad (BUGA) .',
       },
       {
         heading: 'Tiempos de entrega',
-        body: 'Los pedidos se despachan entre 1 y 3 días hábiles después de confirmado el pago. Ciudades principales suelen recibir el pedido en 3 a 5 días hábiles; ciudades intermedias o zonas rurales pueden tardar un poco más.',
+        body: 'Dentro de la ciudad: Entregas en el mismo día o máximo 24 horas hábiles (dependiendo del horario de compra). Ciudades principales: 2 a 4 días hábiles. Otras ciudades o zonas rurales: 4 a 8 días hábiles',
       },
       {
         heading: 'Costo de envío',
-        body: 'El envío es gratuito en compras superiores a $150.000 COP. Para compras menores, el costo se calcula según destino y se informa antes de confirmar el pedido.',
+        body: 'Dentro de la ciudad: Tarifa según el sector. Fuera de la ciudad: Se calcula según la ciudad de destino y peso del pedido.',
       },
       {
         heading: 'Seguimiento',
-        body: 'Una vez despachado tu pedido, te compartimos el número de guía para que puedas hacer seguimiento con la transportadora.',
+        body: 'Se enviará número de guía o confirmación por mensaje para rastreo del paquete.',
       },
+        {
+          heading: 'Retrasos',
+          body: 'Dalú no se hace responsable por retrasos atribuibles a la transportadora o mensajería local.',
+        },
     ],
   },
   cambios: {
