@@ -6,9 +6,9 @@ export const products: Product[] = [
   category: 'pijamas-short', colors: ['#82BBBD', '#F4A6B7', '#D9C6EA'],
   sizes: ['S', 'M', 'L', 'XL'],
   images: [
-    '/images/products/Pij1.jpeg',
-    '/images/products/Pij2.jpeg',
-    '/images/products/Pij3.jpeg',
+    '/images/products/Pij1.webp',
+    '/images/products/Pij2.webp',
+    '/images/products/Pij3.webp',
   ],
   rating: 4.5, reviewCount: 12, featured: true,
 },
@@ -17,9 +17,9 @@ export const products: Product[] = [
     category: 'pijamas-short', colors: ['#F4A6B7', '#D9C6EA', '#82BBBD'],
     sizes: ['S', 'M', 'L', 'XL'],
     images: [
-    '/images/products/Pij12.jpg',
-    '/images/products/Pij5.jpeg',
-    '/images/products/Pij6.jpeg',
+    '/images/products/Pij12.webp',
+    '/images/products/Pij5.webp',
+    '/images/products/Pij6.webp',
     ],
     rating: 4.2, reviewCount: 8, featured: true,
   },
@@ -28,9 +28,9 @@ export const products: Product[] = [
     category: 'pijamas-short', colors: ['#EAD9BF', '#F4A6B7', '#82BBBD'],
     sizes: ['S', 'M', 'L', 'XL'],
     images: [
-    '/images/products/Pij7.jpeg',
-    '/images/products/Pij8.jpeg',
-    '/images/products/Pij9.jpeg',
+    '/images/products/Pij7.webp',
+    '/images/products/Pij8.webp',
+    '/images/products/Pij9.webp',
     ],
     rating: 4.8, reviewCount: 15, featured: true,
   },
@@ -38,7 +38,7 @@ export const products: Product[] = [
     id: '4', slug: 'pantuflas-soft-mint', name: 'Pantuflas Soft Mint', price: 75000,
     category: 'pantuflas', colors: ['#82BBBD'], sizes: ['S', 'M', 'L', 'XL'],
     images: [
-    '/images/products/Pan2.jpg',
+    '/images/products/Pan2.webp',
 
     ],
     rating: 4.3, reviewCount: 10, featured: true,
@@ -48,9 +48,9 @@ export const products: Product[] = [
     category: 'pijamas-short', colors: ['#D9C6EA', '#82BBBD'],
     sizes: ['S', 'M', 'L', 'XL'],
     images: [
-    '/images/products/Pij3.jpeg',
-    '/images/products/Pij5.jpeg',
-    '/images/products/Pij6.jpeg',
+    '/images/products/Pij3.webp',
+    '/images/products/Pij5.webp',
+    '/images/products/Pij6.webp',
     ],
     rating: 4.4, reviewCount: 9,
   },
@@ -59,9 +59,9 @@ export const products: Product[] = [
     category: 'pijamas-short', colors: ['#A9C9E8', '#82BBBD', '#D9C6EA'],
     sizes: ['S', 'M', 'L', 'XL'],
     images: [
-    '/images/products/Pij11.jpeg',
-    '/images/products/Pij2.jpeg',
-    '/images/products/Pij11.jpeg',
+    '/images/products/Pij11.webp',
+    '/images/products/Pij2.webp',
+    '/images/products/Pij11.webp',
     ],
     rating: 4.1, reviewCount: 6,
   },
@@ -70,9 +70,9 @@ export const products: Product[] = [
     category: 'pijamas-short', colors: ['#EAD9BF', '#111111', '#F4A6B7'],
     sizes: ['S', 'M', 'L', 'XL'],
     images: [
-    '/images/products/Pij9.jpeg',
-    '/images/products/Pij8.jpeg',
-    '/images/products/Pij10.jpeg',
+    '/images/products/Pij9.webp',
+    '/images/products/Pij8.webp',
+    '/images/products/Pij10.webp',
     ],
     rating: 4.6, reviewCount: 11,
   },
@@ -81,9 +81,9 @@ export const products: Product[] = [
     category: 'pijamas-short', colors: ['#111111', '#F4A6B7', '#D9C6EA'],
     sizes: ['S', 'M', 'L', 'XL'],
     images: [
-    '/images/products/Pij6.jpeg',
-    '/images/products/Pij4.jpeg',
-    '/images/products/Pij11.jpeg',
+    '/images/products/Pij6.webp',
+    '/images/products/Pij4.webp',
+    '/images/products/Pij11.webp',
     ],
     rating: 4.7, reviewCount: 14,
   },
@@ -92,9 +92,9 @@ export const products: Product[] = [
     category: 'pijamas-short', colors: ['#F4A6B7', '#EAD9BF', '#82BBBD'],
     sizes: ['S', 'M', 'L', 'XL'],
     images: [
-    '/images/products/Pij8.jpeg',
-    '/images/products/Pij4.jpeg',
-    '/images/products/Pij5.jpeg',
+    '/images/products/Pij8.webp',
+    '/images/products/Pij4.webp',
+    '/images/products/Pij5.webp',
     ],
     rating: 4.3, reviewCount: 7,
   },
@@ -104,7 +104,7 @@ export const products: Product[] = [
     category: 'pantuflas', colors: ['#F4A6B7', '#EAD9BF', '#82BBBD'],
     sizes: ['S', 'M', 'L', 'XL'],
     images: [
-    '/images/products/Pan1.jpg',
+    '/images/products/Pan1.webp',
     ],
     rating: 4.3, reviewCount: 7,
 
@@ -115,7 +115,7 @@ export const products: Product[] = [
     category: 'antifaces', colors: ['#F4A6B7', '#EAD9BF', '#82BBBD'],
     sizes: ['S', 'M', 'L', 'XL'],
     images: [
-    '/images/products/Anti1.jpeg',
+    '/images/products/Anti1.webp',
     ],
     rating: 4.3, reviewCount: 7,
 
@@ -125,7 +125,7 @@ export const products: Product[] = [
     category: 'accesorios', colors: ['#F4A6B7', '#EAD9BF', '#82BBBD'],
     sizes: ['S', 'M', 'L', 'XL'],
     images: [
-    '/images/products/Acc1.jpg',
+    '/images/products/Acc1.webp',
     ],
     rating: 4.3, reviewCount: 7,
 

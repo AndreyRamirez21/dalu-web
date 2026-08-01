@@ -20,17 +20,19 @@ export function HeroCarousel({ images, intervalMs = 4500, children }: HeroCarous
 
   return (
     <div className="relative w-full min-h-[560px] md:h-[600px] rounded-3xl overflow-hidden shadow-lg">
-      {images.map((img, i) => (
-        <motion.img
-          key={img}
-          src={img}
-          alt="Dalú"
-          initial={false}
-          animate={{ opacity: i === index ? 1 : 0 }}
-          transition={{ duration: 0.9, ease: 'easeInOut' }}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-      ))}
+        {images.map((img, i) => (
+          <motion.img
+            key={img}
+            src={img}
+            alt="Dalú"
+            initial={false}
+            animate={{ opacity: i === index ? 1 : 0 }}
+            transition={{ duration: 0.9, ease: 'easeInOut' }}
+            className="absolute inset-0 w-full h-full object-cover"
+            fetchPriority={i === 0 ? 'high' : 'auto'}
+            loading={i === 0 ? 'eager' : 'lazy'}
+          />
+        ))}
 
       {/* Degradado: vertical en mobile (abajo hacia arriba), horizontal en desktop */}
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/40 md:bg-gradient-to-r md:from-background md:via-background/70 md:to-transparent" />

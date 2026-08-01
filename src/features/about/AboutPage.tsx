@@ -34,19 +34,22 @@ export function AboutPage() {
           Momentos Dalú
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            '/images/products/Pij1.jpeg',
-            '/images/products/Pij7.jpeg',
-            '/images/products/Pij10.jpeg',
-            '/images/products/Pij11.jpeg',
-          ].map((src, i) => (
-            <img
-              key={i}
-              src={src}
-              alt={`Momento Dalú ${i + 1}`}
-              className="rounded-2xl w-full aspect-[4/5] object-cover"
-            />
-          ))}
+            {[
+              '/images/products/Pij1.webp',
+              '/images/products/Pij7.webp',
+              '/images/products/Pij10.webp',
+              '/images/products/Pij11.webp',
+            ].map((src, i) => (
+              <img
+                key={i}
+                src={src}
+                alt={`Momento Dalú ${i + 1}`}
+                width={640}
+                height={800}
+                className="rounded-2xl w-full aspect-[4/5] object-cover"
+                loading="lazy"
+              />
+            ))}
         </div>
       </section>
 

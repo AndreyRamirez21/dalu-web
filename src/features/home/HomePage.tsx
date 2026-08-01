@@ -16,10 +16,10 @@
             <section className="max-w-8xl mx-auto px-6 py-8">
               <HeroCarousel
                 images={[
-                    '/images/products/Pij10.jpeg',
-                    '/images/products/Pij9.jpeg',
-                    '/images/products/Pij11.jpeg',
-                    '/images/products/Pij4.jpeg',
+                    '/images/products/Pij10.webp',
+                    '/images/products/Pij9.webp',
+                    '/images/products/Pij11.webp',
+                    '/images/products/Pij4.webp',
                 ]}
               >
                 <div className="max-w-md">
