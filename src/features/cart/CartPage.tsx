@@ -8,20 +8,20 @@ const WHATSAPP_NUMBER = '573045507359' // TODO: reemplazar con el número real d
 export function CartPage() {
   const { items, removeItem, updateQuantity, clearCart, subtotal } = useCart()
 
-  function buildWhatsappMessage() {
-    const lines = items.map(
-      (i) =>
-        `• ${i.product.name} (Talla: ${i.size ?? '-'}) x${i.quantity} — $${(i.product.price * i.quantity).toLocaleString('es-CO')} COP`
-    )
-    const message = [
-      'Hola Dalú! 👋 Quiero confirmar mi pedido:',
-      '',
-      ...lines,
-      '',
-      `Total: $${subtotal.toLocaleString('es-CO')} COP`,
-    ].join('\n')
-    return encodeURIComponent(message)
-  }
+    function buildWhatsappMessage() {
+      const lines = items.map(
+        (i) =>
+          `• ${i.product.name} (Ref: ${i.product.reference}${i.size ? ` — Talla: ${i.size}` : ''}) x${i.quantity} — $${(i.product.price * i.quantity).toLocaleString('es-CO')} COP`
+      )
+      const message = [
+        'Hola Dalú! 👋 Quiero confirmar mi pedido:',
+        '',
+        ...lines,
+        '',
+        `Total: $${subtotal.toLocaleString('es-CO')} COP`,
+      ].join('\n')
+      return encodeURIComponent(message)
+    }
 
   const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${buildWhatsappMessage()}`
 
@@ -54,11 +54,11 @@ export function CartPage() {
             <span />
           </div>
 
-          {items.map((item) => (
-            <div
-              key={item.product.id}
-              className="grid md:grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center py-5 border-b border-border"
-            >
+            {items.map((item) => (
+              <div
+                key={`${item.product.id}-${item.size ?? 'sin-talla'}-${item.color ?? 'sin-color'}`}
+                className="grid md:grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center py-5 border-b border-border"
+              >
               <div className="flex items-center gap-4">
                 <img
                   src={item.product.images[0]}
@@ -70,12 +70,12 @@ export function CartPage() {
                   <p className="text-xs text-text-secondary mt-1">
                     {item.size && <>Talla: {item.size}</>}
                   </p>
-                  <button
-                    onClick={() => removeItem(item.product.id)}
-                    className="text-xs text-primary hover:underline mt-1"
-                  >
-                    Eliminar
-                  </button>
+                <button
+                  onClick={() => removeItem(item.product.id, item.size, item.color)}
+                  className="text-xs text-primary hover:underline mt-1"
+                >
+                  Eliminar
+                </button>
                 </div>
               </div>
 
@@ -85,7 +85,7 @@ export function CartPage() {
 
               <div className="inline-flex items-center border border-border rounded-full w-fit">
                 <button
-                  onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                  onClick={() => updateQuantity(item.product.id, item.quantity - 1, item.size, item.color)}
                   className="w-8 h-8 flex items-center justify-center text-text-primary hover:text-primary"
                   aria-label="Disminuir cantidad"
                 >
@@ -93,7 +93,7 @@ export function CartPage() {
                 </button>
                 <span className="w-7 text-center text-sm">{item.quantity}</span>
                 <button
-                  onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                  onClick={() => updateQuantity(item.product.id, item.quantity + 1, item.size, item.color)}
                   className="w-8 h-8 flex items-center justify-center text-text-primary hover:text-primary"
                   aria-label="Aumentar cantidad"
                 >
@@ -105,13 +105,13 @@ export function CartPage() {
                 ${(item.product.price * item.quantity).toLocaleString('es-CO')} COP
               </span>
 
-              <button
-                onClick={() => removeItem(item.product.id)}
-                className="text-text-secondary hover:text-danger transition-colors"
-                aria-label="Eliminar producto"
-              >
-                <Trash2 size={18} />
-              </button>
+                <button
+                  onClick={() => removeItem(item.product.id, item.size, item.color)}
+                  className="text-text-secondary hover:text-danger transition-colors"
+                  aria-label="Eliminar producto"
+                >
+                  <Trash2 size={18} />
+                </button>
             </div>
           ))}
 

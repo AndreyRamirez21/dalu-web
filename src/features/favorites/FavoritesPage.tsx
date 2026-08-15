@@ -1,13 +1,32 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Heart } from 'lucide-react'
 import { useFavorites } from '@/shared/hooks/useFavorites'
 import { ProductCard } from '@/shared/ui/components/ProductCard'
 import { Button } from '@/shared/ui/components/Button'
-import { products } from '@/data/products'
+import { getProductsByIds } from '@/services/products'
+import type { Product } from '@/shared/types/product'
 
 export function FavoritesPage() {
   const { favoriteIds } = useFavorites()
-  const favoriteProducts = products.filter((p) => favoriteIds.includes(p.id))
+  const [favoriteProducts, setFavoriteProducts] = useState<Product[]>([])
+  const [cargando, setCargando] = useState(true)
+
+  useEffect(() => {
+    setCargando(true)
+    getProductsByIds(favoriteIds).then((data) => {
+      setFavoriteProducts(data)
+      setCargando(false)
+    })
+  }, [favoriteIds])
+
+  if (cargando) {
+    return (
+      <div className="max-w-8xl mx-auto px-6 py-20 text-center">
+        <p className="text-text-secondary">Cargando favoritos…</p>
+      </div>
+    )
+  }
 
   if (favoriteProducts.length === 0) {
     return (

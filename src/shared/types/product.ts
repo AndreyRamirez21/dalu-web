@@ -3,14 +3,16 @@ export interface Product {
   slug: string
   name: string
   price: number
-  category: 'pijamas-short' | 'pijamas-pantalon' | 'pantuflas' | 'antifaces' | 'accesorios'
+  category: 'pijamas' | 'pantuflas' | 'antifaces' | 'accesorios'
   colors: string[]
-  sizes: ('S' | 'M' | 'L' | 'XL')[]
+  sizes: string[]
   images: string[]
-  rating: number
-  reviewCount: number
   description?: string
   featured?: boolean
+  inStock: boolean
+  reference: string
+  collection?: string | null
+
 }
 
 export interface Category {

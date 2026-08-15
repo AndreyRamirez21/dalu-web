@@ -9,7 +9,7 @@ export const catalogConfigBySlug: Record<string, CatalogConfig> = {
     title: 'Sleepwear',
     description:
       'Descubre nuestra colección de pijamas diseñadas para que te sientas cómoda, linda y segura en cada momento.',
-    categories: ['pijamas-short', 'pijamas-pantalon'],
+    categories: ['pijamas'],
   },
   pantuflas: {
     title: 'Slippers',

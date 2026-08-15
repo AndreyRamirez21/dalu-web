@@ -1,4 +1,4 @@
-export type SortOption = 'recientes' | 'precio-asc' | 'precio-desc' | 'rating'
+export type SortOption = 'recientes' | 'precio-asc' | 'precio-desc'
 
 interface SortDropdownProps {
   value: SortOption
@@ -17,7 +17,6 @@ export function SortDropdown({ value, onChange }: SortDropdownProps) {
         <option value="recientes">Más recientes</option>
         <option value="precio-asc">Precio: menor a mayor</option>
         <option value="precio-desc">Precio: mayor a menor</option>
-        <option value="rating">Mejor calificados</option>
       </select>
     </div>
   )
