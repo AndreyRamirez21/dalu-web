@@ -12,6 +12,7 @@ import { useToast } from '@/shared/hooks/useToast'
 import { categories } from '@/data/categories'
 import { useProduct, useRelatedProducts } from '@/shared/hooks/useProducts'
 import { formatPrice } from '@/shared/lib/formatters'
+import { getStockForSelection } from '@/shared/lib/inventory'
 
 export function ProductPage() {
   const { slug } = useParams()
@@ -20,7 +21,7 @@ export function ProductPage() {
 }
 
 function ProductPageContent({ slug }: { slug?: string }) {
-  const { addItem } = useCart()
+  const { addItem, items } = useCart()
   const { toggleFavorite, isFavorite } = useFavorites()
   const { showToast } = useToast()
 
@@ -97,6 +98,13 @@ function ProductPageContent({ slug }: { slug?: string }) {
 
   const favorite = isFavorite(product.id)
   const productCategory = categories.find((category) => category.slug === product.category)
+  const requiresSize = product.sizes.length > 0
+  const stockForSelection = getStockForSelection(product, selectedSize)
+  const inCartForSelection = items.find(
+    (item) => item.product.id === product.id && (item.size ?? null) === (selectedSize ?? null)
+  )?.quantity ?? 0
+  const availableQuantity = Math.max(0, stockForSelection - inCartForSelection)
+  const canSelectQuantity = product.inStock && (!requiresSize || Boolean(selectedSize)) && availableQuantity > 0
 
   return (
     <div className="max-w-8xl mx-auto px-6 py-10">
@@ -184,14 +192,17 @@ function ProductPageContent({ slug }: { slug?: string }) {
               </div>
             )}
 
-            {product.sizes.length > 0 && (
+            {requiresSize && (
               <div className="mt-6">
                 <p className="text-sm font-semibold text-text-primary mb-2">Talla</p>
                 <div className="flex flex-wrap gap-2">
                   {product.sizes.map((size) => (
                     <button
                       key={size}
-                      onClick={() => setSelectedSize(size)}
+                      onClick={() => {
+                        setSelectedSize(size)
+                        setQuantity(1)
+                      }}
                       className={`min-w-10 h-10 px-3 rounded-full border text-sm font-medium transition-colors ${
                         selectedSize === size
                           ? 'bg-primary-strong text-white border-primary-strong'
@@ -216,7 +227,19 @@ function ProductPageContent({ slug }: { slug?: string }) {
 
             <div className="mt-6">
               <p className="text-sm font-semibold text-text-primary mb-2">Cantidad</p>
-              <QuantitySelector value={quantity} onChange={setQuantity} disabled={!product.inStock} />
+              <QuantitySelector
+                value={quantity}
+                onChange={setQuantity}
+                max={Math.max(1, availableQuantity)}
+                disabled={!canSelectQuantity}
+              />
+              {requiresSize && !selectedSize ? (
+                <p className="text-xs text-text-secondary mt-2">Selecciona una talla para ver las unidades disponibles.</p>
+              ) : availableQuantity > 0 && availableQuantity <= 3 ? (
+                <p className="text-xs text-text-secondary mt-2">{availableQuantity} unidad{availableQuantity === 1 ? '' : 'es'} disponible{availableQuantity === 1 ? '' : 's'}.</p>
+              ) : availableQuantity === 0 ? (
+                <p className="text-xs text-danger mt-2">No quedan unidades disponibles de esta talla.</p>
+              ) : null}
             </div>
 
             <div className="flex gap-3 mt-8">
@@ -224,17 +247,20 @@ function ProductPageContent({ slug }: { slug?: string }) {
                 variant="outline"
                 size="sm"
                 className="w-full mt-2"
-                disabled={!product.inStock}
+                disabled={!canSelectQuantity}
                 onClick={() => {
-                  if (product.sizes.length > 0 && !selectedSize) {
+                  if (requiresSize && !selectedSize) {
                     showToast('Por favor selecciona una talla')
                     return
                   }
-                  addItem(product, quantity, selectedSize)
+                  if (!addItem(product, quantity, selectedSize)) {
+                    showToast('No hay más unidades disponibles de esta talla')
+                    return
+                  }
                   showToast(`${product.name} agregado al carrito`)
                 }}
               >
-                {product.inStock ? 'Agregar al carrito' : 'Agotado'}
+                {canSelectQuantity ? 'Agregar al carrito' : 'Agotado'}
               </Button>
               <button
                 onClick={() => toggleFavorite(product.id)}

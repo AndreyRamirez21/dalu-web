@@ -4,6 +4,7 @@ import { useCart } from '@/shared/hooks/useCart'
 import { Button } from '@/shared/ui/components/Button'
 import { WHATSAPP_URL } from '@/shared/constants/contact'
 import { formatPrice } from '@/shared/lib/formatters'
+import { getStockForSelection } from '@/shared/lib/inventory'
 
 export function CartPage() {
   const { items, removeItem, updateQuantity, clearCart, subtotal } = useCart()
@@ -102,6 +103,7 @@ export function CartPage() {
                 <span className="w-7 text-center text-sm">{item.quantity}</span>
                 <button
                   onClick={() => updateQuantity(item.product.id, item.quantity + 1, item.size, item.color)}
+                  disabled={item.quantity >= getStockForSelection(item.product, item.size)}
                   className="w-8 h-8 flex items-center justify-center text-text-primary hover:text-primary"
                   aria-label="Aumentar cantidad"
                 >

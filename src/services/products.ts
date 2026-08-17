@@ -1,12 +1,10 @@
 import { supabase } from './supabaseClient'
 import type { Product } from '@/shared/types/product'
 
-
-
 interface VarianteWeb {
   talla: string
-  stock: number
-  ajuste_precio: number
+  disponible: boolean
+  cantidad_maxima: number
 }
 
 interface ProductoWebRow {
@@ -19,16 +17,16 @@ interface ProductoWebRow {
   imagen_url: string | null
   featured: boolean
   activo: boolean
-  variantes_web: VarianteWeb[]
+  variantes_web_publico: VarianteWeb[]
   coleccion: string | null
 }
 
 function mapProducto(row: ProductoWebRow): Product {
-  const tallasConStock = (row.variantes_web || [])
-    .filter((v) => v.stock > 0)
+  const tallasConStock = (row.variantes_web_publico || [])
+    .filter((v) => v.disponible)
     .map((v) => v.talla)
 
-  const stockTotal = (row.variantes_web || []).reduce((sum, v) => sum + v.stock, 0)
+  const hayStock = (row.variantes_web_publico || []).some((v) => v.disponible)
 
   return {
     id: String(row.id),
@@ -38,9 +36,14 @@ function mapProducto(row: ProductoWebRow): Product {
     category: row.categoria as Product['category'],
     colors: [],
     sizes: tallasConStock,
+    variants: (row.variantes_web_publico || []).map((variant) => ({
+      size: variant.talla,
+      stock: Math.max(0, variant.cantidad_maxima),
+      priceAdjustment: 0,
+    })),
     images: row.imagen_url ? [row.imagen_url] : [],
     featured: row.featured,
-    inStock: stockTotal > 0,
+    inStock: hayStock,
     reference: row.referencia,
     collection: row.coleccion ?? null,
   }
@@ -49,7 +52,7 @@ function mapProducto(row: ProductoWebRow): Product {
 export async function getFeaturedProducts(): Promise<Product[]> {
   const { data, error } = await supabase
     .from('productos_web')
-    .select('*, variantes_web(talla, stock, ajuste_precio)')
+    .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
     .eq('featured', true)
 
@@ -64,7 +67,7 @@ export async function getFeaturedProducts(): Promise<Product[]> {
 export async function getProductsByCategories(categories: string[]): Promise<Product[]> {
   const { data, error } = await supabase
     .from('productos_web')
-    .select('*, variantes_web(talla, stock, ajuste_precio)')
+    .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
     .in('categoria', categories)
 
@@ -79,7 +82,7 @@ export async function getProductsByCategories(categories: string[]): Promise<Pro
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   const { data, error } = await supabase
     .from('productos_web')
-    .select('*, variantes_web(talla, stock, ajuste_precio)')
+    .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
     .eq('slug', slug)
     .maybeSingle()
@@ -95,7 +98,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 export async function getRelatedProducts(category: string, excludeId: string, limit = 4): Promise<Product[]> {
   const { data, error } = await supabase
     .from('productos_web')
-    .select('*, variantes_web(talla, stock, ajuste_precio)')
+    .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
     .eq('categoria', category)
     .neq('id', Number(excludeId))
@@ -114,7 +117,7 @@ export async function getProductsByIds(ids: string[]): Promise<Product[]> {
 
   const { data, error } = await supabase
     .from('productos_web')
-    .select('*, variantes_web(talla, stock, ajuste_precio)')
+    .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
     .in('id', ids)
 
@@ -129,7 +132,7 @@ export async function getProductsByIds(ids: string[]): Promise<Product[]> {
 export async function searchProducts(query: string, limit = 6): Promise<Product[]> {
   const { data, error } = await supabase
     .from('productos_web')
-    .select('*, variantes_web(talla, stock, ajuste_precio)')
+    .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
     .ilike('nombre', `%${query}%`)
     .limit(limit)

@@ -2,6 +2,7 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 import type { Product } from '@/shared/types/product'
 import { getProductsByIds } from '@/services/products'
+import { getStockForSelection } from '@/shared/lib/inventory'
 
 export interface CartItem {
   product: Product
@@ -12,7 +13,7 @@ export interface CartItem {
 
 interface CartContextValue {
   items: CartItem[]
-  addItem: (product: Product, quantity?: number, size?: string | null, color?: string | null) => void
+  addItem: (product: Product, quantity?: number, size?: string | null, color?: string | null) => boolean
   removeItem: (productId: string, size?: string | null, color?: string | null) => void
   updateQuantity: (productId: string, quantity: number, size?: string | null, color?: string | null) => void
   clearCart: () => void
@@ -58,9 +59,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const productsById = new Map(currentProducts.map((product) => [product.id, product]))
 
       setItems((previousItems) =>
-        previousItems.map((item) => {
+        previousItems.flatMap((item) => {
           const currentProduct = productsById.get(item.product.id)
-          return currentProduct ? { ...item, product: currentProduct } : item
+          if (!currentProduct) return [item]
+
+          const stock = getStockForSelection(currentProduct, item.size)
+          return stock > 0
+            ? [{ ...item, product: currentProduct, quantity: Math.min(item.quantity, stock) }]
+            : []
         })
       )
     } catch {
@@ -73,15 +79,25 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [refreshPrices])
 
   function addItem(product: Product, quantity = 1, size: string | null = null, color: string | null = null) {
+    const stock = getStockForSelection(product, size)
+    const existingQuantity = itemsRef.current.find((item) => mismoItem(item, product.id, size, color))?.quantity ?? 0
+    const quantityToAdd = Math.max(0, Math.min(quantity, stock - existingQuantity))
+
+    if (quantityToAdd === 0) return false
+
     setItems((prev) => {
       const existing = prev.find((i) => mismoItem(i, product.id, size, color))
       if (existing) {
         return prev.map((i) =>
-          mismoItem(i, product.id, size, color) ? { ...i, quantity: i.quantity + quantity } : i
+          mismoItem(i, product.id, size, color)
+            ? { ...i, quantity: Math.min(i.quantity + quantity, stock) }
+            : i
         )
       }
-      return [...prev, { product, quantity, size, color }]
+      return [...prev, { product, quantity: Math.min(quantity, stock), size, color }]
     })
+
+    return true
   }
 
   function removeItem(productId: string, size: string | null = null, color: string | null = null) {
@@ -94,9 +110,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return
     }
     setItems((prev) =>
-      prev.map((i) =>
-        mismoItem(i, productId, size, color) ? { ...i, quantity } : i
-      )
+      prev.flatMap((item) => {
+        if (!mismoItem(item, productId, size, color)) return [item]
+
+        const nextQuantity = Math.min(quantity, getStockForSelection(item.product, size))
+        return nextQuantity > 0 ? [{ ...item, quantity: nextQuantity }] : []
+      })
     )
   }
 
