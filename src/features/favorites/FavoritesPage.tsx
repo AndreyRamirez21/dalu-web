@@ -8,12 +8,15 @@ import { useFavoriteProducts } from '@/shared/hooks/useProducts'
 
 export function FavoritesPage() {
   const { favoriteIds, syncFavorites } = useFavorites()
-  const { data: favoriteProducts = [], isPending: cargando, isError: loadError, refetch } = useFavoriteProducts(favoriteIds)
+  const { data: favoriteProducts = [], isPending, isError: loadError, isSuccess, refetch } = useFavoriteProducts(favoriteIds)
+  const cargando = favoriteIds.length > 0 && isPending
 
   useEffect(() => {
+    if (!isSuccess) return
+
     const activeIds = favoriteProducts.map((product) => product.id)
     if (favoriteIds.some((id) => !activeIds.includes(id))) syncFavorites(activeIds)
-  }, [favoriteIds, favoriteProducts, syncFavorites])
+  }, [favoriteIds, favoriteProducts, isSuccess, syncFavorites])
 
   if (cargando) {
     return (
