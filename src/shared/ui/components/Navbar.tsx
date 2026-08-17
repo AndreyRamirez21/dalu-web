@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Search, User, ShoppingBag, Menu, Heart } from 'lucide-react'
+import { Search, ShoppingBag, Menu, Heart } from 'lucide-react'
 import { useCart } from '@/shared/hooks/useCart'
 import { MobileMenu } from './MobileMenu'
 import { SearchModal } from './SearchModal'
@@ -20,7 +20,8 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-surface">
-      <div className="bg-primary text-white text-xs text-center py-2 px-4">
+      <div className="bg-primary-strong text-white text-xs text-center py-2 px-4">
+        Envíos a toda Colombia · Compra fácil por WhatsApp
       </div>
 
       <div className="border-b border-border">
@@ -29,6 +30,9 @@ export function Navbar() {
             onClick={() => setMenuOpen(true)}
             className="md:hidden text-text-primary"
             aria-label="Abrir menú"
+            aria-haspopup="dialog"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
           >
             <Menu size={22} />
           </button>
@@ -57,22 +61,22 @@ export function Navbar() {
 
           <div className="flex items-center gap-5">
             <button
-              onClick={() => setSearchOpen(true)}
-              aria-label="Buscar"
+            onClick={() => setSearchOpen(true)}
+            aria-label="Buscar"
+            aria-haspopup="dialog"
+            aria-expanded={searchOpen}
+            aria-controls="search-modal"
               className="text-text-primary hover:text-primary transition-colors"
             >
               <Search size={20} />
             </button>
-            <Link to="/cuenta" aria-label="Cuenta" className="hidden sm:block text-text-primary hover:text-primary transition-colors">
-              <User size={20} />
-            </Link>
-            <Link to="/favoritos" aria-label="Favoritos" className="hidden sm:block text-text-primary hover:text-primary transition-colors">
+            <Link to="/favoritos" aria-label="Favoritos" className="text-text-primary hover:text-primary transition-colors">
               <Heart size={20} />
             </Link>
             <Link to="/carrito" aria-label="Carrito" className="relative text-text-primary hover:text-primary transition-colors">
               <ShoppingBag size={20} />
               {itemCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-primary-strong text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
                   {itemCount}
                 </span>
               )}
@@ -82,7 +86,7 @@ export function Navbar() {
       </div>
 
       <MobileMenu isOpen={menuOpen} onClose={() => setMenuOpen(false)} links={links} />
-      <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+      <SearchModal key={searchOpen ? 'open' : 'closed'} isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   )
 }

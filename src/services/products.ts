@@ -13,7 +13,7 @@ interface ProductoWebRow {
   id: number
   referencia: string
   nombre: string
-  slug: string // ✅ NUEVO
+  slug: string
   categoria: string
   precio_venta_base: number
   imagen_url: string | null
@@ -55,7 +55,7 @@ export async function getFeaturedProducts(): Promise<Product[]> {
 
   if (error) {
     console.error('Error al obtener productos destacados:', error)
-    return []
+    throw new Error('No se pudieron cargar los productos destacados.')
   }
 
   return (data || []).map(mapProducto)
@@ -70,7 +70,7 @@ export async function getProductsByCategories(categories: string[]): Promise<Pro
 
   if (error) {
     console.error('Error al obtener productos por categoría:', error)
-    return []
+    throw new Error('No se pudieron cargar los productos de esta categoría.')
   }
 
   return (data || []).map(mapProducto)
@@ -86,7 +86,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 
   if (error) {
     console.error('Error al obtener producto:', error)
-    return null
+    throw new Error('No se pudo cargar este producto.')
   }
 
   return data ? mapProducto(data) : null
@@ -98,12 +98,12 @@ export async function getRelatedProducts(category: string, excludeId: string, li
     .select('*, variantes_web(talla, stock, ajuste_precio)')
     .eq('activo', true)
     .eq('categoria', category)
-    .neq('id', excludeId)
+    .neq('id', Number(excludeId))
     .limit(limit)
 
   if (error) {
     console.error('Error al obtener productos relacionados:', error)
-    return []
+    throw new Error('No se pudieron cargar los productos relacionados.')
   }
 
   return (data || []).map(mapProducto)
@@ -120,7 +120,7 @@ export async function getProductsByIds(ids: string[]): Promise<Product[]> {
 
   if (error) {
     console.error('Error al obtener productos favoritos:', error)
-    return []
+    throw new Error('No se pudieron cargar los productos favoritos.')
   }
 
   return (data || []).map(mapProducto)
@@ -136,7 +136,7 @@ export async function searchProducts(query: string, limit = 6): Promise<Product[
 
   if (error) {
     console.error('Error al buscar productos:', error)
-    return []
+    throw new Error('No se pudieron buscar productos.')
   }
 
   return (data || []).map(mapProducto)

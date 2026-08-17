@@ -1,29 +1,29 @@
 import { Link } from 'react-router-dom'
-import { Minus, Plus, Trash2, ArrowLeft, MessageCircle } from 'lucide-react'
+import { Minus, Plus, Trash2, ArrowLeft, MessageCircle, Package } from 'lucide-react'
 import { useCart } from '@/shared/hooks/useCart'
 import { Button } from '@/shared/ui/components/Button'
-
-const WHATSAPP_NUMBER = '573045507359' // TODO: reemplazar con el número real de Dalú
+import { WHATSAPP_URL } from '@/shared/constants/contact'
+import { formatPrice } from '@/shared/lib/formatters'
 
 export function CartPage() {
   const { items, removeItem, updateQuantity, clearCart, subtotal } = useCart()
 
-    function buildWhatsappMessage() {
+  function buildWhatsappMessage() {
       const lines = items.map(
         (i) =>
-          `• ${i.product.name} (Ref: ${i.product.reference}${i.size ? ` — Talla: ${i.size}` : ''}) x${i.quantity} — $${(i.product.price * i.quantity).toLocaleString('es-CO')} COP`
+          `• ${i.product.name} (Ref: ${i.product.reference}${i.size ? ` — Talla: ${i.size}` : ''}) x${i.quantity} — ${formatPrice(i.product.price * i.quantity)}`
       )
       const message = [
         'Hola Dalú! 👋 Quiero confirmar mi pedido:',
         '',
         ...lines,
         '',
-        `Total: $${subtotal.toLocaleString('es-CO')} COP`,
+        `Total: ${formatPrice(subtotal)}`,
       ].join('\n')
       return encodeURIComponent(message)
     }
 
-  const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${buildWhatsappMessage()}`
+  const whatsappLink = `${WHATSAPP_URL}?text=${buildWhatsappMessage()}`
 
   if (items.length === 0) {
     return (
@@ -60,11 +60,19 @@ export function CartPage() {
                 className="grid md:grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center py-5 border-b border-border"
               >
               <div className="flex items-center gap-4">
-                <img
-                  src={item.product.images[0]}
-                  alt={item.product.name}
-                  className="w-20 h-20 rounded-xl object-cover"
-                />
+                {item.product.images[0] ? (
+                  <img
+                    src={item.product.images[0]}
+                    alt={item.product.name}
+                    width={80}
+                    height={80}
+                    className="w-20 h-20 rounded-xl object-cover"
+                  />
+                ) : (
+                  <div className="w-20 h-20 rounded-xl bg-primary-light flex items-center justify-center shrink-0">
+                    <Package size={24} className="text-primary/40" />
+                  </div>
+                )}
                 <div>
                   <p className="font-medium text-text-primary text-sm">{item.product.name}</p>
                   <p className="text-xs text-text-secondary mt-1">
@@ -80,7 +88,7 @@ export function CartPage() {
               </div>
 
               <span className="text-sm text-text-primary">
-                ${item.product.price.toLocaleString('es-CO')} COP
+                {formatPrice(item.product.price)}
               </span>
 
               <div className="inline-flex items-center border border-border rounded-full w-fit">
@@ -102,7 +110,7 @@ export function CartPage() {
               </div>
 
               <span className="text-sm font-semibold text-text-primary">
-                ${(item.product.price * item.quantity).toLocaleString('es-CO')} COP
+                {formatPrice(item.product.price * item.quantity)}
               </span>
 
                 <button
@@ -136,7 +144,7 @@ export function CartPage() {
 
           <div className="flex justify-between text-sm text-text-secondary mb-3">
             <span>Subtotal</span>
-            <span>${subtotal.toLocaleString('es-CO')} COP</span>
+            <span>{formatPrice(subtotal)}</span>
           </div>
           <div className="flex justify-between text-sm text-text-secondary mb-4">
             <span>Envío</span>
@@ -145,7 +153,7 @@ export function CartPage() {
 
           <div className="flex justify-between font-semibold text-text-primary border-t border-border pt-4 mb-6">
             <span>Total</span>
-            <span className="text-lg text-primary">${subtotal.toLocaleString('es-CO')} COP</span>
+            <span className="text-lg text-primary">{formatPrice(subtotal)}</span>
           </div>
 
           <a href={whatsappLink} target="_blank" rel="noopener noreferrer">

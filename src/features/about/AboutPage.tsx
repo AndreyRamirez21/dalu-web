@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { Button } from '@/shared/ui/components/Button'
 
 export function AboutPage() {
   return (
     <div>
+      <Helmet>
+        <title>Sobre nosotros | Dalú</title>
+        <meta name="description" content="Conoce la historia de Dalú y nuestra selección de pijamas, pantuflas y accesorios para tus momentos de descanso." />
+      </Helmet>
       {/* Hero */}
       <section className="max-w-8xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-12 items-center">
         <div>
@@ -22,6 +27,8 @@ export function AboutPage() {
         <img
           src="/images/products/Aboutus.jpeg"
           alt="Historia de Dalú"
+          width={1066}
+          height={1600}
           className="rounded-3xl w-full aspect-[4/5] object-cover shadow-lg"
         />
       </section>

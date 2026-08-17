@@ -1,75 +1,49 @@
-# React + TypeScript + Vite
+# Dalú Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Tienda web de Dalú para explorar pijamas, pantuflas, antifaces y accesorios, guardar favoritos y solicitar pedidos por WhatsApp.
 
-Currently, two official plugins are available:
+## Requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js 20 o superior
+- Un proyecto de Supabase con la tabla o vista `productos_web` y su relación `variantes_web`
 
-## React Compiler
+## Configuración local
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Instala las dependencias:
 
-## Expanding the ESLint configuration
+   ```bash
+   npm install
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2. Copia `.env.example` como `.env` y completa sus valores:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+   ```bash
+   Copy-Item .env.example .env
+   ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+3. Inicia el servidor de desarrollo:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+   ```bash
+   npm run dev
+   ```
 
-```
+## Variables de entorno
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+| Variable | Uso |
+| --- | --- |
+| `VITE_SUPABASE_URL` | URL del proyecto Supabase usada por el cliente web. |
+| `VITE_SUPABASE_ANON_KEY` | Clave pública anónima de Supabase. Nunca uses una service-role key. |
+| `SITE_URL` | Dominio público, sin ruta final, usado al generar `public/sitemap.xml`. |
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Comando | Descripción |
+| --- | --- |
+| `npm run dev` | Inicia Vite en desarrollo. |
+| `npm run build` | Genera el sitemap y compila la aplicación para producción. |
+| `npm run lint` | Ejecuta ESLint. |
+| `npm run preview` | Sirve la compilación de producción localmente. |
 
-```
+## Despliegue
+
+Configura las tres variables de entorno en el proveedor de despliegue (por ejemplo, Vercel) y ejecuta `npm run build`. El build genera el sitemap con las rutas estáticas y, cuando Supabase esté disponible, una ruta por producto activo.

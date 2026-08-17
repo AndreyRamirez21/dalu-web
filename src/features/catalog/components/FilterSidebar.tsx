@@ -2,8 +2,9 @@ interface FilterSidebarProps {
   availableSizes: string[]
   selectedSizes: string[]
   onToggleSize: (size: string) => void
-  priceRange: [number, number]
-  onChangePriceRange: (range: [number, number]) => void
+  priceRange: [number, number | null]
+  maxPrice: number
+  onChangePriceRange: (range: [number, number | null]) => void
   onClearFilters: () => void
 }
 
@@ -12,6 +13,7 @@ export function FilterSidebar({
   selectedSizes,
   onToggleSize,
   priceRange,
+  maxPrice,
   onChangePriceRange,
   onClearFilters,
 }: FilterSidebarProps) {
@@ -41,15 +43,16 @@ export function FilterSidebar({
         <input
           type="range"
           min={0}
-          max={200000}
+          max={maxPrice}
           step={1000}
-          value={priceRange[1]}
+          value={priceRange[1] ?? maxPrice}
           onChange={(e) => onChangePriceRange([priceRange[0], Number(e.target.value)])}
+          disabled={maxPrice === 0}
           className="w-full accent-primary"
         />
         <div className="flex justify-between text-xs text-text-secondary mt-1">
-          <span>${priceRange[0].toLocaleString('es-CO')} COP</span>
-          <span>${priceRange[1].toLocaleString('es-CO')} COP</span>
+          <span>{formatPrice(priceRange[0])}</span>
+          <span>{formatPrice(priceRange[1] ?? maxPrice)}</span>
         </div>
       </div>
 
@@ -62,3 +65,4 @@ export function FilterSidebar({
     </aside>
   )
 }
+import { formatPrice } from '@/shared/lib/formatters'

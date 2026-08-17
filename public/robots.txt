@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
 
+Sitemap: https://dalu-web-alpha.vercel.app/sitemap.xml

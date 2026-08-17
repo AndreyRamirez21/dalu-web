@@ -44,7 +44,7 @@ export const legalContentBySlug: Record<string, LegalPageContent> = {
     sections: [
       {
         heading: 'Plazo',
-        body: 'Se aceptan cambios dentro de los 3 días calendario posteriores a la compra.(APLICA SOLO EN TALLAJE)',
+        body: 'Se aceptan cambios dentro de los 4 días calendario posteriores a la compra. Aplica únicamente para cambios de talla.',
       },
       {
         heading: 'Condiciones',
@@ -112,15 +112,15 @@ tallas: {
     sections: [
       {
         heading: '¿Cuánto tarda el envío?',
-        body: 'Los envíos a todo Colombia tardan entre 3 y 5 días hábiles después de confirmado el pago.',
+        body: 'Dentro de Buga, las entregas se realizan el mismo día o máximo en 24 horas hábiles. En ciudades principales tardan de 2 a 4 días hábiles y, en otras ciudades o zonas rurales, de 4 a 8 días hábiles.',
       },
       {
         heading: '¿Puedo cambiar o devolver un producto?',
-        body: 'Sí, aceptamos cambios y devoluciones dentro de los primeros 4 días de compra, siempre que el producto esté sin uso y con sus etiquetas originales.',
+        body: 'Aceptamos cambios de talla dentro de los primeros 4 días calendario posteriores a la compra, siempre que el producto esté sin uso, en perfecto estado y con sus etiquetas originales.',
       },
       {
         heading: '¿Qué métodos de pago aceptan?',
-        body: 'Aceptamos transferencia bancaria, Nequi, Daviplata y próximamente tarjetas de crédito o débito.',
+        body: 'Aceptamos transferencia bancaria, Nequi y Daviplata. Para consultar otros medios de pago, escríbenos por WhatsApp.',
       },
       {
         heading: '¿Cómo sé qué talla elegir?',

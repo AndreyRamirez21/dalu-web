@@ -5,6 +5,7 @@ import { Button } from './Button'
 import { useCart } from '@/shared/hooks/useCart'
 import { useFavorites } from '@/shared/hooks/useFavorites'
 import { useToast } from '@/shared/hooks/useToast'
+import { formatPrice } from '@/shared/lib/formatters'
 
 interface ProductCardProps {
   product: Product
@@ -24,6 +25,8 @@ export function ProductCard({ product }: ProductCardProps) {
             <img
               src={product.images[0]}
               alt={product.name}
+              width={640}
+              height={800}
               className={`w-full aspect-[4/5] object-cover transition-transform duration-300 group-hover:scale-105 ${
                 !product.inStock ? 'opacity-50 grayscale' : ''
               }`}
@@ -72,21 +75,29 @@ export function ProductCard({ product }: ProductCardProps) {
         )}
 
         <p className="text-sm font-semibold text-text-primary">
-          ${product.price.toLocaleString('es-CO')} COP
+          {formatPrice(product.price)}
         </p>
 
-        <Button
-          variant="outline"
-          size="sm"
-          className="w-full mt-2"
-          disabled={!product.inStock}
-          onClick={() => {
-            addItem(product)
-            showToast(`${product.name} agregado al carrito`)
-          }}
-        >
-          {product.inStock ? 'Agregar al carrito' : 'Agotado'}
-        </Button>
+        {product.sizes.length > 0 ? (
+          <Link to={`/producto/${product.slug}`} className="block mt-2">
+            <Button variant="outline" size="sm" className="w-full" disabled={!product.inStock}>
+              {product.inStock ? 'Elegir talla' : 'Agotado'}
+            </Button>
+          </Link>
+        ) : (
+          <Button
+            variant="outline"
+            size="sm"
+            className="w-full mt-2"
+            disabled={!product.inStock}
+            onClick={() => {
+              addItem(product)
+              showToast(`${product.name} agregado al carrito`)
+            }}
+          >
+            {product.inStock ? 'Agregar al carrito' : 'Agotado'}
+          </Button>
+        )}
       </div>
     </div>
   )

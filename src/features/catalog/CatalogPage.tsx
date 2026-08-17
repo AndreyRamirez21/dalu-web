@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Helmet } from 'react-helmet-async'
 import { ProductCard } from '@/shared/ui/components/ProductCard'
 import { FilterSidebar } from './components/FilterSidebar'
 import { SortDropdown, type SortOption } from './components/SortDropdown'
-import { getProductsByCategories } from '@/services/products'
-import type { Product } from '@/shared/types/product'
 import { catalogConfigBySlug } from './catalogConfig'
+import { useProductsByCategories } from '@/shared/hooks/useProducts'
 
 const ITEMS_PER_LOAD = 12
 
@@ -14,30 +14,18 @@ export function CatalogPage() {
   const { categorySlug } = useParams()
   const config = categorySlug ? catalogConfigBySlug[categorySlug] : undefined
 
-  const [allProducts, setAllProducts] = useState<Product[]>([])
-  const [cargando, setCargando] = useState(true)
-
   const [selectedSizes, setSelectedSizes] = useState<string[]>([])
   const [selectedCollection, setSelectedCollection] = useState<string | null>(null)
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 200000])
+  const [priceRange, setPriceRange] = useState<[number, number | null]>([0, null])
   const [sort, setSort] = useState<SortOption>('recientes')
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_LOAD)
-
   const sentinelRef = useRef<HTMLDivElement>(null)
+  const { data: allProducts = [], isPending: cargando, isError: loadError, refetch } = useProductsByCategories(config?.categories ?? [])
 
-  useEffect(() => {
-    if (!config) {
-      setAllProducts([])
-      setCargando(false)
-      return
-    }
-    setCargando(true)
-    setSelectedCollection(null)
-    getProductsByCategories(config.categories).then((data) => {
-      setAllProducts(data)
-      setCargando(false)
-    })
-  }, [config])
+  const maxPrice = useMemo(
+    () => Math.max(0, ...allProducts.map((product) => product.price)),
+    [allProducts]
+  )
 
   const availableSizes = useMemo(() => {
     const set = new Set<string>()
@@ -55,7 +43,7 @@ export function CatalogPage() {
 
   const filtered = useMemo(() => {
     let result = allProducts.filter(
-      (p) => p.price >= priceRange[0] && p.price <= priceRange[1]
+      (p) => p.price >= priceRange[0] && (priceRange[1] === null || p.price <= priceRange[1])
     )
 
     if (selectedSizes.length > 0) {
@@ -66,16 +54,12 @@ export function CatalogPage() {
       result = result.filter((p) => p.collection === selectedCollection)
     }
 
+    if (sort === 'recientes') result = [...result].sort((a, b) => Number(b.id) - Number(a.id))
     if (sort === 'precio-asc') result = [...result].sort((a, b) => a.price - b.price)
     if (sort === 'precio-desc') result = [...result].sort((a, b) => b.price - a.price)
 
     return result
   }, [allProducts, selectedSizes, selectedCollection, priceRange, sort])
-
-  // Reinicia cuántos productos se muestran cuando cambian filtros/categoría
-  useEffect(() => {
-    setVisibleCount(ITEMS_PER_LOAD)
-  }, [selectedSizes, selectedCollection, priceRange, sort, config])
 
   const visibleProducts = filtered.slice(0, visibleCount)
   const hayMasPorCargar = visibleCount < filtered.length
@@ -110,7 +94,7 @@ export function CatalogPage() {
   function clearFilters() {
     setSelectedSizes([])
     setSelectedCollection(null)
-    setPriceRange([0, 200000])
+    setPriceRange([0, null])
   }
 
   if (!config) {
@@ -126,6 +110,10 @@ export function CatalogPage() {
 
   return (
     <div className="max-w-8xl mx-auto px-6 py-10">
+      <Helmet>
+        <title>{config.title} | Dalú</title>
+        <meta name="description" content={config.description} />
+      </Helmet>
       <nav className="text-xs text-text-secondary mb-4">
         <Link to="/" className="hover:text-primary">Inicio</Link>
         <span className="mx-2">›</span>
@@ -141,6 +129,7 @@ export function CatalogPage() {
           selectedSizes={selectedSizes}
           onToggleSize={toggleSize}
           priceRange={priceRange}
+          maxPrice={maxPrice}
           onChangePriceRange={setPriceRange}
           onClearFilters={clearFilters}
         />
@@ -152,7 +141,7 @@ export function CatalogPage() {
                 onClick={() => setSelectedCollection(null)}
                 className={`px-4 py-2 rounded-full text-xs font-medium transition-colors ${
                   selectedCollection === null
-                    ? 'bg-primary text-white'
+                    ? 'bg-primary-strong text-white'
                     : 'bg-surface border border-border text-text-primary hover:border-primary'
                 }`}
               >
@@ -164,7 +153,7 @@ export function CatalogPage() {
                   onClick={() => setSelectedCollection(c)}
                   className={`px-4 py-2 rounded-full text-xs font-medium capitalize transition-colors ${
                     selectedCollection === c
-                      ? 'bg-primary text-white'
+                    ? 'bg-primary-strong text-white'
                       : 'bg-surface border border-border text-text-primary hover:border-primary'
                   }`}
                 >
@@ -190,6 +179,13 @@ export function CatalogPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          ) : loadError ? (
+            <div className="py-20 text-center">
+              <p className="text-text-secondary text-sm">No pudimos cargar el catálogo. Revisa tu conexión e inténtalo de nuevo.</p>
+              <button onClick={() => refetch()} className="mt-3 text-sm font-medium text-primary hover:underline">
+                Reintentar
+              </button>
             </div>
           ) : visibleProducts.length > 0 ? (
             <>

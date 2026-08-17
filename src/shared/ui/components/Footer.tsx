@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { WHATSAPP_URL } from '@/shared/constants/contact'
 
 function InstagramIcon() {
   return (
@@ -37,7 +38,7 @@ function TiktokIcon() {
 export function Footer() {
   return (
     <footer>
-      <div className="bg-primary text-white">
+      <div className="bg-primary-strong text-white">
         <div className="max-w-8xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 px-6 py-10">
           <div>
             <p className="font-semibold">Envíos a todo Colombia</p>
@@ -55,7 +56,7 @@ export function Footer() {
           <div>
             <p className="font-display text-2xl text-primary tracking-widest mb-3">DALÚ</p>
             <p className="text-sm text-text-secondary">
-              Buescamos cada pieza que combine comodidad, estilo y calidad para que te sientas increíble en cada momento.
+              Buscamos cada pieza que combine comodidad, estilo y calidad para que te sientas increíble en cada momento.
             </p>
             <div className="flex gap-4 mt-4 text-text-primary">
               <a href="https://instagram.com/dalusiendotu" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Dalú" className="hover:text-primary transition-colors">
@@ -64,7 +65,7 @@ export function Footer() {
               <a href="https://facebook.com/dalusiendotu" target="_blank" rel="noopener noreferrer" aria-label="Facebook de Dalú" className="hover:text-primary transition-colors">
                 <FacebookIcon />
               </a>
-              <a href="https://wa.me/573045507359" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp de Dalú" className="hover:text-primary transition-colors">
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp de Dalú" className="hover:text-primary transition-colors">
                 <WhatsappIcon />
               </a>
               <a href="https://www.tiktok.com/@dalusiendotu?_r=1&_t=ZS-98TvCJVYyjx" target="_blank" rel="noopener noreferrer" aria-label="Tiktok de Dalú" className="hover:text-primary transition-colors">

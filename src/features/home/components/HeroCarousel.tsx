@@ -25,6 +25,8 @@ export function HeroCarousel({ images, intervalMs = 4500, children }: HeroCarous
             key={img}
             src={img}
             alt="Dalú"
+            width={640}
+            height={800}
             initial={false}
             animate={{ opacity: i === index ? 1 : 0 }}
             transition={{ duration: 0.9, ease: 'easeInOut' }}

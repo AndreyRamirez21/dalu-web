@@ -26,7 +26,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
           onClick={() => onPageChange(page)}
           className={`w-9 h-9 flex items-center justify-center rounded-full text-sm font-medium transition-colors ${
             page === currentPage
-              ? 'bg-primary text-white'
+              ? 'bg-primary-strong text-white'
               : 'text-text-primary hover:bg-primary-light'
           }`}
         >

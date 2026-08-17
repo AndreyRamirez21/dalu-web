@@ -12,6 +12,8 @@ export function CategoryCard({ category }: CategoryCardProps) {
         <img
           src={category.image}
           alt={category.name}
+          width={640}
+          height={800}
           className="w-full aspect-[4/5] object-cover transition-transform duration-300 group-hover:scale-105"
         />
       </div>

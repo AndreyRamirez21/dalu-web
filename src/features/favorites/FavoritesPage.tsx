@@ -1,29 +1,36 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Heart } from 'lucide-react'
 import { useFavorites } from '@/shared/hooks/useFavorites'
 import { ProductCard } from '@/shared/ui/components/ProductCard'
 import { Button } from '@/shared/ui/components/Button'
-import { getProductsByIds } from '@/services/products'
-import type { Product } from '@/shared/types/product'
+import { useFavoriteProducts } from '@/shared/hooks/useProducts'
 
 export function FavoritesPage() {
-  const { favoriteIds } = useFavorites()
-  const [favoriteProducts, setFavoriteProducts] = useState<Product[]>([])
-  const [cargando, setCargando] = useState(true)
+  const { favoriteIds, syncFavorites } = useFavorites()
+  const { data: favoriteProducts = [], isPending: cargando, isError: loadError, refetch } = useFavoriteProducts(favoriteIds)
 
   useEffect(() => {
-    setCargando(true)
-    getProductsByIds(favoriteIds).then((data) => {
-      setFavoriteProducts(data)
-      setCargando(false)
-    })
-  }, [favoriteIds])
+    const activeIds = favoriteProducts.map((product) => product.id)
+    if (favoriteIds.some((id) => !activeIds.includes(id))) syncFavorites(activeIds)
+  }, [favoriteIds, favoriteProducts, syncFavorites])
 
   if (cargando) {
     return (
       <div className="max-w-8xl mx-auto px-6 py-20 text-center">
         <p className="text-text-secondary">Cargando favoritos…</p>
+      </div>
+    )
+  }
+
+  if (loadError) {
+    return (
+      <div className="max-w-8xl mx-auto px-6 py-20 text-center">
+        <h1 className="font-display text-3xl text-text-primary mb-3">No pudimos cargar tus favoritos</h1>
+        <p className="text-text-secondary">Revisa tu conexión e inténtalo de nuevo.</p>
+        <button onClick={() => refetch()} className="mt-3 text-sm font-medium text-primary hover:underline">
+          Reintentar
+        </button>
       </div>
     )
   }

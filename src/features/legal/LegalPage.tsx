@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { legalContentBySlug } from './legalContent'
 
 export function LegalPage() {
@@ -21,6 +22,10 @@ export function LegalPage() {
 
   return (
     <div className={`mx-auto px-6 py-16 ${hasImages ? 'max-w-5xl' : 'max-w-3xl'}`}>
+      <Helmet>
+        <title>{content.title} | Dalú</title>
+        <meta name="description" content={content.intro} />
+      </Helmet>
       <nav className="text-xs text-text-secondary mb-6">
         <Link to="/" className="hover:text-primary">Inicio</Link>
         <span className="mx-2">›</span>
@@ -37,6 +42,8 @@ export function LegalPage() {
               key={img}
               src={img}
               alt={content.title}
+              width={650}
+              height={491}
               className="w-full rounded-2xl shadow-sm object-contain bg-surface"
             />
           ))}
