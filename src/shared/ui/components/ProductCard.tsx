@@ -1,21 +1,39 @@
 import { Link } from 'react-router-dom'
-import { Heart, Package } from 'lucide-react'
+import { Heart, Package, X } from 'lucide-react'
+import { useState } from 'react'
 import type { Product } from '@/shared/types/product'
 import { Button } from './Button'
 import { useCart } from '@/shared/hooks/useCart'
 import { useFavorites } from '@/shared/hooks/useFavorites'
 import { useToast } from '@/shared/hooks/useToast'
 import { formatPrice } from '@/shared/lib/formatters'
+import { getStockForSelection } from '@/shared/lib/inventory'
 
 interface ProductCardProps {
   product: Product
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { addItem } = useCart()
+  const { addItem, items, openCartDrawer } = useCart()
   const { toggleFavorite, isFavorite } = useFavorites()
   const favorite = isFavorite(product.id)
   const { showToast } = useToast()
+  const [selectedSize, setSelectedSize] = useState<string | null>(null)
+  const supportsQuickSizeSelection = product.category === 'pijamas' || product.category === 'pantuflas'
+  const selectedVariant = product.variants.find((variant) => variant.size === selectedSize)
+  const selectedStock = getStockForSelection(product, selectedSize)
+  const selectedInCart = items.find(
+    (item) => item.product.id === product.id && (item.size ?? null) === (selectedSize ?? null)
+  )?.quantity ?? 0
+  const canAddSelectedSize = Boolean(selectedVariant) && selectedStock > selectedInCart
+
+  function addSelectedProduct() {
+    if (!selectedSize || !addItem(product, 1, selectedSize)) {
+      showToast('Esta talla ya no tiene unidades disponibles')
+      return
+    }
+    openCartDrawer()
+  }
 
   return (
     <div className="group">
@@ -78,12 +96,43 @@ export function ProductCard({ product }: ProductCardProps) {
           {formatPrice(product.price)}
         </p>
 
-        {product.sizes.length > 0 ? (
-          <Link to={`/producto/${product.slug}`} className="block mt-2">
-            <Button variant="outline" size="sm" className="w-full" disabled={!product.inStock}>
-              {product.inStock ? 'Elegir talla' : 'Agotado'}
+        {supportsQuickSizeSelection && product.variants.length > 0 ? (
+          <div className="mt-3">
+            <div className="flex flex-wrap gap-1.5" aria-label={`Tallas de ${product.name}`}>
+              {product.variants.map((variant) => {
+                const isSoldOut = variant.stock <= 0
+                const isSelected = selectedSize === variant.size
+
+                return (
+                  <button
+                    key={variant.size}
+                    onClick={() => setSelectedSize(variant.size)}
+                    disabled={isSoldOut}
+                    aria-label={isSoldOut ? `Talla ${variant.size} agotada` : `Seleccionar talla ${variant.size}`}
+                    className={`relative min-w-9 h-9 px-2 rounded-lg border text-xs font-medium transition-colors ${
+                      isSoldOut
+                        ? 'border-border text-text-secondary/50 cursor-not-allowed'
+                        : isSelected
+                          ? 'border-primary-strong bg-primary-strong text-white'
+                          : 'border-border text-text-primary hover:border-primary'
+                    }`}
+                  >
+                    {variant.size}
+                    {isSoldOut && <X size={14} strokeWidth={2.5} className="absolute inset-0 m-auto text-danger" aria-hidden="true" />}
+                  </button>
+                )
+              })}
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full mt-3"
+              disabled={!canAddSelectedSize}
+              onClick={addSelectedProduct}
+            >
+              {selectedSize ? 'Añadir al carrito' : 'Selecciona una talla'}
             </Button>
-          </Link>
+          </div>
         ) : (
           <Button
             variant="outline"
@@ -91,8 +140,7 @@ export function ProductCard({ product }: ProductCardProps) {
             className="w-full mt-2"
             disabled={!product.inStock}
             onClick={() => {
-              addItem(product)
-              showToast(`${product.name} agregado al carrito`)
+              if (addItem(product)) openCartDrawer()
             }}
           >
             {product.inStock ? 'Agregar al carrito' : 'Agotado'}

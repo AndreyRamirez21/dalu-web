@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { WHATSAPP_URL } from '@/shared/constants/contact'
+import { INSTAGRAM_URL, WHATSAPP_URL } from '@/shared/constants/contact'
 
 function InstagramIcon() {
   return (
@@ -59,7 +59,7 @@ export function Footer() {
               Buscamos cada pieza que combine comodidad, estilo y calidad para que te sientas increíble en cada momento.
             </p>
             <div className="flex gap-4 mt-4 text-text-primary">
-              <a href="https://instagram.com/dalusiendotu" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Dalú" className="hover:text-primary transition-colors">
+              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram de Dalú" className="hover:text-primary transition-colors">
                 <InstagramIcon />
               </a>
               <a href="https://facebook.com/dalusiendotu" target="_blank" rel="noopener noreferrer" aria-label="Facebook de Dalú" className="hover:text-primary transition-colors">

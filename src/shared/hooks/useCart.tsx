@@ -18,6 +18,9 @@ interface CartContextValue {
   updateQuantity: (productId: string, quantity: number, size?: string | null, color?: string | null) => void
   clearCart: () => void
   refreshPrices: () => Promise<void>
+  isCartDrawerOpen: boolean
+  openCartDrawer: () => void
+  closeCartDrawer: () => void
   subtotal: number
   itemCount: number
 }
@@ -43,6 +46,7 @@ function mismoItem(a: CartItem, productId: string, size?: string | null, color?:
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>(getStoredCart)
+  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false)
   const itemsRef = useRef(items)
 
   useEffect(() => {
@@ -123,11 +127,31 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems([])
   }
 
+  function openCartDrawer() {
+    setIsCartDrawerOpen(true)
+  }
+
+  function closeCartDrawer() {
+    setIsCartDrawerOpen(false)
+  }
+
   const subtotal = items.reduce((sum, i) => sum + i.product.price * i.quantity, 0)
   const itemCount = items.reduce((sum, i) => sum + i.quantity, 0)
 
   return (
-    <CartContext.Provider value={{ items, addItem, removeItem, updateQuantity, clearCart, refreshPrices, subtotal, itemCount }}>
+      <CartContext.Provider value={{
+        items,
+        addItem,
+        removeItem,
+        updateQuantity,
+        clearCart,
+        refreshPrices,
+        isCartDrawerOpen,
+        openCartDrawer,
+        closeCartDrawer,
+        subtotal,
+        itemCount,
+      }}>
       {children}
     </CartContext.Provider>
   )

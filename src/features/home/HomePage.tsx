@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { Sparkles, Heart, Package } from 'lucide-react'
+import { ArrowUpRight, Sparkles, Heart, Package } from 'lucide-react'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Button } from '@/shared/ui/components/Button'
 import { CategoryCard } from '@/shared/ui/components/CategoryCard'
 import { ProductCard } from '@/shared/ui/components/ProductCard'
@@ -7,9 +8,40 @@ import { Skeleton } from '@/shared/ui/components/Skeleton'
 import { categories } from '@/data/categories'
 import { useFeaturedProducts } from '@/shared/hooks/useProducts'
 import { HeroCarousel } from './components/HeroCarousel'
+import { InstagramFeed } from './components/InstagramFeed'
+
+const moments = [
+  {
+    title: 'Una noche para ti',
+    description: 'Pijamas suaves para bajar el ritmo y sentirte cómoda.',
+    image: '/images/products/Pij4.webp',
+    to: '/pijamas',
+  },
+  {
+    title: 'Un regalo especial',
+    description: 'Detalles que convierten cualquier momento en algo bonito.',
+    image: '/images/products/Acc1.webp',
+    to: '/accesorios',
+  },
+  {
+    title: 'Descanso total',
+    description: 'Todo lo que necesitas para una rutina más tranquila.',
+    image: '/images/products/Anti1.webp',
+    to: '/antifaces',
+  },
+]
 
 export function HomePage() {
   const { data: featured = [], isPending: featuredLoading, isError: featuredError, refetch } = useFeaturedProducts()
+  const reduceMotion = useReducedMotion()
+  const reveal = reduceMotion
+    ? {}
+    : {
+        initial: { opacity: 0, y: 28 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.2 },
+        transition: { duration: 0.55, ease: 'easeOut' as const },
+      }
 
   return (
     <div>
@@ -64,13 +96,74 @@ export function HomePage() {
 
       {/* Categorías */}
       <section id="categorias" className="max-w-8xl mx-auto px-6 py-12">
-        <h2 className="text-center font-display text-2xl text-text-primary mb-8">Categorías</h2>
+        <motion.div {...reveal} className="text-center mb-8">
+          <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Explora Dalú</p>
+          <h2 className="font-display text-2xl text-text-primary">Categorías para cada momento</h2>
+        </motion.div>
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
-          {categories.map((category) => (
-            <CategoryCard key={category.id} category={category} />
+          {categories.map((category, index) => (
+            <motion.div
+              key={category.id}
+              {...reveal}
+              transition={reduceMotion ? undefined : { duration: 0.5, delay: index * 0.09, ease: 'easeOut' }}
+            >
+              <CategoryCard category={category} />
+            </motion.div>
           ))}
         </div>
       </section>
+
+      {/* Compra por momento */}
+      <section className="max-w-8xl mx-auto px-6 py-12">
+        <motion.div {...reveal} className="max-w-xl mb-8">
+          <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Encuentra tu favorito</p>
+          <h2 className="font-display text-2xl text-text-primary">Compra según tu momento</h2>
+          <p className="text-sm text-text-secondary mt-2">Pequeños detalles para sentirte bien, descansar y regalar comodidad.</p>
+        </motion.div>
+        <div className="grid md:grid-cols-3 gap-5">
+          {moments.map((moment, index) => (
+            <motion.div
+              key={moment.title}
+              {...reveal}
+              transition={reduceMotion ? undefined : { duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
+            >
+              <Link to={moment.to} className="group relative block min-h-64 overflow-hidden rounded-2xl bg-primary-light">
+                <img src={moment.image} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                  <h3 className="font-display text-2xl">{moment.title}</h3>
+                  <p className="text-sm text-white/90 mt-1 max-w-xs">{moment.description}</p>
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide mt-4">Explorar <ArrowUpRight size={15} /></span>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Colección destacada */}
+      <section className="max-w-8xl mx-auto px-6 py-12">
+        <motion.div {...reveal} className="relative overflow-hidden rounded-3xl bg-primary-light min-h-[420px] md:min-h-[460px]">
+          <img
+            src="/images/products/Pij11.webp"
+            alt="Colección de pijamas Dalú"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent" />
+          <div className="relative flex min-h-[420px] md:min-h-[460px] items-end md:items-center p-8 md:p-16">
+            <div className="max-w-md">
+              <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-3">Colección del mes</p>
+              <h2 className="font-display text-3xl md:text-5xl leading-tight text-text-primary">Comodidad para quedarte un rato más</h2>
+              <p className="text-text-secondary mt-4">Descubre una selección especial de pijamas para tus momentos más tranquilos.</p>
+              <Link to="/pijamas" className="inline-flex mt-6">
+                <Button size="lg">Ver colección</Button>
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      <InstagramFeed />
 
       {/* Productos destacados */}
       {featuredLoading && (
@@ -91,10 +184,19 @@ export function HomePage() {
 
       {!featuredLoading && featured.length > 0 && (
         <section className="max-w-8xl mx-auto px-6 py-12">
-          <h2 className="text-center font-display text-2xl text-text-primary mb-8">Productos destacados</h2>
+          <motion.div {...reveal} className="text-center mb-8">
+            <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Favoritos de la semana</p>
+            <h2 className="font-display text-2xl text-text-primary">Productos destacados</h2>
+          </motion.div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {featured.map((product) => (
-              <ProductCard key={product.id} product={product} />
+            {featured.map((product, index) => (
+              <motion.div
+                key={product.id}
+                {...reveal}
+                transition={reduceMotion ? undefined : { duration: 0.5, delay: index * 0.09, ease: 'easeOut' }}
+              >
+                <ProductCard product={product} />
+              </motion.div>
             ))}
           </div>
         </section>
