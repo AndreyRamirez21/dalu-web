@@ -41,7 +41,7 @@ export function CartDrawer() {
               )}
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-text-primary truncate">{item.product.name}</p>
-                {item.size && <p className="text-xs text-text-secondary mt-1">Talla: {item.size}</p>}
+                {item.size && <p className="text-xs text-text-secondary mt-1">{item.product.category === 'accesorios' ? 'Variante' : 'Talla'}: {item.size}</p>}
                 <p className="text-sm text-text-secondary mt-2">{item.quantity} × {formatPrice(item.product.price)}</p>
               </div>
             </div>

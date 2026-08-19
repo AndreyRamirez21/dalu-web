@@ -99,6 +99,7 @@ function ProductPageContent({ slug }: { slug?: string }) {
   const favorite = isFavorite(product.id)
   const productCategory = categories.find((category) => category.slug === product.category)
   const requiresSize = product.sizes.length > 0
+  const selectionLabel = product.category === 'accesorios' ? 'variante' : 'talla'
   const stockForSelection = getStockForSelection(product, selectedSize)
   const inCartForSelection = items.find(
     (item) => item.product.id === product.id && (item.size ?? null) === (selectedSize ?? null)
@@ -194,7 +195,7 @@ function ProductPageContent({ slug }: { slug?: string }) {
 
             {requiresSize && (
               <div className="mt-6">
-                <p className="text-sm font-semibold text-text-primary mb-2">Talla</p>
+                <p className="text-sm font-semibold text-text-primary mb-2">{selectionLabel === 'variante' ? 'Variante' : 'Talla'}</p>
                 <div className="flex flex-wrap gap-2">
                   {product.sizes.map((size) => (
                     <button
@@ -234,7 +235,7 @@ function ProductPageContent({ slug }: { slug?: string }) {
                 disabled={!canSelectQuantity}
               />
               {requiresSize && !selectedSize ? (
-                <p className="text-xs text-text-secondary mt-2">Selecciona una talla para ver las unidades disponibles.</p>
+                <p className="text-xs text-text-secondary mt-2">Selecciona una {selectionLabel} para ver las unidades disponibles.</p>
               ) : availableQuantity > 0 && availableQuantity <= 3 ? (
                 <p className="text-xs text-text-secondary mt-2">{availableQuantity} unidad{availableQuantity === 1 ? '' : 'es'} disponible{availableQuantity === 1 ? '' : 's'}.</p>
               ) : availableQuantity === 0 ? (
@@ -250,11 +251,11 @@ function ProductPageContent({ slug }: { slug?: string }) {
                 disabled={!canSelectQuantity}
                 onClick={() => {
                   if (requiresSize && !selectedSize) {
-                    showToast('Por favor selecciona una talla')
+                    showToast(`Por favor selecciona una ${selectionLabel}`)
                     return
                   }
                   if (!addItem(product, quantity, selectedSize)) {
-                    showToast('No hay más unidades disponibles de esta talla')
+                    showToast(`No hay más unidades disponibles de esta ${selectionLabel}`)
                     return
                   }
                   showToast(`${product.name} agregado al carrito`)

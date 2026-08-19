@@ -19,7 +19,8 @@ export function ProductCard({ product }: ProductCardProps) {
   const favorite = isFavorite(product.id)
   const { showToast } = useToast()
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
-  const supportsQuickSizeSelection = product.category === 'pijamas' || product.category === 'pantuflas'
+  const supportsQuickSizeSelection = product.category === 'pijamas' || product.category === 'pantuflas' || product.category === 'accesorios'
+  const selectionLabel = product.category === 'accesorios' ? 'variante' : 'talla'
   const selectedVariant = product.variants.find((variant) => variant.size === selectedSize)
   const selectedStock = getStockForSelection(product, selectedSize)
   const selectedInCart = items.find(
@@ -29,7 +30,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   function addSelectedProduct() {
     if (!selectedSize || !addItem(product, 1, selectedSize)) {
-      showToast('Esta talla ya no tiene unidades disponibles')
+      showToast(`Esta ${selectionLabel} ya no tiene unidades disponibles`)
       return
     }
     openCartDrawer()
@@ -98,7 +99,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {supportsQuickSizeSelection && product.variants.length > 0 ? (
           <div className="mt-3">
-            <div className="flex flex-wrap gap-1.5" aria-label={`Tallas de ${product.name}`}>
+            <div className="flex flex-wrap gap-1.5" aria-label={`${selectionLabel}s de ${product.name}`}>
               {product.variants.map((variant) => {
                 const isSoldOut = variant.stock <= 0
                 const isSelected = selectedSize === variant.size
@@ -108,7 +109,7 @@ export function ProductCard({ product }: ProductCardProps) {
                     key={variant.size}
                     onClick={() => setSelectedSize(variant.size)}
                     disabled={isSoldOut}
-                    aria-label={isSoldOut ? `Talla ${variant.size} agotada` : `Seleccionar talla ${variant.size}`}
+                    aria-label={isSoldOut ? `${selectionLabel} ${variant.size} agotada` : `Seleccionar ${selectionLabel} ${variant.size}`}
                     className={`relative min-w-9 h-9 px-2 rounded-lg border text-xs font-medium transition-colors ${
                       isSoldOut
                         ? 'border-border text-text-secondary/50 cursor-not-allowed'
@@ -130,7 +131,7 @@ export function ProductCard({ product }: ProductCardProps) {
               disabled={!canAddSelectedSize}
               onClick={addSelectedProduct}
             >
-              {selectedSize ? 'Añadir al carrito' : 'Selecciona una talla'}
+              {selectedSize ? 'Añadir al carrito' : `Selecciona una ${selectionLabel}`}
             </Button>
           </div>
         ) : (

@@ -2,6 +2,7 @@ export interface CatalogConfig {
   title: string
   description: string
   categories: string[]
+  collectionFilters?: Array<{ label: string; value: string }>
 }
 
 export const catalogConfigBySlug: Record<string, CatalogConfig> = {
@@ -25,5 +26,15 @@ export const catalogConfigBySlug: Record<string, CatalogConfig> = {
     title: 'Accesorios',
     description: 'Los detalles que completan tu rutina de descanso.',
     categories: ['accesorios'],
+    collectionFilters: [
+      { label: 'Humidificadores', value: 'humidificadores' },
+      { label: 'Fundas', value: 'fundas' },
+      { label: 'Scrunchies', value: 'scrunchies' },
+      { label: 'Rizadores', value: 'rizadores' },
+      { label: 'Gorros en satín', value: 'gorros en satin' },
+      { label: 'Lámparas', value: 'lamparas' },
+      { label: 'Cuelleros', value: 'cuelleros' },
+      { label: 'Varios', value: 'varios' },
+    ],
   },
 }

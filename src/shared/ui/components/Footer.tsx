@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { INSTAGRAM_URL, WHATSAPP_URL } from '@/shared/constants/contact'
+import { INSTAGRAM_URL, STORE_ADDRESS, STORE_MAP_URL, WHATSAPP_URL } from '@/shared/constants/contact'
 
 function InstagramIcon() {
   return (
@@ -90,6 +90,7 @@ export function Footer() {
             <p className="font-semibold text-sm mb-4 text-text-primary">Ayuda</p>
             <ul className="space-y-2 text-sm text-text-secondary">
               <li><Link to="/contacto" className="hover:text-primary">Contacto</Link></li>
+              <li><a href={STORE_MAP_URL} target="_blank" rel="noopener noreferrer" className="hover:text-primary">{STORE_ADDRESS}</a></li>
               <li><Link to="/tallas" className="hover:text-primary">Guía de tallas</Link></li>
               <li><Link to="/pagos" className="hover:text-primary">Métodos de pago</Link></li>
               <li><Link to="/faq" className="hover:text-primary">Preguntas frecuentes</Link></li>

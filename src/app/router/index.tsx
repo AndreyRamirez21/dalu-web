@@ -12,6 +12,7 @@ const AboutPage = lazy(() => import('@/features/about/AboutPage').then((m) => ({
 const ContactPage = lazy(() => import('@/features/contact/ContactPage').then((m) => ({ default: m.ContactPage })))
 const FavoritesPage = lazy(() => import('@/features/favorites/FavoritesPage').then((m) => ({ default: m.FavoritesPage })))
 const LegalPage = lazy(() => import('@/features/legal/LegalPage').then((m) => ({ default: m.LegalPage })))
+const LocationPage = lazy(() => import('@/features/location/LocationPage').then((m) => ({ default: m.LocationPage })))
 
 function withSuspense(element: React.ReactNode) {
   return <Suspense fallback={<Loader />}>{element}</Suspense>
@@ -28,6 +29,7 @@ export const router = createBrowserRouter([
       { path: 'nosotros', element: withSuspense(<AboutPage />) },
       { path: 'contacto', element: withSuspense(<ContactPage />) },
       { path: 'favoritos', element: withSuspense(<FavoritesPage />) },
+      { path: 'ubicacion', element: withSuspense(<LocationPage />) },
       { path: 'envios', element: withSuspense(<LegalPage />) },
       { path: 'cambios', element: withSuspense(<LegalPage />) },
       { path: 'terminos', element: withSuspense(<LegalPage />) },

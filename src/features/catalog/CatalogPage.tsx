@@ -10,6 +10,14 @@ import { useProductsByCategories } from '@/shared/hooks/useProducts'
 
 const ITEMS_PER_LOAD = 12
 
+function normalizeCollection(value: string) {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+    .toLowerCase()
+}
+
 export function CatalogPage() {
   const { categorySlug } = useParams()
   const config = categorySlug ? catalogConfigBySlug[categorySlug] : undefined
@@ -41,6 +49,11 @@ export function CatalogPage() {
     return Array.from(set)
   }, [allProducts])
 
+  const collectionOptions = useMemo(
+    () => config?.collectionFilters ?? availableCollections.map((collection) => ({ label: collection, value: collection })),
+    [availableCollections, config]
+  )
+
   const filtered = useMemo(() => {
     let result = allProducts.filter(
       (p) => p.price >= priceRange[0] && (priceRange[1] === null || p.price <= priceRange[1])
@@ -51,7 +64,7 @@ export function CatalogPage() {
     }
 
     if (selectedCollection) {
-      result = result.filter((p) => p.collection === selectedCollection)
+      result = result.filter((p) => p.collection && normalizeCollection(p.collection) === normalizeCollection(selectedCollection))
     }
 
     if (sort === 'recientes') result = [...result].sort((a, b) => Number(b.id) - Number(a.id))
@@ -135,7 +148,7 @@ export function CatalogPage() {
         />
 
         <div className="flex-1">
-          {availableCollections.length > 0 && (
+          {collectionOptions.length > 0 && (
             <div className="flex gap-2 mb-6 flex-wrap">
               <button
                 onClick={() => setSelectedCollection(null)}
@@ -145,19 +158,19 @@ export function CatalogPage() {
                     : 'bg-surface border border-border text-text-primary hover:border-primary'
                 }`}
               >
-                Todas
+                Todos
               </button>
-              {availableCollections.map((c) => (
+              {collectionOptions.map((collection) => (
                 <button
-                  key={c}
-                  onClick={() => setSelectedCollection(c)}
+                  key={collection.value}
+                  onClick={() => setSelectedCollection(collection.value)}
                   className={`px-4 py-2 rounded-full text-xs font-medium capitalize transition-colors ${
-                    selectedCollection === c
+                    selectedCollection === collection.value
                     ? 'bg-primary-strong text-white'
                       : 'bg-surface border border-border text-text-primary hover:border-primary'
                   }`}
                 >
-                  {c}
+                  {collection.label}
                 </button>
               ))}
             </div>

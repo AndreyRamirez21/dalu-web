@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowUpRight, Sparkles, Heart, Package } from 'lucide-react'
+import { ArrowUpRight, Heart, MapPin, MessageCircle, Package, Sparkles, Truck } from 'lucide-react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Button } from '@/shared/ui/components/Button'
 import { CategoryCard } from '@/shared/ui/components/CategoryCard'
@@ -9,6 +9,8 @@ import { categories } from '@/data/categories'
 import { useFeaturedProducts } from '@/shared/hooks/useProducts'
 import { HeroCarousel } from './components/HeroCarousel'
 import { InstagramFeed } from './components/InstagramFeed'
+import { VideoSection } from './components/VideoSection'
+import { STORE_ADDRESS, WHATSAPP_URL } from '@/shared/constants/contact'
 
 const moments = [
   {
@@ -163,6 +165,16 @@ export function HomePage() {
         </motion.div>
       </section>
 
+      {/* Video */}
+      <VideoSection
+        videoSrc="/videos/hero-dalu.mp4"
+        posterSrc="/images/products/Pij11.webp"
+        title="Momentos que se sienten como en casa"
+        description="Descubre cómo se mueve Dalú en cada detalle."
+        to="/pijamas"
+        ctaLabel="Ver colección"
+      />
+
       <InstagramFeed />
 
       {/* Productos destacados */}
@@ -210,6 +222,31 @@ export function HomePage() {
           </button>
         </div>
       )}
+
+      <section className="max-w-8xl mx-auto px-6 py-16">
+        <motion.div {...reveal} className="grid md:grid-cols-3 gap-5 text-center">
+          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="group rounded-2xl bg-surface shadow-sm px-6 py-9 hover:shadow-md transition-shadow">
+            <MessageCircle size={28} className="mx-auto text-primary mb-4" />
+            <h2 className="font-display text-xl text-text-primary">¿Tienes alguna duda?</h2>
+            <p className="text-sm text-text-secondary mt-2">Estamos para ayudarte.</p>
+            <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-5 group-hover:underline">Ir a WhatsApp</span>
+          </a>
+
+          <Link to="/ubicacion" className="group rounded-2xl bg-primary-strong text-white shadow-sm px-6 py-9 hover:bg-primary-strong-hover transition-colors">
+            <MapPin size={28} className="mx-auto mb-4" />
+            <h2 className="font-display text-xl">Visítanos en Buga</h2>
+            <p className="text-sm text-white/85 mt-2">{STORE_ADDRESS}</p>
+            <span className="inline-block text-xs font-semibold uppercase tracking-wide mt-5 group-hover:underline">Ver ubicación</span>
+          </Link>
+
+          <Link to="/envios" className="group rounded-2xl bg-surface shadow-sm px-6 py-9 hover:shadow-md transition-shadow">
+            <Truck size={28} className="mx-auto text-primary mb-4" />
+            <h2 className="font-display text-xl text-text-primary">Envíos a Colombia</h2>
+            <p className="text-sm text-text-secondary mt-2">Llevamos Dalú hasta tu puerta.</p>
+            <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-5 group-hover:underline">Conocer envíos</span>
+          </Link>
+        </motion.div>
+      </section>
     </div>
   )
 }

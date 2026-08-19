@@ -12,7 +12,7 @@ export function CartPage() {
   function buildWhatsappMessage() {
       const lines = items.map(
         (i) =>
-          `• ${i.product.name} (Ref: ${i.product.reference}${i.size ? ` — Talla: ${i.size}` : ''}) x${i.quantity} — ${formatPrice(i.product.price * i.quantity)}`
+          `• ${i.product.name} (Ref: ${i.product.reference}${i.size ? ` — ${i.product.category === 'accesorios' ? 'Variante' : 'Talla'}: ${i.size}` : ''}) x${i.quantity} — ${formatPrice(i.product.price * i.quantity)}`
       )
       const message = [
         'Hola Dalú! 👋 Quiero confirmar mi pedido:',
@@ -77,7 +77,7 @@ export function CartPage() {
                 <div>
                   <p className="font-medium text-text-primary text-sm">{item.product.name}</p>
                   <p className="text-xs text-text-secondary mt-1">
-                    {item.size && <>Talla: {item.size}</>}
+                    {item.size && <>{item.product.category === 'accesorios' ? 'Variante' : 'Talla'}: {item.size}</>}
                   </p>
                 <button
                   onClick={() => removeItem(item.product.id, item.size, item.color)}
