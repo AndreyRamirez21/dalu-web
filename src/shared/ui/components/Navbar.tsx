@@ -71,7 +71,12 @@ export function Navbar() {
                     <div className="absolute left-0 top-full pt-3 opacity-0 invisible translate-y-1 pointer-events-none transition-all duration-150 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:pointer-events-auto">
                       <div className="min-w-48 rounded-lg border border-border bg-surface p-2 shadow-lg">
                         {link.children.map((child) => (
-                          <Link key={child.to} to={child.to} className={`block rounded-md px-3 py-2 text-sm transition-colors ${pathname === child.to ? 'bg-primary-light text-primary' : 'text-text-primary hover:bg-primary-light hover:text-primary'}`}>
+                          <Link
+                            key={child.to}
+                            to={child.to}
+                            onClick={(e) => e.currentTarget.blur()}
+                            className={`block rounded-md px-3 py-2 text-sm transition-colors ${pathname === child.to ? 'bg-primary-light text-primary' : 'text-text-primary hover:bg-primary-light hover:text-primary'}`}
+                          >
                             {child.label}
                           </Link>
                         ))}
