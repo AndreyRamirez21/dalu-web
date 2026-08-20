@@ -7,6 +7,7 @@ import { ProductCard } from '@/shared/ui/components/ProductCard'
 import { Skeleton } from '@/shared/ui/components/Skeleton'
 import { categories } from '@/data/categories'
 import { useFeaturedProducts } from '@/shared/hooks/useProducts'
+import { useHomeContent } from '@/shared/hooks/useHomeContent'
 import { HeroCarousel } from './components/HeroCarousel'
 import { InstagramFeed } from './components/InstagramFeed'
 import { VideoSection } from './components/VideoSection'
@@ -35,6 +36,14 @@ const moments = [
 
 export function HomePage() {
   const { data: featured = [], isPending: featuredLoading, isError: featuredError, refetch } = useFeaturedProducts()
+  const { data: homeContent } = useHomeContent()
+  const hero = homeContent?.hero
+  const homeCategories = homeContent?.categories ?? categories
+  const collection = homeContent?.collection
+  const video = homeContent?.video
+  const featuredProducts = homeContent?.featuredReferences.length
+    ? [...featured].sort((a, b) => homeContent.featuredReferences.indexOf(a.reference) - homeContent.featuredReferences.indexOf(b.reference))
+    : featured
   const reduceMotion = useReducedMotion()
   const reveal = reduceMotion
     ? {}
@@ -50,12 +59,7 @@ export function HomePage() {
       {/* Hero */}
       <section className="max-w-8xl mx-auto px-6 py-8">
         <HeroCarousel
-          images={[
-            '/images/products/Pij10.webp',
-            '/images/products/Pij9.webp',
-            '/images/products/Pij11.webp',
-            '/images/products/Pij4.webp',
-          ]}
+          images={hero?.slides ?? ['/images/products/Pij10.webp', '/images/products/Pij9.webp', '/images/products/Pij11.webp', '/images/products/Pij4.webp']}
         >
           <div className="max-w-md">
             <span className="inline-flex items-center gap-2 bg-primary-strong text-white text-xs font-semibold tracking-wide uppercase px-4 py-1.5 rounded-full mb-5">
@@ -63,14 +67,14 @@ export function HomePage() {
             </span>
 
             <h1 className="font-display text-3xl md:text-5xl leading-tight text-text-primary">
-              Comodidad que <span className="text-primary italic">te acompaña</span>
+              {hero?.title ?? 'Comodidad que te acompaña'}
             </h1>
             <p className="mt-4 text-text-secondary">
-              Pijamas, pantuflas y accesorios para tus mejores momentos.
+              {hero?.subtitle ?? 'Pijamas, pantuflas y accesorios para tus mejores momentos.'}
             </p>
 
             <div className="flex flex-wrap gap-4 mt-6">
-              <Link to="/pijamas">
+              <Link to={hero?.primaryLink ?? '/pijamas'}>
                 <Button size="lg">Comprar ahora</Button>
               </Link>
               <a href="#categorias">
@@ -103,7 +107,7 @@ export function HomePage() {
           <h2 className="font-display text-2xl text-text-primary">Categorías para cada momento</h2>
         </motion.div>
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
-          {categories.map((category, index) => (
+          {homeCategories.map((category, index) => (
             <motion.div
               key={category.id}
               {...reveal}
@@ -147,17 +151,17 @@ export function HomePage() {
       <section className="max-w-8xl mx-auto px-6 py-12">
         <motion.div {...reveal} className="relative overflow-hidden rounded-3xl bg-primary-light min-h-[420px] md:min-h-[460px]">
           <img
-            src="/images/products/Pij11.webp"
+            src={collection?.mediaUrl ?? '/images/products/Pij11.webp'}
             alt="Colección de pijamas Dalú"
             className="absolute inset-0 h-full w-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent" />
           <div className="relative flex min-h-[420px] md:min-h-[460px] items-end md:items-center p-8 md:p-16">
             <div className="max-w-md">
-              <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-3">Colección del mes</p>
-              <h2 className="font-display text-3xl md:text-5xl leading-tight text-text-primary">Comodidad para quedarte un rato más</h2>
-              <p className="text-text-secondary mt-4">Descubre una selección especial de pijamas para tus momentos más tranquilos.</p>
-              <Link to="/pijamas" className="inline-flex mt-6">
+              <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-3">{collection?.eyebrow ?? 'Colección del mes'}</p>
+              <h2 className="font-display text-3xl md:text-5xl leading-tight text-text-primary">{collection?.title ?? 'Comodidad para quedarte un rato más'}</h2>
+              <p className="text-text-secondary mt-4">{collection?.description ?? 'Descubre una selección especial de pijamas para tus momentos más tranquilos.'}</p>
+              <Link to={collection?.link ?? '/pijamas'} className="inline-flex mt-6">
                 <Button size="lg">Ver colección</Button>
               </Link>
             </div>
@@ -167,11 +171,11 @@ export function HomePage() {
 
       {/* Video */}
       <VideoSection
-        videoSrc="/videos/hero-dalu.mp4"
-        posterSrc="/images/products/Pij11.webp"
-        title="Momentos que se sienten como en casa"
-        description="Descubre cómo se mueve Dalú en cada detalle."
-        to="/pijamas"
+        videoSrc={video?.mediaUrl ?? '/videos/hero-dalu.mp4'}
+        posterSrc={video?.posterUrl ?? '/images/products/Pij11.webp'}
+        title={video?.title ?? 'Momentos que se sienten como en casa'}
+        description={video?.description ?? 'Descubre cómo se mueve Dalú en cada detalle.'}
+        to={video?.link ?? '/pijamas'}
         ctaLabel="Ver colección"
       />
 
@@ -194,14 +198,14 @@ export function HomePage() {
         </section>
       )}
 
-      {!featuredLoading && featured.length > 0 && (
+      {!featuredLoading && featuredProducts.length > 0 && (
         <section className="max-w-8xl mx-auto px-6 py-12">
           <motion.div {...reveal} className="text-center mb-8">
             <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Favoritos de la semana</p>
             <h2 className="font-display text-2xl text-text-primary">Productos destacados</h2>
           </motion.div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {featured.map((product, index) => (
+            {featuredProducts.map((product, index) => (
               <motion.div
                 key={product.id}
                 {...reveal}

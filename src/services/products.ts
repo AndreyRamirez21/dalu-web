@@ -15,10 +15,12 @@ interface ProductoWebRow {
   categoria: string
   precio_venta_base: number
   imagen_url: string | null
+  imagenes_urls: string[] | null
   featured: boolean
   activo: boolean
   variantes_web_publico: VarianteWeb[]
   coleccion: string | null
+  descripcion: string | null
 }
 
 function mapProducto(row: ProductoWebRow): Product {
@@ -27,6 +29,13 @@ function mapProducto(row: ProductoWebRow): Product {
     .map((v) => v.talla)
 
   const hayStock = (row.variantes_web_publico || []).some((v) => v.disponible)
+
+  const galeria =
+    row.imagenes_urls && row.imagenes_urls.length > 0
+      ? row.imagenes_urls
+      : row.imagen_url
+        ? [row.imagen_url]
+        : []
 
   return {
     id: String(row.id),
@@ -41,11 +50,12 @@ function mapProducto(row: ProductoWebRow): Product {
       stock: Math.max(0, variant.cantidad_maxima),
       priceAdjustment: 0,
     })),
-    images: row.imagen_url ? [row.imagen_url] : [],
+    images: galeria,
     featured: row.featured,
     inStock: hayStock,
     reference: row.referencia,
     collection: row.coleccion ?? null,
+    description: row.descripcion?.trim() || undefined,
   }
 }
 
@@ -54,6 +64,7 @@ export async function getFeaturedProducts(): Promise<Product[]> {
     .from('productos_web')
     .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
+    .eq('coleccion_visible', true)
     .eq('featured', true)
 
   if (error) {
@@ -69,6 +80,7 @@ export async function getProductsByCategories(categories: string[]): Promise<Pro
     .from('productos_web')
     .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
+    .eq('coleccion_visible', true)
     .in('categoria', categories)
 
   if (error) {
@@ -84,6 +96,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     .from('productos_web')
     .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
+    .eq('coleccion_visible', true)
     .eq('slug', slug)
     .maybeSingle()
 
@@ -100,6 +113,7 @@ export async function getRelatedProducts(category: string, excludeId: string, li
     .from('productos_web')
     .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
+    .eq('coleccion_visible', true)
     .eq('categoria', category)
     .neq('id', Number(excludeId))
     .limit(limit)
@@ -119,6 +133,7 @@ export async function getProductsByIds(ids: string[]): Promise<Product[]> {
     .from('productos_web')
     .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
+    .eq('coleccion_visible', true)
     .in('id', ids)
 
   if (error) {
@@ -134,6 +149,7 @@ export async function searchProducts(query: string, limit = 6): Promise<Product[
     .from('productos_web')
     .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
+    .eq('coleccion_visible', true)
     .ilike('nombre', `%${query}%`)
     .limit(limit)
 

@@ -140,7 +140,15 @@ function ProductPageContent({ slug }: { slug?: string }) {
                   selectedImage === i ? 'border-primary' : 'border-transparent'
                 }`}
               >
-                <img src={img} alt="" width={80} height={80} className="w-full h-full object-cover" />
+                <img
+                  src={img}
+                  alt=""
+                  width={80}
+                  height={80}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover"
+                />
               </button>
             ))}
           </div>
@@ -150,13 +158,15 @@ function ProductPageContent({ slug }: { slug?: string }) {
         <div className="order-1 md:order-2" style={{ gridColumn: product.images.length > 1 ? undefined : 'span 2' }}>
           <div className="rounded-2xl overflow-hidden bg-surface shadow-sm">
             {product.images[selectedImage] ? (
-              <img
-                src={product.images[selectedImage]}
-                alt={product.name}
-                width={640}
-                height={800}
-                className="w-full aspect-[4/5] object-cover"
-              />
+                <img
+                  src={product.images[selectedImage]}
+                  alt={product.name}
+                  width={640}
+                  height={800}
+                  loading="eager"
+                  fetchPriority="high"
+                  className="w-full aspect-[4/5] object-cover"
+                />
             ) : (
               <div className="w-full aspect-[4/5] bg-primary-light flex items-center justify-center">
                 <Package size={48} className="text-primary/40" />
@@ -280,6 +290,11 @@ function ProductPageContent({ slug }: { slug?: string }) {
         <div className="order-4">
           <Accordion
             items={[
+              ...(product.description ? [{
+                icon: <Package size={16} className="text-primary" />,
+                title: 'Descripción',
+                content: product.description,
+              }] : []),
               {
                 icon: <ShieldCheck size={16} className="text-primary" />,
                 title: 'Envíos y devoluciones',

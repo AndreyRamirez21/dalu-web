@@ -36,6 +36,7 @@ export const router = createBrowserRouter([
       { path: 'tallas', element: withSuspense(<LegalPage />) },
       { path: 'pagos', element: withSuspense(<LegalPage />) },
       { path: 'faq', element: withSuspense(<LegalPage />) },
+      { path: 'coleccion/:collectionSlug', element: withSuspense(<CatalogPage />) },
       { path: ':categorySlug', element: withSuspense(<CatalogPage />) },
     ],
   },

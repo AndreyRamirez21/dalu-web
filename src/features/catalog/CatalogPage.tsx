@@ -3,9 +3,9 @@ import { Link, useParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { ProductCard } from '@/shared/ui/components/ProductCard'
-import { FilterSidebar } from './components/FilterSidebar'
-import { SortDropdown, type SortOption } from './components/SortDropdown'
-import { catalogConfigBySlug } from './catalogConfig'
+import { CatalogFilterDrawer } from './components/CatalogFilterDrawer'
+import { type SortOption } from './components/SortDropdown'
+import { catalogConfigBySlug, collectionToSlug } from './catalogConfig'
 import { useProductsByCategories } from '@/shared/hooks/useProducts'
 
 const ITEMS_PER_LOAD = 12
@@ -19,11 +19,17 @@ function normalizeCollection(value: string) {
 }
 
 export function CatalogPage() {
-  const { categorySlug } = useParams()
-  const config = categorySlug ? catalogConfigBySlug[categorySlug] : undefined
+  const { categorySlug, collectionSlug } = useParams()
+  const slug = categorySlug ?? collectionSlug
+  const config = slug ? catalogConfigBySlug[slug] ?? (collectionSlug ? {
+    title: `Pijamas ${collectionSlug.replace(/^pijamas-/, '').split('-').map((word) => word[0]?.toUpperCase() + word.slice(1)).join(' ')}`,
+    description: 'Descubre los diseños de esta colección especial de Dalú.',
+    categories: ['pijamas'],
+    collectionSlug,
+  } : undefined) : undefined
 
   const [selectedSizes, setSelectedSizes] = useState<string[]>([])
-  const [selectedCollection, setSelectedCollection] = useState<string | null>(null)
+  const [selectedCollection, setSelectedCollection] = useState<string | null>(config?.collection ?? config?.collectionSlug ?? null)
   const [priceRange, setPriceRange] = useState<[number, number | null]>([0, null])
   const [sort, setSort] = useState<SortOption>('recientes')
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_LOAD)
@@ -49,6 +55,11 @@ export function CatalogPage() {
     return Array.from(set)
   }, [allProducts])
 
+  useEffect(() => {
+    setSelectedCollection(config?.collection ?? config?.collectionSlug ?? null)
+    setVisibleCount(ITEMS_PER_LOAD)
+  }, [config?.collection, config?.collectionSlug, slug])
+
   const collectionOptions = useMemo(
     () => config?.collectionFilters ?? availableCollections.map((collection) => ({ label: collection, value: collection })),
     [availableCollections, config]
@@ -64,7 +75,10 @@ export function CatalogPage() {
     }
 
     if (selectedCollection) {
-      result = result.filter((p) => p.collection && normalizeCollection(p.collection) === normalizeCollection(selectedCollection))
+      result = result.filter((p) => p.collection && (
+        normalizeCollection(p.collection) === normalizeCollection(selectedCollection) ||
+        `pijamas-${collectionToSlug(p.collection)}` === selectedCollection
+      ))
     }
 
     if (sort === 'recientes') result = [...result].sort((a, b) => Number(b.id) - Number(a.id))
@@ -106,7 +120,7 @@ export function CatalogPage() {
 
   function clearFilters() {
     setSelectedSizes([])
-    setSelectedCollection(null)
+    setSelectedCollection(config?.collection ?? config?.collectionSlug ?? null)
     setPriceRange([0, null])
   }
 
@@ -136,19 +150,24 @@ export function CatalogPage() {
       <h1 className="font-display text-3xl text-text-primary">{config.title}</h1>
       <p className="text-text-secondary text-sm mt-1 mb-8">{config.description}</p>
 
-      <div className="flex flex-col md:flex-row gap-10">
-        <FilterSidebar
+      <div>
+        <div className="mb-6">
+          <CatalogFilterDrawer
           availableSizes={availableSizes}
           selectedSizes={selectedSizes}
           onToggleSize={toggleSize}
           priceRange={priceRange}
           maxPrice={maxPrice}
           onChangePriceRange={setPriceRange}
+          sort={sort}
+          onChangeSort={setSort}
+          resultCount={filtered.length}
           onClearFilters={clearFilters}
-        />
+          />
+        </div>
 
-        <div className="flex-1">
-          {collectionOptions.length > 0 && (
+        <div>
+          {!config.collection && !config.collectionSlug && collectionOptions.length > 0 && (
             <div className="flex gap-2 mb-6 flex-wrap">
               <button
                 onClick={() => setSelectedCollection(null)}
@@ -175,10 +194,6 @@ export function CatalogPage() {
               ))}
             </div>
           )}
-
-          <div className="flex justify-end mb-6">
-            <SortDropdown value={sort} onChange={setSort} />
-          </div>
 
           {cargando ? (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 animate-pulse">
