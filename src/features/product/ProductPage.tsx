@@ -244,13 +244,13 @@ function ProductPageContent({ slug }: { slug?: string }) {
                 max={Math.max(1, availableQuantity)}
                 disabled={!canSelectQuantity}
               />
-              {requiresSize && !selectedSize ? (
-                <p className="text-xs text-text-secondary mt-2">Selecciona una {selectionLabel} para ver las unidades disponibles.</p>
-              ) : availableQuantity > 0 && availableQuantity <= 3 ? (
-                <p className="text-xs text-text-secondary mt-2">{availableQuantity} unidad{availableQuantity === 1 ? '' : 'es'} disponible{availableQuantity === 1 ? '' : 's'}.</p>
-              ) : availableQuantity === 0 ? (
-                <p className="text-xs text-danger mt-2">No quedan unidades disponibles de esta talla.</p>
-              ) : null}
+                {requiresSize && !selectedSize ? (
+                  <p className="text-xs text-text-secondary mt-2">Selecciona una {selectionLabel} para ver las unidades disponibles.</p>
+                ) : availableQuantity > 0 && availableQuantity <= 3 ? (
+                  <p className="text-xs text-text-secondary mt-2">Últimas unidades disponibles.</p>
+                ) : availableQuantity === 0 ? (
+                  <p className="text-xs text-danger mt-2">No quedan unidades disponibles de esta talla.</p>
+                ) : null}
             </div>
 
             <div className="flex gap-3 mt-8">
