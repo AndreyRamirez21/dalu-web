@@ -5,6 +5,6 @@ export function useHomeContent() {
   return useQuery({
     queryKey: ['home-content'],
     queryFn: getHomeContent,
-    staleTime: 0,
+    staleTime: 5 * 60 * 1000,
   })
 }
