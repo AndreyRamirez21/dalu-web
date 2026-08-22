@@ -20,7 +20,9 @@ function App() {
           </FavoritesProvider>
         </CartProvider>
       </QueryProvider>
-    </HelmetProvider>
+     <SpeedInsights />
+    <Analytics />
+   </HelmetProvider>
   )
 }
 
