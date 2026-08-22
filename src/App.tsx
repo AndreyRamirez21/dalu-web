@@ -6,7 +6,7 @@ import { FavoritesProvider } from '@/shared/hooks/useFavorites'
 import { ToastProvider } from '@/shared/hooks/useToast'
 import { QueryProvider } from '@/app/providers/QueryProvider'
 import { SpeedInsights } from "@vercel/speed-insights/react"
-
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   return (
