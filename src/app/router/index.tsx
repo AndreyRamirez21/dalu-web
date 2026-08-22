@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import { RootLayout } from '@/app/layouts/RootLayout'
 import { Loader } from '@/shared/ui/components/Loader'
+import { ErrorBoundary } from '@/shared/ui/components/ErrorBoundary'
 
 const HomePage = lazy(() => import('@/features/home/HomePage').then((m) => ({ default: m.HomePage })))
 const CatalogPage = lazy(() => import('@/features/catalog/CatalogPage').then((m) => ({ default: m.CatalogPage })))
@@ -22,6 +23,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
+    errorElement: <ErrorBoundary />,
     children: [
       { index: true, element: withSuspense(<HomePage />) },
       { path: 'producto/:slug', element: withSuspense(<ProductPage />) },

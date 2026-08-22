@@ -26,7 +26,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     <button
       ref={ref}
       className={cn(
-        'rounded-full font-medium tracking-wide uppercase transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed',
+        'rounded-full font-medium tracking-wide uppercase transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed',
         variantStyles[variant],
         sizeStyles[size],
         className

@@ -5,6 +5,8 @@ import { CartProvider } from '@/shared/hooks/useCart'
 import { FavoritesProvider } from '@/shared/hooks/useFavorites'
 import { ToastProvider } from '@/shared/hooks/useToast'
 import { QueryProvider } from '@/app/providers/QueryProvider'
+import { SpeedInsights } from "@vercel/speed-insights/react"
+
 
 function App() {
   return (

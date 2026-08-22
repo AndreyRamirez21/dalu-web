@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 
 interface FavoritesContextValue {
   favoriteIds: string[]
@@ -9,7 +9,7 @@ interface FavoritesContextValue {
 }
 
 const FavoritesContext = createContext<FavoritesContextValue | undefined>(undefined)
-const FAVORITES_STORAGE_KEY = 'dalu-favorites'
+const FAVORITES_STORAGE_KEY = 'dalu-favorites:v1'
 
 function getStoredFavorites(): string[] {
   try {
@@ -50,8 +50,13 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     })
   }, [])
 
+  const value = useMemo(
+    () => ({ favoriteIds, toggleFavorite, isFavorite, syncFavorites }),
+    [favoriteIds, syncFavorites]
+  )
+
   return (
-    <FavoritesContext.Provider value={{ favoriteIds, toggleFavorite, isFavorite, syncFavorites }}>
+    <FavoritesContext.Provider value={value}>
       {children}
     </FavoritesContext.Provider>
   )

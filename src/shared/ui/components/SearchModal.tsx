@@ -13,9 +13,14 @@ interface SearchModalProps {
 export function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const [query, setQuery] = useState('')
   const panelRef = useRef<HTMLDivElement>(null)
+  const onCloseRef = useRef(onClose)
   const debouncedQuery = useDebouncedValue(query.trim())
   const { data: results = [], isFetching, isError: searchError, refetch } = useProductSearch(debouncedQuery, isOpen)
   const buscando = query.trim().length >= 2 && (query.trim() !== debouncedQuery || isFetching)
+
+  useEffect(() => {
+    onCloseRef.current = onClose
+  }, [onClose])
 
   useEffect(() => {
     if (!isOpen) return
@@ -32,7 +37,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
         event.preventDefault()
-        onClose()
+        onCloseRef.current()
         return
       }
 
@@ -63,7 +68,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
       document.removeEventListener('keydown', handleKeyDown)
       previouslyFocused?.focus()
     }
-  }, [isOpen, onClose])
+  }, [isOpen])
 
   if (!isOpen) return null
 

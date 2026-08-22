@@ -46,11 +46,11 @@ export function AboutPage() {
               '/images/products/Pij7.webp',
               '/images/products/Pij10.webp',
               '/images/products/Pij11.webp',
-            ].map((src, i) => (
+            ].map((src) => (
               <img
-                key={i}
+                key={src}
                 src={src}
-                alt={`Momento Dalú ${i + 1}`}
+                alt={`Momento Dalú`}
                 width={640}
                 height={800}
                 className="rounded-2xl w-full aspect-[4/5] object-cover"

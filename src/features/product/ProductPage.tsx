@@ -132,25 +132,27 @@ function ProductPageContent({ slug }: { slug?: string }) {
         {/* Miniaturas */}
         {product.images.length > 1 && (
           <div className="flex md:flex-col gap-3 order-2 md:order-1">
-            {product.images.map((img, i) => (
-              <button
-                key={img}
-                onClick={() => setSelectedImage(i)}
-                className={`w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden border-2 shrink-0 transition-colors ${
-                  selectedImage === i ? 'border-primary' : 'border-transparent'
-                }`}
-              >
-                <img
-                  src={img}
-                  alt=""
-                  width={80}
-                  height={80}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover"
-                />
-              </button>
-            ))}
+                {product.images.map((img, i) => (
+                  <button
+                    key={img}
+                    onClick={() => setSelectedImage(i)}
+                    aria-label={`Ver imagen ${i + 1} de ${product.name}`}
+                    aria-current={selectedImage === i ? 'true' : undefined}
+                    className={`w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden border-2 shrink-0 transition-colors ${
+                      selectedImage === i ? 'border-primary' : 'border-transparent'
+                    }`}
+                  >
+                    <img
+                      src={img}
+                      alt=""
+                      width={80}
+                      height={80}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
           </div>
         )}
 

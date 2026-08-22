@@ -49,6 +49,7 @@ export function FilterSidebar({
           onChange={(e) => onChangePriceRange([priceRange[0], Number(e.target.value)])}
           disabled={maxPrice === 0}
           className="w-full accent-primary"
+          aria-label={`Precio máximo: ${formatPrice(priceRange[1] ?? maxPrice)}`}
         />
         <div className="flex justify-between text-xs text-text-secondary mt-1">
           <span>{formatPrice(priceRange[0])}</span>

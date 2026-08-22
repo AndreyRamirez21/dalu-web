@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { ShoppingBag, X } from 'lucide-react'
 import { useCart } from '@/shared/hooks/useCart'
@@ -6,24 +6,45 @@ import { formatPrice } from '@/shared/lib/formatters'
 
 export function CartDrawer() {
   const { items, subtotal, isCartDrawerOpen, closeCartDrawer } = useCart()
+  const dialogRef = useRef<HTMLDialogElement>(null)
+  const closeRef = useRef(closeCartDrawer)
 
   useEffect(() => {
-    if (!isCartDrawerOpen) return
+    closeRef.current = closeCartDrawer
+  }, [closeCartDrawer])
 
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') closeCartDrawer()
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+    if (isCartDrawerOpen && !dialog.open) {
+      dialog.showModal()
+    } else if (!isCartDrawerOpen && dialog.open) {
+      dialog.close()
     }
+  }, [isCartDrawerOpen])
 
-    document.addEventListener('keydown', onKeyDown)
-    return () => document.removeEventListener('keydown', onKeyDown)
-  }, [isCartDrawerOpen, closeCartDrawer])
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+    function handleClose() {
+      closeRef.current()
+    }
+    dialog.addEventListener('close', handleClose)
+    return () => dialog.removeEventListener('close', handleClose)
+  }, [])
 
-  if (!isCartDrawerOpen) return null
+  function handleDialogClick(event: React.MouseEvent<HTMLDialogElement>) {
+    if (event.target === dialogRef.current) closeCartDrawer()
+  }
 
   return (
-    <div className="fixed inset-0 z-[150]" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title">
-      <button className="absolute inset-0 bg-black/40" aria-label="Cerrar carrito" onClick={closeCartDrawer} />
-      <aside className="absolute right-0 top-0 h-full w-full max-w-sm bg-surface shadow-2xl flex flex-col">
+    <dialog
+      ref={dialogRef}
+      onClick={handleDialogClick}
+      aria-labelledby="cart-drawer-title"
+      className="fixed inset-0 m-0 h-full max-h-none w-full max-w-none border-0 bg-transparent p-0 backdrop:bg-black/40"
+    >
+      <aside onClick={(event) => event.stopPropagation()} className="absolute right-0 top-0 h-full w-full max-w-sm bg-surface shadow-2xl flex flex-col">
         <div className="flex items-center justify-between border-b border-border px-6 py-5">
           <h2 id="cart-drawer-title" className="font-display text-2xl text-text-primary">Carrito</h2>
           <button onClick={closeCartDrawer} aria-label="Cerrar carrito" className="text-text-secondary hover:text-text-primary">
@@ -59,6 +80,6 @@ export function CartDrawer() {
           </Link>
         </div>
       </aside>
-    </div>
+    </dialog>
   )
 }

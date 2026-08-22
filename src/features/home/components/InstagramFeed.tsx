@@ -49,7 +49,7 @@ export function InstagramFeed() {
                 className="group relative aspect-square overflow-hidden bg-primary-light"
               >
                 <img src={post.imageUrl} alt={post.caption || 'Publicación de Instagram de Dalú'} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
-                <span className="absolute inset-0 flex items-center justify-center bg-black/0 text-white opacity-0 transition-all duration-300 group-hover:bg-black/35 group-hover:opacity-100">
+                <span className="absolute inset-0 flex items-center justify-center bg-black/0 text-white opacity-0 transition-[background-color,opacity] duration-300 group-hover:bg-black/35 group-hover:opacity-100">
                   <Camera size={24} />
                 </span>
               </motion.a>

@@ -136,7 +136,17 @@ export function CatalogFilterDrawer({
 
               <FilterSection title="Rango de precio" isOpen={isSectionOpen('price')} onToggle={() => toggleSection('price')}>
                 <div className="pt-2">
-                  <input type="range" min={0} max={maxPrice} step={1000} value={currentMax} disabled={maxPrice === 0} onChange={(event) => onChangePriceRange([0, Number(event.target.value)])} className="w-full accent-primary" />
+                  <input
+                    type="range"
+                    min={0}
+                    max={maxPrice}
+                    step={1000}
+                    value={currentMax}
+                    disabled={maxPrice === 0}
+                    onChange={(event) => onChangePriceRange([0, Number(event.target.value)])}
+                    className="w-full accent-primary"
+                    aria-label={`Precio máximo: ${formatPrice(currentMax)}`}
+                  />
                   <div className="mt-2 flex justify-between text-sm text-text-secondary">
                     <span>{formatPrice(0)}</span>
                     <span>{formatPrice(currentMax)}</span>

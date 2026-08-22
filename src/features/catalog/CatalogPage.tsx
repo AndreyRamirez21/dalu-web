@@ -19,14 +19,17 @@ function normalizeCollection(value: string) {
 }
 
 export function CatalogPage() {
-  const { categorySlug, collectionSlug } = useParams()
-  const slug = categorySlug ?? collectionSlug
-  const config = slug ? catalogConfigBySlug[slug] ?? (collectionSlug ? {
-    title: `Pijamas ${collectionSlug.replace(/^pijamas-/, '').split('-').map((word) => word[0]?.toUpperCase() + word.slice(1)).join(' ')}`,
-    description: 'Descubre los diseños de esta colección especial de Dalú.',
-    categories: ['pijamas'],
-    collectionSlug,
-  } : undefined) : undefined
+    const { categorySlug, collectionSlug } = useParams()
+    const slug = categorySlug ?? collectionSlug
+    const config = useMemo(() => {
+      if (!slug) return undefined
+      return catalogConfigBySlug[slug] ?? (collectionSlug ? {
+        title: `Pijamas ${collectionSlug.replace(/^pijamas-/, '').split('-').map((word) => word[0]?.toUpperCase() + word.slice(1)).join(' ')}`,
+        description: 'Descubre los diseños de esta colección especial de Dalú.',
+        categories: ['pijamas'],
+        collectionSlug,
+      } : undefined)
+}, [slug, collectionSlug])
 
   const [selectedSizes, setSelectedSizes] = useState<string[]>([])
   const [selectedFabricTypes, setSelectedFabricTypes] = useState<string[]>([])
@@ -64,10 +67,10 @@ export function CatalogPage() {
     return Array.from(set).sort()
   }, [allProducts])
 
-  useEffect(() => {
-    setSelectedCollection(config?.collection ?? config?.collectionSlug ?? null)
-    setVisibleCount(ITEMS_PER_LOAD)
-  }, [config?.collection, config?.collectionSlug, slug])
+useEffect(() => {
+  setSelectedCollection(config?.collection ?? config?.collectionSlug ?? null)
+  setVisibleCount(ITEMS_PER_LOAD)
+}, [config])
 
   const collectionOptions = useMemo(
     () => config?.collectionFilters ?? availableCollections.map((collection) => ({ label: collection, value: collection })),
@@ -79,13 +82,15 @@ export function CatalogPage() {
       (p) => p.price >= priceRange[0] && (priceRange[1] === null || p.price <= priceRange[1])
     )
 
-    if (selectedSizes.length > 0) {
-      result = result.filter((p) => p.sizes.some((s) => selectedSizes.includes(s)))
-    }
+        if (selectedSizes.length > 0) {
+          const sizesSet = new Set(selectedSizes)
+          result = result.filter((p) => p.sizes.some((s) => sizesSet.has(s)))
+        }
 
-    if (selectedFabricTypes.length > 0) {
-      result = result.filter((p) => p.fabricType && selectedFabricTypes.includes(p.fabricType))
-    }
+        if (selectedFabricTypes.length > 0) {
+          const fabricTypesSet = new Set(selectedFabricTypes)
+          result = result.filter((p) => p.fabricType && fabricTypesSet.has(p.fabricType))
+        }
 
     if (selectedCollection) {
       result = result.filter((p) => p.collection && (

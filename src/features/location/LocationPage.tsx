@@ -38,14 +38,15 @@ export function LocationPage() {
         </aside>
 
         <div className="overflow-hidden rounded-2xl bg-primary-light shadow-sm min-h-[460px]">
-          <iframe
-            title="Mapa de la ubicación de Dalú en Buga"
-            src={STORE_MAP_EMBED_URL}
-            className="w-full h-full min-h-[460px] border-0"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            allowFullScreen
-          />
+            <iframe
+              title="Mapa de la ubicación de Dalú en Buga"
+              src={STORE_MAP_EMBED_URL}
+              className="w-full h-full min-h-[460px] border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+              allowFullScreen
+            />
         </div>
       </div>
     </div>
