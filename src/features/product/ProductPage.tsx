@@ -295,6 +295,11 @@ function ProductPageContent({ slug }: { slug?: string }) {
                 title: 'Descripción',
                 content: product.description,
               }] : []),
+              ...(product.fabricType ? [{
+                icon: <Package size={16} className="text-primary" />,
+                title: 'Tipo de tela',
+                content: product.fabricType,
+              }] : []),
               {
                 icon: <ShieldCheck size={16} className="text-primary" />,
                 title: 'Envíos y devoluciones',

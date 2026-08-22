@@ -35,8 +35,7 @@ export function Navbar() {
       </div>
 
       <div className="border-b border-border">
-        <div className="max-w-8xl mx-auto grid grid-cols-[1fr_auto_1fr] items-center px-6 py-4">
-          <div className="flex items-center">
+       <div className="max-w-8xl mx-auto flex items-center justify-between px-6 py-4 md:grid md:grid-cols-[1fr_auto_1fr]">          <div className="flex items-center">
             <button
               onClick={() => setMenuOpen(true)}
               className="md:hidden text-text-primary"
@@ -48,7 +47,7 @@ export function Navbar() {
               <Menu size={22} />
             </button>
 
-            <Link to="/" className="flex items-center group ml-24">
+            <Link to="/" className="flex items-center group ml-3 md:ml-24">
               <img
                 src={logoDalu}
                 alt="Dalú - Siendo tú"

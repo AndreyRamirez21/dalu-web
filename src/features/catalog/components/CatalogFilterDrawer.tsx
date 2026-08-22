@@ -7,6 +7,9 @@ interface CatalogFilterDrawerProps {
   availableSizes: string[]
   selectedSizes: string[]
   onToggleSize: (size: string) => void
+  availableFabricTypes: string[]
+  selectedFabricTypes: string[]
+  onToggleFabricType: (fabricType: string) => void
   priceRange: [number, number | null]
   maxPrice: number
   onChangePriceRange: (range: [number, number | null]) => void
@@ -26,6 +29,9 @@ export function CatalogFilterDrawer({
   availableSizes,
   selectedSizes,
   onToggleSize,
+  availableFabricTypes,
+  selectedFabricTypes,
+  onToggleFabricType,
   priceRange,
   maxPrice,
   onChangePriceRange,
@@ -115,6 +121,19 @@ export function CatalogFilterDrawer({
                 ) : <p className="text-sm text-text-secondary">No hay tallas disponibles.</p>}
               </FilterSection>
 
+              <FilterSection title="Tipo de tela" isOpen={isSectionOpen('fabric')} onToggle={() => toggleSection('fabric')}>
+                {availableFabricTypes.length > 0 ? (
+                  <div className="space-y-3 pt-1">
+                    {availableFabricTypes.map((fabricType) => (
+                      <label key={fabricType} className="flex cursor-pointer items-center gap-3 text-sm text-text-primary">
+                        <input type="checkbox" checked={selectedFabricTypes.includes(fabricType)} onChange={() => onToggleFabricType(fabricType)} className="h-4 w-4 accent-primary" />
+                        {fabricType}
+                      </label>
+                    ))}
+                  </div>
+                ) : <p className="text-sm text-text-secondary">No hay tipos de tela disponibles.</p>}
+              </FilterSection>
+
               <FilterSection title="Rango de precio" isOpen={isSectionOpen('price')} onToggle={() => toggleSection('price')}>
                 <div className="pt-2">
                   <input type="range" min={0} max={maxPrice} step={1000} value={currentMax} disabled={maxPrice === 0} onChange={(event) => onChangePriceRange([0, Number(event.target.value)])} className="w-full accent-primary" />
@@ -127,7 +146,7 @@ export function CatalogFilterDrawer({
             </div>
 
             <div className="border-t border-border px-6 py-5">
-              <p className="mb-3 text-xs text-text-secondary">Ordenar: {sortOptions.find((option) => option.value === sort)?.label}. {selectedSizes.length > 0 ? `${selectedSizes.length} talla(s) seleccionada(s).` : 'No se seleccionaron filtros.'}</p>
+              <p className="mb-3 text-xs text-text-secondary">Ordenar: {sortOptions.find((option) => option.value === sort)?.label}. {[selectedSizes.length && `${selectedSizes.length} talla(s)`, selectedFabricTypes.length && `${selectedFabricTypes.length} tipo(s) de tela`].filter(Boolean).join(' y ') || 'No se seleccionaron filtros.'}</p>
               <button type="button" onClick={() => setIsOpen(false)} className="w-full bg-primary-strong py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90">
                 Ver {resultCount} resultados
               </button>

@@ -21,6 +21,7 @@ interface ProductoWebRow {
   variantes_web_publico: VarianteWeb[]
   coleccion: string | null
   descripcion: string | null
+  tipo_tela: string | null
 }
 
 function mapProducto(row: ProductoWebRow): Product {
@@ -56,6 +57,7 @@ function mapProducto(row: ProductoWebRow): Product {
     reference: row.referencia,
     collection: row.coleccion ?? null,
     description: row.descripcion?.trim() || undefined,
+    fabricType: row.tipo_tela?.trim() || undefined,
   }
 }
 

@@ -29,6 +29,7 @@ export function CatalogPage() {
   } : undefined) : undefined
 
   const [selectedSizes, setSelectedSizes] = useState<string[]>([])
+  const [selectedFabricTypes, setSelectedFabricTypes] = useState<string[]>([])
   const [selectedCollection, setSelectedCollection] = useState<string | null>(config?.collection ?? config?.collectionSlug ?? null)
   const [priceRange, setPriceRange] = useState<[number, number | null]>([0, null])
   const [sort, setSort] = useState<SortOption>('recientes')
@@ -55,6 +56,14 @@ export function CatalogPage() {
     return Array.from(set)
   }, [allProducts])
 
+  const availableFabricTypes = useMemo(() => {
+    const set = new Set<string>()
+    allProducts.forEach((product) => {
+      if (product.fabricType) set.add(product.fabricType)
+    })
+    return Array.from(set).sort()
+  }, [allProducts])
+
   useEffect(() => {
     setSelectedCollection(config?.collection ?? config?.collectionSlug ?? null)
     setVisibleCount(ITEMS_PER_LOAD)
@@ -74,6 +83,10 @@ export function CatalogPage() {
       result = result.filter((p) => p.sizes.some((s) => selectedSizes.includes(s)))
     }
 
+    if (selectedFabricTypes.length > 0) {
+      result = result.filter((p) => p.fabricType && selectedFabricTypes.includes(p.fabricType))
+    }
+
     if (selectedCollection) {
       result = result.filter((p) => p.collection && (
         normalizeCollection(p.collection) === normalizeCollection(selectedCollection) ||
@@ -86,7 +99,7 @@ export function CatalogPage() {
     if (sort === 'precio-desc') result = [...result].sort((a, b) => b.price - a.price)
 
     return result
-  }, [allProducts, selectedSizes, selectedCollection, priceRange, sort])
+  }, [allProducts, selectedSizes, selectedFabricTypes, selectedCollection, priceRange, sort])
 
   const visibleProducts = filtered.slice(0, visibleCount)
   const hayMasPorCargar = visibleCount < filtered.length
@@ -118,8 +131,15 @@ export function CatalogPage() {
     )
   }
 
+  function toggleFabricType(fabricType: string) {
+    setSelectedFabricTypes((prev) =>
+      prev.includes(fabricType) ? prev.filter((type) => type !== fabricType) : [...prev, fabricType]
+    )
+  }
+
   function clearFilters() {
     setSelectedSizes([])
+    setSelectedFabricTypes([])
     setSelectedCollection(config?.collection ?? config?.collectionSlug ?? null)
     setPriceRange([0, null])
   }
@@ -156,6 +176,9 @@ export function CatalogPage() {
           availableSizes={availableSizes}
           selectedSizes={selectedSizes}
           onToggleSize={toggleSize}
+          availableFabricTypes={availableFabricTypes}
+          selectedFabricTypes={selectedFabricTypes}
+          onToggleFabricType={toggleFabricType}
           priceRange={priceRange}
           maxPrice={maxPrice}
           onChangePriceRange={setPriceRange}

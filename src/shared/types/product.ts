@@ -15,6 +15,7 @@ export interface Product {
   variants: ProductVariant[]
   images: string[]
   description?: string
+  fabricType?: string
   featured?: boolean
   inStock: boolean
   reference: string

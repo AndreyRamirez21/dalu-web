@@ -14,6 +14,20 @@ export interface HomeCollection {
   link: string
 }
 
+export interface HomeMomentCard {
+  imageUrl: string
+  title: string
+  description: string
+  link: string
+}
+
+export interface HomeMoments {
+  eyebrow: string
+  title: string
+  description: string
+  cards: HomeMomentCard[]
+}
+
 export interface HomeContent {
   hero: {
     title: string
@@ -22,6 +36,7 @@ export interface HomeContent {
     slides: string[]
   }
   categories: Array<Category & { imageUrl?: string }>
+  moments: HomeMoments
   collection: HomeCollection
   video: {
     mediaUrl: string
@@ -41,6 +56,16 @@ const fallbackContent: HomeContent = {
     slides: ['/images/products/Pij10.webp', '/images/products/Pij9.webp', '/images/products/Pij11.webp', '/images/products/Pij4.webp'],
   },
   categories: defaultCategories,
+  moments: {
+    eyebrow: 'Encuentra tu favorito',
+    title: 'Compra según tu momento',
+    description: 'Pequeños detalles para sentirte bien, descansar y regalar comodidad.',
+    cards: [
+      { imageUrl: '/images/products/Pij4.webp', title: 'Una noche para ti', description: 'Pijamas suaves para bajar el ritmo y sentirte cómoda.', link: '/pijamas' },
+      { imageUrl: '/images/products/Acc1.webp', title: 'Un regalo especial', description: 'Detalles que convierten cualquier momento en algo bonito.', link: '/accesorios' },
+      { imageUrl: '/images/products/Anti1.webp', title: 'Descanso total', description: 'Todo lo que necesitas para una rutina más tranquila.', link: '/antifaces' },
+    ],
+  },
   collection: {
     mediaUrl: '/images/products/Pij11.webp',
     mediaType: 'image',
@@ -68,6 +93,11 @@ function normalizeContent(value: Partial<HomeContent>): HomeContent {
   return {
     hero: { ...hero, slides: hero.slides.filter(Boolean).length > 0 ? hero.slides.filter(Boolean) : fallbackContent.hero.slides },
     categories,
+    moments: {
+      ...fallbackContent.moments,
+      ...value.moments,
+      cards: fallbackContent.moments.cards.map((card, index) => ({ ...card, ...(value.moments?.cards?.[index] || {}) })),
+    },
     collection: {
       ...fallbackContent.collection,
       ...value.collection,

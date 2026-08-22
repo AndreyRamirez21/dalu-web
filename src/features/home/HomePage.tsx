@@ -13,32 +13,12 @@ import { InstagramFeed } from './components/InstagramFeed'
 import { VideoSection } from './components/VideoSection'
 import { STORE_ADDRESS, WHATSAPP_URL } from '@/shared/constants/contact'
 
-const moments = [
-  {
-    title: 'Una noche para ti',
-    description: 'Pijamas suaves para bajar el ritmo y sentirte cómoda.',
-    image: '/images/products/Pij4.webp',
-    to: '/pijamas',
-  },
-  {
-    title: 'Un regalo especial',
-    description: 'Detalles que convierten cualquier momento en algo bonito.',
-    image: '/images/products/Acc1.webp',
-    to: '/accesorios',
-  },
-  {
-    title: 'Descanso total',
-    description: 'Todo lo que necesitas para una rutina más tranquila.',
-    image: '/images/products/Anti1.webp',
-    to: '/antifaces',
-  },
-]
-
 export function HomePage() {
   const { data: featured = [], isPending: featuredLoading, isError: featuredError, refetch } = useFeaturedProducts()
   const { data: homeContent } = useHomeContent()
   const hero = homeContent?.hero
   const homeCategories = homeContent?.categories ?? categories
+  const moments = homeContent?.moments
   const collection = homeContent?.collection
   const video = homeContent?.video
   const featuredProducts = homeContent?.featuredReferences.length
@@ -122,19 +102,19 @@ export function HomePage() {
       {/* Compra por momento */}
       <section className="max-w-8xl mx-auto px-6 py-12">
         <motion.div {...reveal} className="max-w-xl mb-8">
-          <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Encuentra tu favorito</p>
-          <h2 className="font-display text-2xl text-text-primary">Compra según tu momento</h2>
-          <p className="text-sm text-text-secondary mt-2">Pequeños detalles para sentirte bien, descansar y regalar comodidad.</p>
+          <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">{moments?.eyebrow ?? 'Encuentra tu favorito'}</p>
+          <h2 className="font-display text-2xl text-text-primary">{moments?.title ?? 'Compra según tu momento'}</h2>
+          <p className="text-sm text-text-secondary mt-2">{moments?.description ?? 'Pequeños detalles para sentirte bien, descansar y regalar comodidad.'}</p>
         </motion.div>
         <div className="grid md:grid-cols-3 gap-5">
-          {moments.map((moment, index) => (
+          {(moments?.cards ?? []).map((moment, index) => (
             <motion.div
               key={moment.title}
               {...reveal}
               transition={reduceMotion ? undefined : { duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
             >
-              <Link to={moment.to} className="group relative block min-h-64 overflow-hidden rounded-2xl bg-primary-light">
-                <img src={moment.image} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              <Link to={moment.link} className="group relative block min-h-64 overflow-hidden rounded-2xl bg-primary-light">
+                <img src={moment.imageUrl} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 text-white">
                   <h3 className="font-display text-2xl">{moment.title}</h3>
