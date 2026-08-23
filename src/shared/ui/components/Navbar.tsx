@@ -51,7 +51,7 @@ export function Navbar() {
               <img
                 src={logoDalu}
                 alt="Dalú - Siendo tú"
-                className="h-16 w-auto transition-all duration-300 group-hover:brightness-90 group-hover:scale-[1.03]"
+                className="h-16 w-auto transition-[filter,transform] duration-300 group-hover:brightness-90 group-hover:scale-[1.03]"
               />
             </Link>
           </div>
@@ -67,7 +67,7 @@ export function Navbar() {
                     {link.children && <ChevronDown size={14} aria-hidden="true" />}
                   </Link>
                   {link.children && (
-                    <div className="absolute left-0 top-full pt-3 opacity-0 invisible translate-y-1 pointer-events-none transition-all duration-150 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:pointer-events-auto">
+                    <div className="absolute left-0 top-full pt-3 opacity-0 invisible translate-y-1 pointer-events-none transition-[opacity,transform] duration-150 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:pointer-events-auto">
                       <div className="min-w-48 rounded-lg border border-border bg-surface p-2 shadow-lg">
                         {link.children.map((child) => (
                           <Link

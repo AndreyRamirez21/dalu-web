@@ -12,7 +12,7 @@ interface SearchModalProps {
 
 export function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const [query, setQuery] = useState('')
-  const panelRef = useRef<HTMLDivElement>(null)
+  const dialogRef = useRef<HTMLDialogElement>(null)
   const onCloseRef = useRef(onClose)
   const debouncedQuery = useDebouncedValue(query.trim())
   const { data: results = [], isFetching, isError: searchError, refetch } = useProductSearch(debouncedQuery, isOpen)
@@ -23,60 +23,43 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
   }, [onClose])
 
   useEffect(() => {
-    if (!isOpen) return
-
-    const previouslyFocused = document.activeElement as HTMLElement | null
-    const panel = panelRef.current
-    const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])'
-
-    const focusFirstElement = () => {
-      const firstFocusable = panel?.querySelector<HTMLElement>(focusableSelector)
-      firstFocusable?.focus()
-    }
-
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        event.preventDefault()
-        onCloseRef.current()
-        return
-      }
-
-      if (event.key !== 'Tab' || !panel) return
-
-      const focusableElements = Array.from(panel.querySelectorAll<HTMLElement>(focusableSelector))
-      if (focusableElements.length === 0) {
-        event.preventDefault()
-        panel.focus()
-        return
-      }
-
-      const firstElement = focusableElements[0]
-      const lastElement = focusableElements[focusableElements.length - 1]
-      if (event.shiftKey && document.activeElement === firstElement) {
-        event.preventDefault()
-        lastElement.focus()
-      } else if (!event.shiftKey && document.activeElement === lastElement) {
-        event.preventDefault()
-        firstElement.focus()
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-    focusFirstElement()
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-      previouslyFocused?.focus()
+    const dialog = dialogRef.current
+    if (!dialog) return
+    if (isOpen && !dialog.open) {
+      dialog.showModal()
+    } else if (!isOpen && dialog.open) {
+      dialog.close()
     }
   }, [isOpen])
 
-  if (!isOpen) return null
+  useEffect(() => {
+    const dialog = dialogRef.current
+    if (!dialog) return
+
+    function handleClose() {
+      onCloseRef.current()
+    }
+
+    function handleBackdropClick(event: MouseEvent) {
+      if (event.target === dialog) onCloseRef.current()
+    }
+
+    dialog.addEventListener('close', handleClose)
+    dialog.addEventListener('click', handleBackdropClick)
+    return () => {
+      dialog.removeEventListener('close', handleClose)
+      dialog.removeEventListener('click', handleBackdropClick)
+    }
+  }, [])
 
   return (
-    <div id="search-modal" className="fixed inset-0 z-[100]" role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
-      <div className="absolute inset-0 bg-black/40" onClick={onClose} aria-hidden="true" />
-
-      <div ref={panelRef} tabIndex={-1} className="relative max-w-xl mx-auto mt-24 bg-surface rounded-2xl shadow-xl overflow-hidden">
+    <dialog
+      ref={dialogRef}
+      id="search-modal"
+      aria-labelledby="search-modal-title"
+      className="fixed inset-0 m-0 h-full max-h-none w-full max-w-none border-0 bg-transparent p-0 backdrop:bg-black/40"
+    >
+      <div className="relative max-w-xl mx-auto mt-24 bg-surface rounded-2xl shadow-xl overflow-hidden">
         <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
           <Search size={18} className="text-text-secondary shrink-0" />
           <span id="search-modal-title" className="sr-only">Buscar productos</span>
@@ -138,6 +121,6 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
           </div>
         )}
       </div>
-    </div>
+    </dialog>
   )
 }
