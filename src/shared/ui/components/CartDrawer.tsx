@@ -26,25 +26,30 @@ export function CartDrawer() {
   useEffect(() => {
     const dialog = dialogRef.current
     if (!dialog) return
+
     function handleClose() {
       closeRef.current()
     }
-    dialog.addEventListener('close', handleClose)
-    return () => dialog.removeEventListener('close', handleClose)
-  }, [])
 
-  function handleDialogClick(event: React.MouseEvent<HTMLDialogElement>) {
-    if (event.target === dialogRef.current) closeCartDrawer()
-  }
+    function handleBackdropClick(event: MouseEvent) {
+      if (event.target === dialog) closeRef.current()
+    }
+
+    dialog.addEventListener('close', handleClose)
+    dialog.addEventListener('click', handleBackdropClick)
+    return () => {
+      dialog.removeEventListener('close', handleClose)
+      dialog.removeEventListener('click', handleBackdropClick)
+    }
+  }, [])
 
   return (
     <dialog
       ref={dialogRef}
-      onClick={handleDialogClick}
       aria-labelledby="cart-drawer-title"
       className="fixed inset-0 m-0 h-full max-h-none w-full max-w-none border-0 bg-transparent p-0 backdrop:bg-black/40"
     >
-      <aside onClick={(event) => event.stopPropagation()} className="absolute right-0 top-0 h-full w-full max-w-sm bg-surface shadow-2xl flex flex-col">
+      <aside className="absolute right-0 top-0 h-full w-full max-w-sm bg-surface shadow-2xl flex flex-col">
         <div className="flex items-center justify-between border-b border-border px-6 py-5">
           <h2 id="cart-drawer-title" className="font-display text-2xl text-text-primary">Carrito</h2>
           <button onClick={closeCartDrawer} aria-label="Cerrar carrito" className="text-text-secondary hover:text-text-primary">

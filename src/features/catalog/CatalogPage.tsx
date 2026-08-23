@@ -225,13 +225,17 @@ useEffect(() => {
 
           {cargando ? (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 animate-pulse">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i}>
+              {Array.from({ length: ITEMS_PER_LOAD }).map((_, i) => (
+                <div key={i} className="min-h-[150px]">
                   <div className="rounded-2xl bg-surface shadow-sm aspect-[4/5] bg-primary-light" />
-                  <div className="mt-3 space-y-2">
-                    <div className="h-4 w-3/4 bg-border rounded" />
-                    <div className="h-4 w-1/3 bg-border rounded" />
-                    <div className="h-9 w-full bg-border rounded-full mt-2" />
+                  <div className="mt-3 space-y-3">
+                    <div className="h-4 w-3/4 rounded bg-border" />
+                    <div className="h-4 w-1/3 rounded bg-border" />
+                    <div className="flex gap-2 pt-1">
+                      <div className="h-9 w-10 rounded-lg bg-border" />
+                      <div className="h-9 w-10 rounded-lg bg-border" />
+                    </div>
+                    <div className="h-10 w-full rounded-full bg-border" />
                   </div>
                 </div>
               ))}

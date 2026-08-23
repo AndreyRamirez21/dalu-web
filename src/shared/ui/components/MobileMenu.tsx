@@ -36,26 +36,31 @@ export function MobileMenu({ isOpen, onClose, links }: MobileMenuProps) {
   useEffect(() => {
     const dialog = dialogRef.current
     if (!dialog) return
+
     function handleClose() {
       onCloseRef.current()
     }
-    dialog.addEventListener('close', handleClose)
-    return () => dialog.removeEventListener('close', handleClose)
-  }, [])
 
-  function handleDialogClick(event: React.MouseEvent<HTMLDialogElement>) {
-    if (event.target === dialogRef.current) onClose()
-  }
+    function handleBackdropClick(event: MouseEvent) {
+      if (event.target === dialog) onCloseRef.current()
+    }
+
+    dialog.addEventListener('close', handleClose)
+    dialog.addEventListener('click', handleBackdropClick)
+    return () => {
+      dialog.removeEventListener('close', handleClose)
+      dialog.removeEventListener('click', handleBackdropClick)
+    }
+  }, [])
 
   return (
     <dialog
       ref={dialogRef}
       id="mobile-menu"
-      onClick={handleDialogClick}
       aria-labelledby="mobile-menu-title"
       className="fixed inset-0 m-0 h-full max-h-none w-full max-w-none border-0 bg-transparent p-0 backdrop:bg-black/40 md:hidden"
     >
-      <aside onClick={(event) => event.stopPropagation()} className="absolute top-0 left-0 h-full w-72 bg-surface shadow-xl flex flex-col">
+      <aside className="absolute top-0 left-0 h-full w-72 bg-surface shadow-xl flex flex-col">
         <div className="flex items-center justify-between px-6 py-5 border-b border-border">
           <h2 id="mobile-menu-title" className="font-display text-xl text-primary tracking-widest">DALÚ</h2>
           <button onClick={onClose} aria-label="Cerrar menú" className="text-text-primary">

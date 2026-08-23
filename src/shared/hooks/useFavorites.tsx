@@ -32,15 +32,16 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favoriteIds))
   }, [favoriteIds])
 
-  function toggleFavorite(productId: string) {
+  const toggleFavorite = useCallback((productId: string) => {
     setFavoriteIds((prev) =>
       prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
     )
-  }
+  }, [])
 
-  function isFavorite(productId: string) {
-    return favoriteIds.includes(productId)
-  }
+  const isFavorite = useCallback(
+    (productId: string) => favoriteIds.includes(productId),
+    [favoriteIds]
+  )
 
   const syncFavorites = useCallback((activeIds: string[]) => {
     const activeSet = new Set(activeIds)
@@ -52,7 +53,7 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo(
     () => ({ favoriteIds, toggleFavorite, isFavorite, syncFavorites }),
-    [favoriteIds, syncFavorites]
+    [favoriteIds, toggleFavorite, isFavorite, syncFavorites]
   )
 
   return (
