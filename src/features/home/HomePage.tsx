@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, Heart, MapPin, MessageCircle, Package, Sparkles, Truck } from 'lucide-react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { m, useReducedMotion } from 'framer-motion'
 import { Button } from '@/shared/ui/components/Button'
 import { CategoryCard } from '@/shared/ui/components/CategoryCard'
 import { ProductCard } from '@/shared/ui/components/ProductCard'
@@ -88,33 +88,33 @@ export function HomePage() {
 
       {/* Categorías */}
       <section id="categorias" className="max-w-8xl mx-auto px-6 py-12">
-        <motion.div {...reveal} className="text-center mb-8">
+        <m.div {...reveal} className="text-center mb-8">
           <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Explora Dalú</p>
           <h2 className="font-display text-2xl text-text-primary">Categorías para cada momento</h2>
-        </motion.div>
+        </m.div>
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           {homeCategories.map((category, index) => (
-            <motion.div
+            <m.div
               key={category.id}
               {...reveal}
               transition={reduceMotion ? undefined : { duration: 0.5, delay: index * 0.09, ease: 'easeOut' }}
             >
               <CategoryCard category={category} />
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </section>
 
       {/* Compra por momento */}
       <section className="max-w-8xl mx-auto px-6 py-12">
-        <motion.div {...reveal} className="max-w-xl mb-8">
+        <m.div {...reveal} className="max-w-xl mb-8">
           <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">{moments?.eyebrow ?? 'Encuentra tu favorito'}</p>
           <h2 className="font-display text-2xl text-text-primary">{moments?.title ?? 'Compra según tu momento'}</h2>
           <p className="text-sm text-text-secondary mt-2">{moments?.description ?? 'Pequeños detalles para sentirte bien, descansar y regalar comodidad.'}</p>
-        </motion.div>
+        </m.div>
         <div className="grid md:grid-cols-3 gap-5">
           {(moments?.cards ?? []).map((moment, index) => (
-            <motion.div
+            <m.div
               key={moment.title}
               {...reveal}
               transition={reduceMotion ? undefined : { duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
@@ -130,14 +130,14 @@ export function HomePage() {
                   <span className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide mt-4">Explorar <ArrowUpRight size={15} /></span>
                 </div>
               </Link>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </section>
 
       {/* Colección destacada */}
       <section className="max-w-8xl mx-auto px-6 py-12">
-        <motion.div {...reveal} className="relative overflow-hidden rounded-3xl bg-primary-light min-h-[420px] md:min-h-[460px]">
+        <m.div {...reveal} className="relative overflow-hidden rounded-3xl bg-primary-light min-h-[420px] md:min-h-[460px]">
           <img
             src={collection?.mediaUrl ?? '/images/products/Pij11.webp'}
             alt="Colección de pijamas Dalú"
@@ -154,7 +154,7 @@ export function HomePage() {
               </Link>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </section>
 
       {/* Video */}
@@ -188,19 +188,19 @@ export function HomePage() {
 
       {!featuredLoading && featuredProducts.length > 0 && (
         <section className="max-w-8xl mx-auto px-6 py-12">
-          <motion.div {...reveal} className="text-center mb-8">
+          <m.div {...reveal} className="text-center mb-8">
             <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Favoritos de la semana</p>
             <h2 className="font-display text-2xl text-text-primary">Productos destacados</h2>
-          </motion.div>
+          </m.div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {featuredProducts.map((product, index) => (
-              <motion.div
+              <m.div
                 key={product.id}
                 {...reveal}
                 transition={reduceMotion ? undefined : { duration: 0.5, delay: index * 0.09, ease: 'easeOut' }}
               >
                 <ProductCard product={product} />
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </section>
@@ -216,7 +216,7 @@ export function HomePage() {
       )}
 
       <section className="max-w-8xl mx-auto px-6 py-16">
-        <motion.div {...reveal} className="grid md:grid-cols-3 gap-5 text-center">
+        <m.div {...reveal} className="grid md:grid-cols-3 gap-5 text-center">
           <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="group rounded-2xl bg-surface shadow-sm px-6 py-9 hover:shadow-md transition-shadow">
             <MessageCircle size={28} className="mx-auto text-primary mb-4" />
             <h2 className="font-display text-xl text-text-primary">¿Tienes alguna duda?</h2>
@@ -237,7 +237,7 @@ export function HomePage() {
             <p className="text-sm text-text-secondary mt-2">Llevamos Dalú hasta tu puerta.</p>
             <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-5 group-hover:underline">Conocer envíos</span>
           </Link>
-        </motion.div>
+        </m.div>
       </section>
     </div>
   )

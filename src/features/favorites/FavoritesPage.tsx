@@ -14,8 +14,8 @@ export function FavoritesPage() {
   useEffect(() => {
     if (!isSuccess) return
 
-    const activeIds = favoriteProducts.map((product) => product.id)
-    if (favoriteIds.some((id) => !activeIds.includes(id))) syncFavorites(activeIds)
+    const activeIds = new Set(favoriteProducts.map((product) => product.id))
+    if (favoriteIds.some((id) => !activeIds.has(id))) syncFavorites([...activeIds])
   }, [favoriteIds, favoriteProducts, isSuccess, syncFavorites])
 
   if (cargando) {

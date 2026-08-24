@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { ChevronDown, SlidersHorizontal, X } from 'lucide-react'
 import { formatPrice } from '@/shared/lib/formatters'
 import type { SortOption } from './SortDropdown'
@@ -43,6 +43,8 @@ export function CatalogFilterDrawer({
   const dialogRef = useRef<HTMLDialogElement>(null)
   const [isOpen, setIsOpen] = useState(false)
   const [openSections, setOpenSections] = useState<string[]>([])
+  const selectedSizesSet = useMemo(() => new Set(selectedSizes), [selectedSizes])
+  const selectedFabricTypesSet = useMemo(() => new Set(selectedFabricTypes), [selectedFabricTypes])
 
   useEffect(() => {
     const dialog = dialogRef.current
@@ -129,7 +131,7 @@ export function CatalogFilterDrawer({
                 <div className="grid grid-cols-2 gap-x-6 gap-y-3 pt-1">
                   {availableSizes.map((size) => (
                     <label key={size} className="flex cursor-pointer items-center gap-3 text-sm text-text-primary">
-                      <input type="checkbox" checked={selectedSizes.includes(size)} onChange={() => onToggleSize(size)} className="h-4 w-4 accent-primary" />
+                      <input type="checkbox" checked={selectedSizesSet.has(size)} onChange={() => onToggleSize(size)} className="h-4 w-4 accent-primary" />
                       {size}
                     </label>
                   ))}
@@ -142,7 +144,7 @@ export function CatalogFilterDrawer({
                 <div className="space-y-3 pt-1">
                   {availableFabricTypes.map((fabricType) => (
                     <label key={fabricType} className="flex cursor-pointer items-center gap-3 text-sm text-text-primary">
-                      <input type="checkbox" checked={selectedFabricTypes.includes(fabricType)} onChange={() => onToggleFabricType(fabricType)} className="h-4 w-4 accent-primary" />
+                      <input type="checkbox" checked={selectedFabricTypesSet.has(fabricType)} onChange={() => onToggleFabricType(fabricType)} className="h-4 w-4 accent-primary" />
                       {fabricType}
                     </label>
                   ))}

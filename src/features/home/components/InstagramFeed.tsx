@@ -1,4 +1,4 @@
-import { motion, useReducedMotion } from 'framer-motion'
+import { m, useReducedMotion } from 'framer-motion'
 import { Camera } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { getInstagramPosts } from '@/services/instagram'
@@ -17,7 +17,7 @@ export function InstagramFeed() {
 
   return (
     <section className="max-w-8xl mx-auto px-6 py-12">
-      <motion.div
+      <m.div
         initial={reduceMotion ? false : { opacity: 0, y: 28 }}
         whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
@@ -30,13 +30,13 @@ export function InstagramFeed() {
           <Camera size={17} />
           Seguir en Instagram
         </a>
-      </motion.div>
+      </m.div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1.5 rounded-2xl overflow-hidden">
         {isPending
           ? Array.from({ length: 6 }, (_, index) => <div key={index} className="aspect-square bg-primary-light animate-pulse" />)
           : posts.map((post, index) => (
-              <motion.a
+              <m.a
                 key={post.id}
                 href={post.permalink}
                 target="_blank"
@@ -52,7 +52,7 @@ export function InstagramFeed() {
                 <span className="absolute inset-0 flex items-center justify-center bg-black/0 text-white opacity-0 transition-[background-color,opacity] duration-300 group-hover:bg-black/35 group-hover:opacity-100">
                   <Camera size={24} />
                 </span>
-              </motion.a>
+              </m.a>
             ))}
       </div>
     </section>

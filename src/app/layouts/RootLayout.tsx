@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
+import { LazyMotion, domAnimation } from 'framer-motion'
 import { Navbar } from '@/shared/ui/components/Navbar'
 import { Footer } from '@/shared/ui/components/Footer'
 import { WhatsAppFloatingButton } from '@/shared/ui/components/WhatsAppFloatingButton'
@@ -17,15 +18,17 @@ function ScrollToTop() {
 
 export function RootLayout() {
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <ScrollToTop />
-      <Navbar />
-      <main className="flex-1">
-        <Outlet />
-      </main>
-      <Footer />
-      <WhatsAppFloatingButton />
-      <CartDrawer />
-    </div>
+    <LazyMotion features={domAnimation} strict>
+      <div className="min-h-screen bg-background flex flex-col">
+        <ScrollToTop />
+        <Navbar />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <Footer />
+        <WhatsAppFloatingButton />
+        <CartDrawer />
+      </div>
+    </LazyMotion>
   )
 }

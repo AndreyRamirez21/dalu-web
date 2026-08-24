@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 interface HeroCarouselProps {
   images: string[]
@@ -21,7 +21,7 @@ export function HeroCarousel({ images, intervalMs = 4500, children }: HeroCarous
   return (
     <div className="relative w-full min-h-[560px] md:h-[600px] rounded-3xl overflow-hidden shadow-lg">
         {images.map((img, i) => (
-          <motion.img
+          <m.img
             key={img}
             src={img}
             alt="Dalú"
@@ -36,10 +36,8 @@ export function HeroCarousel({ images, intervalMs = 4500, children }: HeroCarous
           />
         ))}
 
-      {/* Degradado: vertical en mobile (abajo hacia arriba), horizontal en desktop */}
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/40 md:bg-gradient-to-r md:from-background md:via-background/70 md:to-transparent" />
 
-      {/* Contenido superpuesto */}
       <div className="relative min-h-[560px] md:h-full flex items-end md:items-center px-6 md:px-16 py-8 md:py-0">
         {children}
       </div>
@@ -51,7 +49,7 @@ export function HeroCarousel({ images, intervalMs = 4500, children }: HeroCarous
               key={img}
               onClick={() => setIndex(i)}
               aria-label={`Ver imagen ${i + 1}`}
-              className={`h-1.5 rounded-full transition-all ${
+              className={`h-1.5 rounded-full transition-[width,background-color] ${
                 i === index ? 'w-6 bg-primary' : 'w-1.5 bg-primary/40'
               }`}
             />

@@ -128,7 +128,7 @@ function ProductPageContent({ slug }: { slug?: string }) {
         <span className="text-text-primary">{product.name}</span>
       </nav>
 
-      <div className="grid md:grid-cols-[80px_1fr_1fr_320px] gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-[80px_1fr_1fr_320px]">
         {/* Miniaturas */}
         {product.images.length > 1 && (
           <div className="flex md:flex-col gap-3 order-2 md:order-1">
@@ -178,7 +178,7 @@ function ProductPageContent({ slug }: { slug?: string }) {
         </div>
 
         {/* Info */}
-        <div className="order-3">
+        <div className="order-3 min-w-0">
           <h1 className="font-display text-3xl text-text-primary">{product.name}</h1>
 
           <p className="text-2xl font-semibold text-text-primary mt-4">
@@ -273,7 +273,7 @@ function ProductPageContent({ slug }: { slug?: string }) {
                   showToast(`${product.name} agregado al carrito`)
                 }}
               >
-                {canSelectQuantity ? 'Agregar al carrito' : 'Agotado'}
+                {!product.inStock ? 'Agotado' : 'Comprar'}
               </Button>
               <button
                 onClick={() => toggleFavorite(product.id)}
@@ -288,8 +288,8 @@ function ProductPageContent({ slug }: { slug?: string }) {
           </div>
         </div>
 
-        {/* Sidebar derecha: acordeón + hecho con amor */}
-        <div className="order-4">
+        {/* En celular este bloque se muestra debajo de la compra. */}
+        <div className="order-4 min-w-0">
           <Accordion
             items={[
               ...(product.description ? [{

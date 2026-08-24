@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { ProductCard } from '@/shared/ui/components/ProductCard'
 import { CatalogFilterDrawer } from './components/CatalogFilterDrawer'
@@ -252,14 +252,14 @@ useEffect(() => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <AnimatePresence initial={false}>
                   {visibleProducts.map((product, i) => (
-                    <motion.div
+                    <m.div
                       key={product.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: (i % ITEMS_PER_LOAD) * 0.04 }}
                     >
                       <ProductCard product={product} />
-                    </motion.div>
+                    </m.div>
                   ))}
                 </AnimatePresence>
               </div>
