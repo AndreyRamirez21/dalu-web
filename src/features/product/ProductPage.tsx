@@ -39,15 +39,15 @@ function ProductPageContent({ slug }: { slug?: string }) {
         {/* Breadcrumb fantasma */}
         <div className="h-3 w-40 bg-border rounded mb-6" />
 
-        <div className="grid md:grid-cols-[80px_1fr_1fr_320px] gap-6">
+        <div className="grid lg:grid-cols-[80px_1fr_1fr_320px] gap-6">
           {/* Miniaturas fantasma */}
-          <div className="hidden md:flex md:flex-col gap-3 order-2 md:order-1">
+          <div className="hidden lg:flex lg:flex-col gap-3 order-2 lg:order-1">
             <div className="w-20 h-20 rounded-xl bg-border" />
             <div className="w-20 h-20 rounded-xl bg-border" />
           </div>
 
           {/* Imagen grande fantasma */}
-          <div className="order-1 md:order-2">
+          <div className="order-1 lg:order-2">
             <div className="rounded-2xl bg-primary-light aspect-[4/5]" />
           </div>
 
@@ -69,7 +69,7 @@ function ProductPageContent({ slug }: { slug?: string }) {
           </div>
 
           {/* Sidebar fantasma */}
-          <div className="order-4 hidden md:block">
+          <div className="order-4 hidden lg:block">
             <div className="h-14 w-full bg-border rounded-xl" />
             <div className="h-24 w-full bg-border rounded-2xl mt-6" />
           </div>
@@ -128,17 +128,17 @@ function ProductPageContent({ slug }: { slug?: string }) {
         <span className="text-text-primary">{product.name}</span>
       </nav>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-[80px_1fr_1fr_320px]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[80px_1fr_1fr_320px]">
         {/* Miniaturas */}
         {product.images.length > 1 && (
-          <div className="flex md:flex-col gap-3 order-2 md:order-1">
+          <div className="flex lg:flex-col gap-3 order-2 lg:order-1">
                 {product.images.map((img, i) => (
                   <button
                     key={img}
                     onClick={() => setSelectedImage(i)}
                     aria-label={`Ver imagen ${i + 1} de ${product.name}`}
                     aria-current={selectedImage === i ? 'true' : undefined}
-                    className={`w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden border-2 shrink-0 transition-colors ${
+                    className={`w-16 h-16 lg:w-20 lg:h-20 rounded-xl overflow-hidden border-2 shrink-0 transition-colors ${
                       selectedImage === i ? 'border-primary' : 'border-transparent'
                     }`}
                   >
@@ -157,7 +157,7 @@ function ProductPageContent({ slug }: { slug?: string }) {
         )}
 
         {/* Imagen grande */}
-        <div className="order-1 md:order-2" style={{ gridColumn: product.images.length > 1 ? undefined : 'span 2' }}>
+        <div className={`order-1 lg:order-2 ${product.images.length > 1 ? '' : 'lg:col-span-2'}`}>
           <div className="rounded-2xl overflow-hidden bg-surface shadow-sm">
             {product.images[selectedImage] ? (
                 <img
