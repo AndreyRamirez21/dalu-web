@@ -38,7 +38,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div className="group">
-      <div className="relative rounded-2xl overflow-hidden bg-surface shadow-sm">
+      <div className="relative overflow-hidden bg-surface">
         <Link to={`/producto/${product.slug}`}>
         {product.images[0] ? (
           <img
@@ -48,12 +48,12 @@ export function ProductCard({ product }: ProductCardProps) {
             height={800}
             loading="lazy"
             decoding="async"
-            className={`w-full aspect-[4/5] object-cover transition-transform duration-300 group-hover:scale-105 ${
+            className={`w-full aspect-[3/4] object-cover transition-transform duration-300 group-hover:scale-105 ${
               !product.inStock ? 'opacity-50 grayscale' : ''
             }`}
             />
           ) : (
-            <div className="w-full aspect-[4/5] bg-primary-light flex items-center justify-center">
+            <div className="w-full aspect-[3/4] bg-primary-light flex items-center justify-center">
               <Package size={40} className="text-primary/40" />
             </div>
           )}

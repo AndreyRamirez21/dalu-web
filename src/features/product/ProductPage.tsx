@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
-import { Heart, Package, ShieldCheck } from 'lucide-react'
+import { Heart, Package, ShieldCheck, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from '@/shared/ui/components/Button'
 import { QuantitySelector } from '@/shared/ui/components/QuantitySelector'
 import { Accordion } from '@/shared/ui/components/Accordion'
@@ -13,6 +13,8 @@ import { categories } from '@/data/categories'
 import { useProduct, useRelatedProducts } from '@/shared/hooks/useProducts'
 import { formatPrice } from '@/shared/lib/formatters'
 import { getStockForSelection } from '@/shared/lib/inventory'
+import { ZoomableImage } from '@/shared/ui/components/ZoomableImage'
+
 
 export function ProductPage() {
   const { slug } = useParams()
@@ -47,9 +49,9 @@ function ProductPageContent({ slug }: { slug?: string }) {
           </div>
 
           {/* Imagen grande fantasma */}
-          <div className="order-1 lg:order-2">
-            <div className="rounded-2xl bg-primary-light aspect-[4/5]" />
-          </div>
+            <div className="order-1 lg:order-2">
+              <div className="bg-primary-light aspect-[3/4]" />
+            </div>
 
           {/* Info fantasma */}
           <div className="order-3 space-y-4">
@@ -158,23 +160,37 @@ function ProductPageContent({ slug }: { slug?: string }) {
 
         {/* Imagen grande */}
         <div className={`order-1 lg:order-2 ${product.images.length > 1 ? '' : 'lg:col-span-2'}`}>
-          <div className="rounded-2xl overflow-hidden bg-surface shadow-sm">
-            {product.images[selectedImage] ? (
-                <img
-                  src={product.images[selectedImage]}
-                  alt={product.name}
-                  width={640}
-                  height={800}
-                  loading="eager"
-                  fetchPriority="high"
-                  className="w-full aspect-[4/5] object-cover"
-                />
-            ) : (
-              <div className="w-full aspect-[4/5] bg-primary-light flex items-center justify-center">
-                <Package size={48} className="text-primary/40" />
-              </div>
-            )}
-          </div>
+            <div className="group relative">
+              {product.images[selectedImage] ? (
+                  <ZoomableImage
+                    src={product.images[selectedImage]}
+                    alt={product.name}
+                  />
+              ) : (
+                <div className="w-full aspect-[3/4] bg-primary-light flex items-center justify-center">
+                  <Package size={48} className="text-primary/40" />
+                </div>
+              )}
+
+              {product.images.length > 1 && (
+                <>
+                  <button
+                    onClick={() => setSelectedImage((prev) => (prev - 1 + product.images.length) % product.images.length)}
+                    aria-label="Imagen anterior"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 shadow-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <ChevronLeft size={20} className="text-text-primary" />
+                  </button>
+                  <button
+                    onClick={() => setSelectedImage((prev) => (prev + 1) % product.images.length)}
+                    aria-label="Siguiente imagen"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 shadow-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <ChevronRight size={20} className="text-text-primary" />
+                  </button>
+                </>
+              )}
+            </div>
         </div>
 
         {/* Info */}

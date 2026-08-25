@@ -161,7 +161,7 @@ useEffect(() => {
   }
 
   return (
-    <div className="max-w-8xl mx-auto px-6 py-10">
+    <div className="max-w-[88rem] mx-auto px-6 sm:px-8 lg:px-14 py-10">
       <Helmet>
         <title>{config.title} | Dalú</title>
         <meta name="description" content={config.description} />
@@ -227,7 +227,7 @@ useEffect(() => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 animate-pulse">
               {Array.from({ length: ITEMS_PER_LOAD }).map((_, i) => (
                 <div key={i} className="min-h-[150px]">
-                  <div className="rounded-2xl bg-surface shadow-sm aspect-[4/5] bg-primary-light" />
+                  <div className="rounded-none bg-surface aspect-[3/4] bg-primary-light" />
                   <div className="mt-3 space-y-3">
                     <div className="h-4 w-3/4 rounded bg-border" />
                     <div className="h-4 w-1/3 rounded bg-border" />
@@ -249,7 +249,7 @@ useEffect(() => {
             </div>
           ) : visibleProducts.length > 0 ? (
             <>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 lg:gap-x-8">
                 <AnimatePresence initial={false}>
                   {visibleProducts.map((product, i) => (
                     <m.div
