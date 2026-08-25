@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { INSTAGRAM_URL, STORE_ADDRESS, STORE_MAP_URL, WHATSAPP_URL } from '@/shared/constants/contact'
+import logoImg from '@/assets/logo-daluuu.png'
 
 function InstagramIcon() {
   return (
@@ -54,7 +55,7 @@ export function Footer() {
       <div className="bg-surface">
         <div className="max-w-8xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 px-6 py-14">
           <div>
-            <p className="font-display text-2xl text-primary tracking-widest mb-3">DALÚ</p>
+            <img src={logoImg} alt="Dalú" className="h-16 w-auto mb-3" />
             <p className="text-sm text-text-secondary">
               Buscamos cada pieza que combine comodidad, estilo y calidad para que te sientas increíble en cada momento.
             </p>

@@ -8,6 +8,7 @@ import { useFavorites } from '@/shared/hooks/useFavorites'
 import { useToast } from '@/shared/hooks/useToast'
 import { formatPrice } from '@/shared/lib/formatters'
 import { getStockForSelection } from '@/shared/lib/inventory'
+import { LazyImage } from './LazyImage'
 
 interface ProductCardProps {
   product: Product
@@ -41,13 +42,11 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="relative overflow-hidden bg-surface">
         <Link to={`/producto/${product.slug}`}>
         {product.images[0] ? (
-          <img
+          <LazyImage
             src={product.images[0]}
             alt={product.name}
             width={640}
             height={800}
-            loading="lazy"
-            decoding="async"
             className={`w-full aspect-[3/4] object-cover transition-transform duration-300 group-hover:scale-105 ${
               !product.inStock ? 'opacity-50 grayscale' : ''
             }`}
