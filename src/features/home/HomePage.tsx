@@ -121,7 +121,15 @@ export function HomePage() {
             >
               <Link to={moment.link} className="group relative block min-h-64 overflow-hidden rounded-2xl bg-primary-light">
                 {moment.imageUrl && (
-                  <img src={moment.imageUrl} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <img
+                    src={moment.imageUrl}
+                    alt=""
+                    width={640}
+                    height={800}
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 text-white">
@@ -141,6 +149,10 @@ export function HomePage() {
           <img
             src={collection?.mediaUrl ?? '/images/products/Pij11.webp'}
             alt="Colección de pijamas Dalú"
+            width={640}
+            height={800}
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 h-full w-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent" />

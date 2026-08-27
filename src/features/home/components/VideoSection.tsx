@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Play, Pause } from 'lucide-react'
 import { Button } from '@/shared/ui/components/Button'
@@ -13,10 +13,39 @@ interface VideoSectionProps {
 }
 
 export function VideoSection({ videoSrc, posterSrc, title, description, to, ctaLabel }: VideoSectionProps) {
+  const sectionRef = useRef<HTMLElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
-  const [isPlaying, setIsPlaying] = useState(true)
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  // El video está lejos del primer pantallazo. Esperamos a que el usuario se
+  // acerque para no competir con la imagen principal ni con el contenido inicial.
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section || !('IntersectionObserver' in window)) {
+      setShouldLoadVideo(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        setShouldLoadVideo(true)
+        observer.disconnect()
+      },
+      { rootMargin: '300px 0px' },
+    )
+
+    observer.observe(section)
+    return () => observer.disconnect()
+  }, [])
 
   function togglePlay() {
+    if (!shouldLoadVideo) {
+      setShouldLoadVideo(true)
+      return
+    }
+
     if (!videoRef.current) return
     if (isPlaying) {
       videoRef.current.pause()
@@ -27,18 +56,31 @@ export function VideoSection({ videoSrc, posterSrc, title, description, to, ctaL
   }
 
   return (
-    <section className="relative w-full overflow-hidden">
-      <video
-        ref={videoRef}
-        src={videoSrc}
-        poster={posterSrc}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        className="w-full h-[70vh] md:h-[85vh] object-cover"
-      />
+    <section ref={sectionRef} className="relative w-full overflow-hidden">
+      {shouldLoadVideo ? (
+        <video
+          ref={videoRef}
+          src={videoSrc}
+          poster={posterSrc}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          className="w-full h-[70vh] md:h-[85vh] object-cover"
+        />
+      ) : (
+        <img
+          src={posterSrc}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          className="w-full h-[70vh] md:h-[85vh] object-cover"
+        />
+      )}
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 

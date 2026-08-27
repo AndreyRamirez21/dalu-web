@@ -14,6 +14,8 @@ export function CategoryCard({ category }: CategoryCardProps) {
           alt={category.name}
           width={640}
           height={800}
+          loading="lazy"
+          decoding="async"
           className="w-full aspect-[4/5] object-cover transition-transform duration-300 group-hover:scale-105"
         />
       </div>

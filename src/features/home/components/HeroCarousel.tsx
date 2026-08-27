@@ -18,8 +18,6 @@ export function HeroCarousel({ images, intervalMs = 4500, children }: HeroCarous
     return () => clearInterval(timer)
   }, [images.length, intervalMs])
 
-  const nextIndex = images.length > 1 ? (index + 1) % images.length : null
-
   return (
     <div className="relative w-full min-h-[560px] md:h-[600px] rounded-3xl overflow-hidden shadow-lg">
       <AnimatePresence initial={false}>
@@ -38,12 +36,6 @@ export function HeroCarousel({ images, intervalMs = 4500, children }: HeroCarous
           loading="eager"
         />
       </AnimatePresence>
-
-      {/* Precarga silenciosa de la siguiente imagen, sin bloquear ni competir por prioridad alta */}
-      {nextIndex !== null && (
-        <link rel="preload" as="image" href={images[nextIndex]} />
-      )}
-
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/40 md:bg-gradient-to-r md:from-background md:via-background/70 md:to-transparent" />
 
       <div className="relative min-h-[560px] md:h-full flex items-end md:items-center px-6 md:px-16 py-8 md:py-0">

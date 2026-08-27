@@ -16,7 +16,7 @@ export default async function handler(request, response) {
 
   const params = new URLSearchParams({
     fields: 'id,caption,media_type,media_url,thumbnail_url,permalink,timestamp',
-    limit: '12',
+    limit: '6',
     access_token: accessToken,
   })
 
@@ -39,7 +39,7 @@ export default async function handler(request, response) {
         caption: typeof item.caption === 'string' ? item.caption : '',
       }))
       .filter((item) => item.id && item.imageUrl && item.permalink)
-      .slice(0, 12)
+      .slice(0, 6)
 
     response.setHeader('Cache-Control', CACHE_CONTROL)
     return response.status(200).json({ data: posts })
