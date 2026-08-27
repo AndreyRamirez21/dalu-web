@@ -48,7 +48,7 @@ export function HomePage() {
                 >
                   <div className="max-w-md">
                     <span className="inline-flex items-center gap-2 bg-primary-strong text-white text-xs font-semibold tracking-wide uppercase px-4 py-1.5 rounded-full mb-5">
-                      ✨ Nueva colección
+                       Nueva colección
                     </span>
 
                     <h1 className="font-display text-3xl md:text-5xl leading-tight text-text-primary">
@@ -226,7 +226,7 @@ export function HomePage() {
 
           <Link to="/ubicacion" className="group rounded-2xl bg-primary-strong text-white shadow-sm px-6 py-9 hover:bg-primary-strong-hover transition-colors">
             <MapPin size={28} className="mx-auto mb-4" />
-            <h2 className="font-display text-xl">Visítanos en Buga</h2>
+            <h2 className="font-display text-xl">Showroom</h2>
             <p className="text-sm text-white/85 mt-2">{STORE_ADDRESS}</p>
             <span className="inline-block text-xs font-semibold uppercase tracking-wide mt-5 group-hover:underline">Ver ubicación</span>
           </Link>
@@ -234,7 +234,7 @@ export function HomePage() {
           <Link to="/envios" className="group rounded-2xl bg-surface shadow-sm px-6 py-9 hover:shadow-md transition-shadow">
             <Truck size={28} className="mx-auto text-primary mb-4" />
             <h2 className="font-display text-xl text-text-primary">Envíos a Colombia</h2>
-            <p className="text-sm text-text-secondary mt-2">Llevamos Dalú hasta tu puerta.</p>
+            <p className="text-sm text-text-secondary mt-2">Llevamos tus pijamas Dalú hasta tu puerta.</p>
             <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-5 group-hover:underline">Conocer envíos</span>
           </Link>
         </m.div>
