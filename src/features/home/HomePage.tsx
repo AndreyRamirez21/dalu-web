@@ -52,6 +52,7 @@ export function HomePage() {
                     </span>
 
                     <h1 className="font-display text-3xl md:text-5xl leading-tight text-text-primary">
+                      <span className="sr-only">Dalú | Pijamas, Pantuflas y Accesorios — </span>
                       {hero?.title ?? 'Comodidad que te acompaña'}
                     </h1>
                     <p className="mt-4 text-text-secondary">
@@ -90,7 +91,10 @@ export function HomePage() {
       <section id="categorias" className="max-w-8xl mx-auto px-6 py-12">
         <m.div {...reveal} className="text-center mb-8">
           <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Explora Dalú</p>
-          <h2 className="font-display text-2xl text-text-primary">Categorías para cada momento</h2>
+          <h2 className="font-display text-2xl text-text-primary">
+            <span className="sr-only">Pijamas, Pantuflas, Antifaces y Accesorios — </span>
+            Categorías para cada momento
+          </h2>
         </m.div>
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           {homeCategories.map((category, index) => (
@@ -231,21 +235,21 @@ export function HomePage() {
         <m.div {...reveal} className="grid md:grid-cols-3 gap-5 text-center">
           <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="group rounded-2xl bg-surface shadow-sm px-6 py-9 hover:shadow-md transition-shadow">
             <MessageCircle size={28} className="mx-auto text-primary mb-4" />
-            <h2 className="font-display text-xl text-text-primary">¿Tienes alguna duda?</h2>
+            <h3 className="font-display text-xl text-text-primary">¿Tienes alguna duda?</h3>
             <p className="text-sm text-text-secondary mt-2">Estamos para ayudarte.</p>
             <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-5 group-hover:underline">Ir a WhatsApp</span>
           </a>
 
           <Link to="/ubicacion" className="group rounded-2xl bg-primary-strong text-white shadow-sm px-6 py-9 hover:bg-primary-strong-hover transition-colors">
             <MapPin size={28} className="mx-auto mb-4" />
-            <h2 className="font-display text-xl">Showroom</h2>
+            <h3 className="font-display text-xl">Showroom</h3>
             <p className="text-sm text-white/85 mt-2">{STORE_ADDRESS}</p>
             <span className="inline-block text-xs font-semibold uppercase tracking-wide mt-5 group-hover:underline">Ver ubicación</span>
           </Link>
 
           <Link to="/envios" className="group rounded-2xl bg-surface shadow-sm px-6 py-9 hover:shadow-md transition-shadow">
             <Truck size={28} className="mx-auto text-primary mb-4" />
-            <h2 className="font-display text-xl text-text-primary">Envíos a Colombia</h2>
+            <h3 className="font-display text-xl text-text-primary">Envíos a Colombia</h3>
             <p className="text-sm text-text-secondary mt-2">Llevamos tus pijamas Dalú hasta tu puerta.</p>
             <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-5 group-hover:underline">Conocer envíos</span>
           </Link>

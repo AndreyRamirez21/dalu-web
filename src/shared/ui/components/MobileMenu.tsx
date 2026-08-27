@@ -63,7 +63,7 @@ export function MobileMenu({ isOpen, onClose, links }: MobileMenuProps) {
     >
       <aside className="absolute top-0 left-0 h-full w-72 bg-surface shadow-xl flex flex-col">
         <div className="flex items-center justify-between px-6 py-5 border-b border-border">
-          <h2 id="mobile-menu-title" className="font-display text-xl text-primary tracking-widest">DALÚ</h2>
+          <p id="mobile-menu-title" className="font-display text-xl text-primary tracking-widest">DALÚ</p>
           <button onClick={onClose} aria-label="Cerrar menú" className="text-text-primary">
             <X size={22} />
           </button>
