@@ -9,7 +9,7 @@ import {
   buildSleepwearCollectionLinks,
 } from '@/features/catalog/catalogConfig'
 import { useProductsByCategories } from '@/shared/hooks/useProducts'
-import logoDalu from '@/assets/logo-daluuu.png'
+import logoDalu from '@/assets/logo-daluuu.webp'
 
 const baseLinks: NavigationLink[] = [
   { to: '/', label: 'Inicio' },

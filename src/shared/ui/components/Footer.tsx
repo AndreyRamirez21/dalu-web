@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { INSTAGRAM_URL, STORE_ADDRESS, STORE_MAP_URL, WHATSAPP_URL } from '@/shared/constants/contact'
-import logoImg from '@/assets/logo-daluuu.png'
+import logoImg from '@/assets/logo-daluuu.webp'
 
 function InstagramIcon() {
   return (
