@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { m, AnimatePresence } from 'framer-motion'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface HeroCarouselProps {
   images: string[]
@@ -18,8 +19,16 @@ export function HeroCarousel({ images, intervalMs = 4500, children }: HeroCarous
     return () => clearInterval(timer)
   }, [images.length, intervalMs])
 
+  const goToPrev = () => {
+    setIndex((prev) => (prev - 1 + images.length) % images.length)
+  }
+
+  const goToNext = () => {
+    setIndex((prev) => (prev + 1) % images.length)
+  }
+
   return (
-    <div className="relative w-full min-h-[560px] md:h-[600px] rounded-3xl overflow-hidden shadow-lg">
+    <div className="group relative w-full min-h-[560px] md:h-[600px] rounded-3xl overflow-hidden shadow-lg">
       <AnimatePresence initial={false}>
         <m.img
           key={images[index]}
@@ -43,18 +52,22 @@ export function HeroCarousel({ images, intervalMs = 4500, children }: HeroCarous
       </div>
 
       {images.length > 1 && (
-        <div className="absolute bottom-4 left-6 md:left-16 flex gap-2 z-10">
-          {images.map((img, i) => (
-            <button
-              key={img}
-              onClick={() => setIndex(i)}
-              aria-label={`Ver imagen ${i + 1}`}
-              className={`h-1.5 rounded-full transition-[width,background-color] ${
-                i === index ? 'w-6 bg-primary' : 'w-1.5 bg-primary/40'
-              }`}
-            />
-          ))}
-        </div>
+        <>
+          <button
+            onClick={goToPrev}
+            aria-label="Imagen anterior"
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-text-primary opacity-100 transition-colors duration-300 hover:bg-primary hover:text-white md:opacity-0 md:group-hover:opacity-100 md:focus-visible:opacity-100"
+          >
+            <ChevronLeft size={22} />
+          </button>
+          <button
+            onClick={goToNext}
+            aria-label="Siguiente imagen"
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-text-primary opacity-100 transition-colors duration-300 hover:bg-primary hover:text-white md:opacity-0 md:group-hover:opacity-100 md:focus-visible:opacity-100"
+          >
+            <ChevronRight size={22} />
+          </button>
+        </>
       )}
     </div>
   )
