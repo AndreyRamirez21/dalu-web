@@ -104,8 +104,7 @@ export function HomePage() {
                             followMouse
                             proximity={350}
                             autoAnimate={false}
-                            mobileClassName="inline-flex items-center justify-center rounded-full border-2 border-[#5F9EA1] bg-[#82BBBD] px-10 py-[18px] text-[1.15rem] font-medium leading-none tracking-[0.01em] text-[#3F7376] transition-transform active:scale-[0.97]"
-                          >
+                            mobileClassName="inline-flex items-center justify-center rounded-full border-2 border-[#5F9EA1] bg-white px-10 py-[18px] text-[1.15rem] font-medium leading-none tracking-[0.01em] text-[#3F7376] transition-transform active:scale-[0.97]"                          >
                             Ver categorías
                           </ResponsiveSpecularButton>
                         </a>
