@@ -15,7 +15,7 @@ export function CartPage() {
           `• ${i.product.name} (Ref: ${i.product.reference}${i.size ? ` — ${i.product.category === 'accesorios' ? 'Variante' : 'Talla'}: ${i.size}` : ''}) x${i.quantity} — ${formatPrice(i.product.price * i.quantity)}`
       )
       const message = [
-        'Hola Dalú! 👋 Quiero confirmar mi pedido:',
+        'Hola Dalú! Quiero confirmar mi pedido:',
         '',
         ...lines,
         '',
