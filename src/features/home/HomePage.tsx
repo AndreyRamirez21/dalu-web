@@ -13,7 +13,7 @@ import { InstagramFeed } from './components/InstagramFeed'
 import { VideoSection } from './components/VideoSection'
 import { STORE_ADDRESS, WHATSAPP_URL } from '@/shared/constants/contact'
 import { fallbackContent } from '@/services/homeContent'
-
+import SpecularButton from '@/shared/ui/components/SpecularButton'
 
 export function HomePage() {
   const { data: featured = [], isPending: featuredLoading, isError: featuredError, refetch } = useFeaturedProducts()
@@ -68,11 +68,46 @@ export function HomePage() {
 
                   <div className="flex flex-wrap gap-4 mt-6">
                     <Link to={hero?.primaryLink ?? '/pijamas'}>
-                      <Button size="lg">Comprar ahora</Button>
+                    <SpecularButton
+                      size="lg"
+                      radius={999}
+                      tint="#5F9EA1"
+                      tintOpacity={1}
+                      textColor="#ffffff"
+                      baseColor="#3F7376"
+                      lineColor="#ffffff"
+                      intensity={1.4}
+                      shineSize={18}
+                      shineFade={55}
+                      thickness={1.8}
+                      followMouse
+                      proximity={350}
+                      autoAnimate={false}
+                    >
+                      Comprar ahora
+                    </SpecularButton>
                     </Link>
-                    <a href="#categorias">
-                      <Button size="lg" variant="outline">Ver categorías</Button>
-                    </a>
+                        <a href="#categorias">
+                          <SpecularButton
+                            size="lg"
+                            radius={999}
+                            tint="#5F9EA1"
+                            tintOpacity={0}
+                            textColor="#3F7376"
+                            baseColor="#82BBBD"
+                            lineColor="#ffffff"
+                            intensity={1.4}
+                            shineSize={18}
+                            shineFade={55}
+                            thickness={1.8}
+                            followMouse
+                            proximity={350}
+                            autoAnimate={false}
+                            className="border-2 border-[#5F9EA1]"
+                          >
+                            Ver categorías
+                          </SpecularButton>
+                        </a>
                   </div>
 
                   <div className="flex gap-8 mt-10">
