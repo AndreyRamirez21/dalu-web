@@ -48,7 +48,7 @@ export interface HomeContent {
   featuredReferences: string[]
 }
 
-const fallbackContent: HomeContent = {
+export const fallbackContent: HomeContent = {
   hero: {
     title: 'Comodidad que te acompaña',
     subtitle: 'Pijamas, pantuflas y accesorios para tus mejores momentos.',

@@ -12,6 +12,8 @@ import { HeroCarousel } from './components/HeroCarousel'
 import { InstagramFeed } from './components/InstagramFeed'
 import { VideoSection } from './components/VideoSection'
 import { STORE_ADDRESS, WHATSAPP_URL } from '@/shared/constants/contact'
+import { fallbackContent } from '@/services/homeContent'
+
 
 export function HomePage() {
   const { data: featured = [], isPending: featuredLoading, isError: featuredError, refetch } = useFeaturedProducts()
@@ -38,53 +40,55 @@ export function HomePage() {
     <div>
             {/* Hero */}
             <section className="max-w-8xl mx-auto px-6 py-8">
-              {homeContentLoading ? (
-                <div className="relative w-full min-h-[560px] md:h-[600px] rounded-3xl overflow-hidden shadow-lg">
-                  <Skeleton className="absolute inset-0 h-full w-full" />
-                </div>
-              ) : (
                 <HeroCarousel
-                  images={hero?.slides ?? ['/images/products/Pij10.webp', '/images/products/Pij9.webp', '/images/products/Pij11.webp', '/images/products/Pij4.webp']}
+                  images={hero?.slides ?? fallbackContent.hero.slides}
                 >
-                  <div className="max-w-md">
-                    <span className="inline-flex items-center gap-2 bg-primary-strong text-white text-xs font-semibold tracking-wide uppercase px-4 py-1.5 rounded-full mb-5">
-                       Nueva colección
-                    </span>
+                <div className="max-w-md">
+                  <span className="inline-flex items-center gap-2 bg-primary-strong text-white text-xs font-semibold tracking-wide uppercase px-4 py-1.5 rounded-full mb-5">
+                     Nueva colección
+                  </span>
 
-                    <h1 className="font-display text-3xl md:text-5xl leading-tight text-text-primary">
-                      <span className="sr-only">Dalú | Pijamas, Pantuflas y Accesorios — </span>
-                      {hero?.title ?? 'Comodidad que te acompaña'}
-                    </h1>
-                    <p className="mt-4 text-text-secondary">
-                      {hero?.subtitle ?? 'Pijamas, pantuflas y accesorios para tus mejores momentos.'}
-                    </p>
+                  <h1 className="font-display text-3xl md:text-5xl leading-tight text-text-primary">
+                    <span className="sr-only">Dalú | Pijamas, Pantuflas y Accesorios — </span>
+                    {homeContentLoading ? (
+                      <Skeleton className="h-10 w-3/4" />
+                    ) : (
+                      hero?.title ?? 'Comodidad que te acompaña'
+                    )}
+                  </h1>
+                  <p className="mt-4 text-text-secondary">
+                    {homeContentLoading ? (
+                      <Skeleton className="h-4 w-1/2 mt-2" />
+                    ) : (
+                      hero?.subtitle ?? 'Pijamas, pantuflas y accesorios para tus mejores momentos.'
+                    )}
+                  </p>
 
-                    <div className="flex flex-wrap gap-4 mt-6">
-                      <Link to={hero?.primaryLink ?? '/pijamas'}>
-                        <Button size="lg">Comprar ahora</Button>
-                      </Link>
-                      <a href="#categorias">
-                        <Button size="lg" variant="outline">Ver categorías</Button>
-                      </a>
+                  <div className="flex flex-wrap gap-4 mt-6">
+                    <Link to={hero?.primaryLink ?? '/pijamas'}>
+                      <Button size="lg">Comprar ahora</Button>
+                    </Link>
+                    <a href="#categorias">
+                      <Button size="lg" variant="outline">Ver categorías</Button>
+                    </a>
+                  </div>
+
+                  <div className="flex gap-8 mt-10">
+                    <div className="flex flex-col items-center text-center gap-2 max-w-[100px]">
+                      <Sparkles size={22} className="text-primary" />
+                      <span className="text-xs font-medium text-text-secondary">Telas suaves y de calidad</span>
                     </div>
-
-                    <div className="flex gap-8 mt-10">
-                      <div className="flex flex-col items-center text-center gap-2 max-w-[100px]">
-                        <Sparkles size={22} className="text-primary" />
-                        <span className="text-xs font-medium text-text-secondary">Telas suaves y de calidad</span>
-                      </div>
-                      <div className="flex flex-col items-center text-center gap-2 max-w-[100px]">
-                        <Heart size={22} className="text-primary" />
-                        <span className="text-xs font-medium text-text-secondary">Diseños exclusivos</span>
-                      </div>
-                      <div className="flex flex-col items-center text-center gap-2 max-w-[100px]">
-                        <Package size={22} className="text-primary" />
-                        <span className="text-xs font-medium text-text-secondary">Envíos a todo Colombia</span>
-                      </div>
+                    <div className="flex flex-col items-center text-center gap-2 max-w-[100px]">
+                      <Heart size={22} className="text-primary" />
+                      <span className="text-xs font-medium text-text-secondary">Diseños exclusivos</span>
+                    </div>
+                    <div className="flex flex-col items-center text-center gap-2 max-w-[100px]">
+                      <Package size={22} className="text-primary" />
+                      <span className="text-xs font-medium text-text-secondary">Envíos a todo Colombia</span>
                     </div>
                   </div>
-                </HeroCarousel>
-              )}
+                </div>
+              </HeroCarousel>
             </section>
 
       {/* Categorías */}
