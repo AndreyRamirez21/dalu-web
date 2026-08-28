@@ -1,5 +1,23 @@
+import { createClient } from '@supabase/supabase-js'
+
 const GRAPH_API_VERSION = process.env.INSTAGRAM_GRAPH_API_VERSION || 'v25.0'
 const CACHE_CONTROL = 'public, s-maxage=3600, stale-while-revalidate=86400'
+
+async function getAccessToken() {
+  const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+  )
+
+  const { data, error } = await supabase
+    .from('instagram_token')
+    .select('access_token')
+    .eq('id', 1)
+    .single()
+
+  if (error || !data) return null
+  return data.access_token
+}
 
 export default async function handler(request, response) {
   if (request.method !== 'GET') {
@@ -8,7 +26,7 @@ export default async function handler(request, response) {
   }
 
   const accountId = process.env.INSTAGRAM_ACCOUNT_ID
-  const accessToken = process.env.INSTAGRAM_ACCESS_TOKEN
+  const accessToken = await getAccessToken()
 
   if (!accountId || !accessToken) {
     return response.status(503).json({ error: 'El feed de Instagram no está configurado.' })
