@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useState, type ReactNode } from 'react'
 import { m, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
@@ -10,40 +10,86 @@ interface HeroCarouselProps {
 
 export function HeroCarousel({ images, intervalMs = 4500, children }: HeroCarouselProps) {
   const [index, setIndex] = useState(0)
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(() => new Set())
+
+  // Cargamos solo la imagen visible y, cuando ella ya está lista, la siguiente.
+  // Bajar las cuatro a la vez saturaba la conexión y hacía que cada una tardara
+  // decenas de segundos, aunque los archivos fueran pequeños.
+  useEffect(() => {
+    let cancelled = false
+    const currentImage = images[index]
+    if (!currentImage) return
+
+    const nextImage = loadedImages.has(currentImage)
+      ? images[(index + 1) % images.length]
+      : undefined
+    const imagesToLoad = nextImage ? [currentImage, nextImage] : [currentImage]
+
+    imagesToLoad.forEach((src) => {
+      if (loadedImages.has(src)) return
+      const image = new Image()
+      image.fetchPriority = src === currentImage ? 'high' : 'low'
+      image.src = src
+      image.onload = async () => {
+        try {
+          await image.decode?.()
+        } catch {
+          // Algunos navegadores rechazan decode() aunque la imagen ya esté lista.
+        }
+        if (!cancelled) {
+          setLoadedImages((current) => new Set(current).add(src))
+        }
+      }
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [images, index, loadedImages])
+
+  const goTo = useCallback((nextIndex: number) => {
+    const nextImage = images[nextIndex]
+    if (nextImage && loadedImages.has(nextImage)) setIndex(nextIndex)
+  }, [images, loadedImages])
 
   useEffect(() => {
     if (images.length <= 1) return
     const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % images.length)
+      const nextIndex = (index + 1) % images.length
+      goTo(nextIndex)
     }, intervalMs)
     return () => clearInterval(timer)
-  }, [images.length, intervalMs])
+  }, [goTo, images.length, index, intervalMs])
 
   const goToPrev = () => {
-    setIndex((prev) => (prev - 1 + images.length) % images.length)
+    goTo((index - 1 + images.length) % images.length)
   }
 
   const goToNext = () => {
-    setIndex((prev) => (prev + 1) % images.length)
+    goTo((index + 1) % images.length)
   }
+
+  const currentImage = images[index]
+  const hasCurrentImage = Boolean(currentImage && loadedImages.has(currentImage))
 
   return (
     <div className="group relative w-full min-h-[560px] md:h-[600px] rounded-3xl overflow-hidden shadow-lg">
       <AnimatePresence initial={false}>
-        <m.img
-          key={images[index]}
-          src={images[index]}
-          alt="Dalú"
-          width={640}
-          height={800}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.9, ease: 'easeInOut' }}
-          className="absolute inset-0 w-full h-full object-cover"
-          fetchPriority={index === 0 ? 'high' : 'auto'}
-          loading="eager"
-        />
+        {hasCurrentImage && (
+          <m.img
+            key={currentImage}
+            src={currentImage}
+            alt="Dalú"
+            width={640}
+            height={800}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.9, ease: 'easeInOut' }}
+            className="absolute inset-0 w-full h-full object-cover"
+            fetchPriority={index === 0 ? 'high' : 'auto'}
+          />
+        )}
       </AnimatePresence>
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/40 md:bg-gradient-to-r md:from-background md:via-background/70 md:to-transparent" />
 

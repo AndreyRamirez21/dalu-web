@@ -16,6 +16,7 @@ export function VideoSection({ videoSrc, posterSrc, title, description, to, ctaL
   const sectionRef = useRef<HTMLElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false)
+  const [isVideoReady, setIsVideoReady] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
 
   // El video está lejos del primer pantallazo. Esperamos a que el usuario se
@@ -33,12 +34,23 @@ export function VideoSection({ videoSrc, posterSrc, title, description, to, ctaL
         setShouldLoadVideo(true)
         observer.disconnect()
       },
+      // Lo preparamos al acercarse, sin competir con las imágenes de la portada.
       { rootMargin: '300px 0px' },
     )
 
     observer.observe(section)
     return () => observer.disconnect()
   }, [])
+
+  // `canplay` solo garantiza unos pocos fotogramas y el video puede quedarse
+  // sin búfer enseguida. Esperamos `canplaythrough` para iniciar la animación
+  // cuando el navegador estima que puede reproducirla sin interrupciones.
+  useEffect(() => {
+    if (!isVideoReady || !videoRef.current) return
+    void videoRef.current.play().catch(() => {
+      // El botón de reproducción permite reintentar si el navegador bloquea el autoplay.
+    })
+  }, [isVideoReady])
 
   function togglePlay() {
     if (!shouldLoadVideo) {
@@ -56,29 +68,30 @@ export function VideoSection({ videoSrc, posterSrc, title, description, to, ctaL
   }
 
   return (
-    <section ref={sectionRef} className="relative w-full overflow-hidden">
-      {shouldLoadVideo ? (
+    <section ref={sectionRef} className="relative w-full h-[70vh] md:h-[85vh] overflow-hidden">
+      {shouldLoadVideo && (
         <video
           ref={videoRef}
           src={videoSrc}
           poster={posterSrc}
-          autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           onPlay={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
-          className="w-full h-[70vh] md:h-[85vh] object-cover"
+          onCanPlayThrough={() => setIsVideoReady(true)}
+          className="absolute inset-0 w-full h-full object-cover"
         />
-      ) : (
+      )}
+      {(!shouldLoadVideo || !isVideoReady) && (
         <img
           src={posterSrc}
           alt=""
           aria-hidden="true"
-          loading="lazy"
+          loading={shouldLoadVideo ? 'eager' : 'lazy'}
           decoding="async"
-          className="w-full h-[70vh] md:h-[85vh] object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
         />
       )}
 

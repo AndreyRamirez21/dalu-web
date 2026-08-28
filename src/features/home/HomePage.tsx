@@ -19,6 +19,7 @@ export function HomePage() {
   const { data: featured = [], isPending: featuredLoading, isError: featuredError, refetch } = useFeaturedProducts()
   const { data: homeContent, isPending: homeContentLoading } = useHomeContent()
   const hero = homeContent?.hero
+  const heroSlides = hero?.slides ?? fallbackContent.hero.slides
   const homeCategories = homeContent?.categories ?? categories
   const moments = homeContent?.moments
   const collection = homeContent?.collection
@@ -41,7 +42,8 @@ export function HomePage() {
             {/* Hero */}
             <section className="max-w-8xl mx-auto px-6 py-8">
                 <HeroCarousel
-                  images={hero?.slides ?? fallbackContent.hero.slides}
+                  key={heroSlides.join('\u0001')}
+                  images={heroSlides}
                 >
                 <div className="max-w-md">
                   <span className="inline-flex items-center gap-2 bg-primary-strong text-white text-xs font-semibold tracking-wide uppercase px-4 py-1.5 rounded-full mb-5">
@@ -180,7 +182,7 @@ export function HomePage() {
       {/* Video */}
       <VideoSection
         videoSrc={video?.mediaUrl ?? '/videos/hero-dalu.mp4'}
-        posterSrc={video?.posterUrl ?? '/images/products/Pij11.webp'}
+        posterSrc={video?.posterUrl || '/images/products/Pij11.webp'}
         title={video?.title ?? 'Momentos que se sienten como en casa'}
         description={video?.description ?? 'Descubre cómo se mueve Dalú en cada detalle.'}
         to={video?.link ?? '/pijamas'}
