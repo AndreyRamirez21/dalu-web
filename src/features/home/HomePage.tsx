@@ -13,7 +13,7 @@ import { InstagramFeed } from './components/InstagramFeed'
 import { VideoSection } from './components/VideoSection'
 import { STORE_ADDRESS, WHATSAPP_URL } from '@/shared/constants/contact'
 import { fallbackContent } from '@/services/homeContent'
-import SpecularButton from '@/shared/ui/components/SpecularButton'
+import ResponsiveSpecularButton from '@/shared/ui/components/ResponsiveSpecularButton'
 
 export function HomePage() {
   const { data: featured = [], isPending: featuredLoading, isError: featuredError, refetch } = useFeaturedProducts()
@@ -68,7 +68,7 @@ export function HomePage() {
 
                   <div className="flex flex-wrap gap-4 mt-6">
                     <Link to={hero?.primaryLink ?? '/pijamas'}>
-                    <SpecularButton
+                    <ResponsiveSpecularButton
                       size="lg"
                       radius={999}
                       tint="#5F9EA1"
@@ -83,12 +83,13 @@ export function HomePage() {
                       followMouse
                       proximity={350}
                       autoAnimate={false}
+                      mobileClassName="inline-flex items-center justify-center rounded-full bg-[#3F7376] px-10 py-[18px] text-[1.15rem] font-medium leading-none tracking-[0.01em] text-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] transition-transform active:scale-[0.97]"
                     >
                       Comprar ahora
-                    </SpecularButton>
+                    </ResponsiveSpecularButton>
                     </Link>
                         <a href="#categorias">
-                          <SpecularButton
+                          <ResponsiveSpecularButton
                             size="lg"
                             radius={999}
                             tint="#5F9EA1"
@@ -103,10 +104,10 @@ export function HomePage() {
                             followMouse
                             proximity={350}
                             autoAnimate={false}
-                            className="border-2 border-[#5F9EA1]"
+                            mobileClassName="inline-flex items-center justify-center rounded-full border-2 border-[#5F9EA1] bg-[#82BBBD] px-10 py-[18px] text-[1.15rem] font-medium leading-none tracking-[0.01em] text-[#3F7376] transition-transform active:scale-[0.97]"
                           >
                             Ver categorías
-                          </SpecularButton>
+                          </ResponsiveSpecularButton>
                         </a>
                   </div>
 
