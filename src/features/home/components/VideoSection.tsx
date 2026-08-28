@@ -5,22 +5,19 @@ import { Button } from '@/shared/ui/components/Button'
 
 interface VideoSectionProps {
   videoSrc: string
-  posterSrc?: string
   title: string
   description?: string
   to?: string
   ctaLabel?: string
 }
 
-export function VideoSection({ videoSrc, posterSrc, title, description, to, ctaLabel }: VideoSectionProps) {
+export function VideoSection({ videoSrc, title, description, to, ctaLabel }: VideoSectionProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false)
   const [isVideoReady, setIsVideoReady] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
 
-  // El video está lejos del primer pantallazo. Esperamos a que el usuario se
-  // acerque para no competir con la imagen principal ni con el contenido inicial.
   useEffect(() => {
     const section = sectionRef.current
     if (!section || !('IntersectionObserver' in window)) {
@@ -34,7 +31,6 @@ export function VideoSection({ videoSrc, posterSrc, title, description, to, ctaL
         setShouldLoadVideo(true)
         observer.disconnect()
       },
-      // Lo preparamos al acercarse, sin competir con las imágenes de la portada.
       { rootMargin: '300px 0px' },
     )
 
@@ -42,13 +38,9 @@ export function VideoSection({ videoSrc, posterSrc, title, description, to, ctaL
     return () => observer.disconnect()
   }, [])
 
-  // `canplay` solo garantiza unos pocos fotogramas y el video puede quedarse
-  // sin búfer enseguida. Esperamos `canplaythrough` para iniciar la animación
-  // cuando el navegador estima que puede reproducirla sin interrupciones.
   useEffect(() => {
     if (!isVideoReady || !videoRef.current) return
     void videoRef.current.play().catch(() => {
-      // El botón de reproducción permite reintentar si el navegador bloquea el autoplay.
     })
   }, [isVideoReady])
 
@@ -73,7 +65,6 @@ export function VideoSection({ videoSrc, posterSrc, title, description, to, ctaL
         <video
           ref={videoRef}
           src={videoSrc}
-          poster={posterSrc}
           muted
           loop
           playsInline
@@ -85,14 +76,7 @@ export function VideoSection({ videoSrc, posterSrc, title, description, to, ctaL
         />
       )}
       {(!shouldLoadVideo || !isVideoReady) && (
-        <img
-          src={posterSrc}
-          alt=""
-          aria-hidden="true"
-          loading={shouldLoadVideo ? 'eager' : 'lazy'}
-          decoding="async"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+        <div className="absolute inset-0 bg-primary-light" aria-hidden="true" />
       )}
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />

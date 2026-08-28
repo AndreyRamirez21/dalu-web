@@ -180,14 +180,13 @@ export function HomePage() {
       </section>
 
       {/* Video */}
-      <VideoSection
-        videoSrc={video?.mediaUrl ?? '/videos/hero-dalu.mp4'}
-        posterSrc={video?.posterUrl || '/images/products/Pij11.webp'}
-        title={video?.title ?? 'Momentos que se sienten como en casa'}
-        description={video?.description ?? 'Descubre cómo se mueve Dalú en cada detalle.'}
-        to={video?.link ?? '/pijamas'}
-        ctaLabel="Ver colección"
-      />
+        <VideoSection
+          videoSrc={video?.mediaUrl ?? '/videos/hero-dalu.mp4'}
+          title={video?.title ?? 'Momentos que se sienten como en casa'}
+          description={video?.description ?? 'Descubre cómo se mueve Dalú en cada detalle.'}
+          to={video?.link ?? '/pijamas'}
+          ctaLabel="Ver colección"
+        />
 
       <InstagramFeed />
 
