@@ -145,9 +145,24 @@ const SpecularButton = ({
     const fx = fxRef.current;
     if (!btn || !fx) return;
 
+    // Guard: some mobile browsers (in-app webviews, private mode, old devices,
+    // low-power mode) refuse to create a WebGL2 context. If OGL throws here,
+    // we bail out quietly instead of crashing the whole React tree — the
+    // button still renders fine as a plain styled <button>, just without the
+    // shine effect.
+    let renderer: Renderer | null = null;
+    let gl: Renderer['gl'] | null = null;
+    try {
+      const dpr = window.devicePixelRatio || 1;
+      renderer = new Renderer({ alpha: true, premultipliedAlpha: true, antialias: true, dpr });
+      gl = renderer.gl;
+      if (!gl) throw new Error('WebGL2 context unavailable');
+    } catch (err) {
+      console.warn('SpecularButton: WebGL2 not supported here, falling back to plain button.', err);
+      return;
+    }
+
     const dpr = window.devicePixelRatio || 1;
-    const renderer = new Renderer({ alpha: true, premultipliedAlpha: true, antialias: true, dpr });
-    const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
@@ -187,7 +202,7 @@ const SpecularButton = ({
       const h = rect.height;
       sizeRef.w = w;
       sizeRef.h = h;
-      renderer.setSize(w + PAD * 2, h + PAD * 2);
+      renderer!.setSize(w + PAD * 2, h + PAD * 2);
       program.uniforms.uCenter.value = [(PAD + w / 2) * dpr, (PAD + h / 2) * dpr];
       program.uniforms.uHalfSize.value = [(w / 2) * dpr, (h / 2) * dpr];
     };
@@ -256,7 +271,7 @@ const SpecularButton = ({
       program.uniforms.uShineSize.value = (p.shineSize * Math.PI) / 180;
       program.uniforms.uShineFade.value = (p.shineFade * Math.PI) / 180;
       program.uniforms.uThickness.value = p.thickness * dpr;
-      renderer.render({ scene: mesh });
+      renderer!.render({ scene: mesh });
     };
     raf = requestAnimationFrame(update);
 
@@ -264,8 +279,8 @@ const SpecularButton = ({
       cancelAnimationFrame(raf);
       ro.disconnect();
       window.removeEventListener('pointermove', onPointerMove);
-      if (gl.canvas.parentNode === fx) fx.removeChild(gl.canvas);
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
+      if (gl!.canvas.parentNode === fx) fx.removeChild(gl!.canvas);
+      gl!.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, []);
 
