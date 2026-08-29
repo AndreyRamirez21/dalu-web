@@ -28,6 +28,7 @@ export function ProductCard({ product }: ProductCardProps) {
     (item) => item.product.id === product.id && (item.size ?? null) === (selectedSize ?? null)
   )?.quantity ?? 0
   const canAddSelectedSize = Boolean(selectedVariant) && selectedStock > selectedInCart
+  const hasHoverImage = product.images.length > 1
 
   function addSelectedProduct() {
     if (!selectedSize || !addItem(product, 1, selectedSize)) {
@@ -42,15 +43,31 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="relative overflow-hidden bg-surface">
         <Link to={`/producto/${product.slug}`}>
         {product.images[0] ? (
-          <LazyImage
-            src={product.images[0]}
-            alt={product.name}
-            width={640}
-            height={800}
-            className={`w-full aspect-[3/4] object-cover transition-transform duration-300 group-hover:scale-105 ${
-              !product.inStock ? 'opacity-50 grayscale' : ''
-            }`}
+          <div className="relative overflow-hidden">
+            <LazyImage
+              src={product.images[0]}
+              alt={product.name}
+              width={640}
+              height={800}
+              className={`w-full aspect-[3/4] object-cover transition-[opacity,transform] duration-500 ease-out group-hover:scale-105 ${
+                !product.inStock ? 'opacity-50 grayscale' : ''
+              } ${hasHoverImage ? 'group-hover:opacity-0' : ''}`}
             />
+
+            {hasHoverImage && (
+              <img
+                src={product.images[1]}
+                alt=""
+                width={640}
+                height={800}
+                loading="lazy"
+                decoding="async"
+                className={`absolute inset-0 w-full h-full object-cover scale-105 opacity-0 transition-[opacity,transform] duration-500 ease-out group-hover:scale-100 group-hover:opacity-100 ${
+                  !product.inStock ? 'opacity-50 grayscale' : ''
+                }`}
+              />
+            )}
+          </div>
           ) : (
             <div className="w-full aspect-[3/4] bg-primary-light flex items-center justify-center">
               <Package size={40} className="text-primary/40" />

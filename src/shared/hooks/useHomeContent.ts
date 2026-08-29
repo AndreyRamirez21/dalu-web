@@ -32,7 +32,7 @@ export function useHomeContent() {
   const query = useQuery({
     queryKey: ['home-content'],
     queryFn: getHomeContent,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 60 * 1000,
     gcTime: 24 * 60 * 60 * 1000,
     // Primera visita sin caché: usa el fallback genérico mientras se resuelve la descarga.
     placeholderData: fallbackContent,

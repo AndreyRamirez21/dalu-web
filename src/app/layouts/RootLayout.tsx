@@ -5,6 +5,7 @@ import { Navbar } from '@/shared/ui/components/Navbar'
 import { Footer } from '@/shared/ui/components/Footer'
 import { WhatsAppFloatingButton } from '@/shared/ui/components/WhatsAppFloatingButton'
 import { CartDrawer } from '@/shared/ui/components/CartDrawer'
+import { ScrollBottomEasterEgg } from '@/shared/ui/components/ScrollBottomEasterEgg'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -26,6 +27,7 @@ export function RootLayout() {
           <Outlet />
         </main>
         <Footer />
+        <ScrollBottomEasterEgg />
         <WhatsAppFloatingButton />
         <CartDrawer />
       </div>
