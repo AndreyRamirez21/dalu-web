@@ -7,6 +7,7 @@ import { SearchModal } from './SearchModal'
 import {
   accessoryCollectionLinks,
   buildSleepwearCollectionLinks,
+  giftCollectionLinks,
 } from '@/features/catalog/catalogConfig'
 import { useProductsByCategories } from '@/shared/hooks/useProducts'
 import logoDalu from '@/assets/logo-daluuu.webp'
@@ -21,8 +22,9 @@ const baseLinks: NavigationLink[] = [
     label: 'Accesorios',
     children: accessoryCollectionLinks,
   },
-  { to: '/regala', label: 'Regala' },
-
+{to: '/regala', label: 'Regala',
+  children: giftCollectionLinks,
+},
 ]
 
 export function Navbar() {

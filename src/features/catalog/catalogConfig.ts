@@ -13,38 +13,46 @@ export interface CollectionLink {
 }
 
 function normalizeCollection(value: string) {
-  return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase()
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+    .toLowerCase()
 }
 
 export function collectionToSlug(value: string) {
-  return normalizeCollection(value).replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+  return normalizeCollection(value)
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
 }
 
 export const catalogConfigBySlug: Record<string, CatalogConfig> = {
+
   pijamas: {
     title: 'Sleepwear',
     description:
       'Descubre nuestra colección de pijamas diseñadas para que te sientas cómoda, linda y segura siendo tú.',
     categories: ['pijamas'],
   },
+
   pantuflas: {
     title: 'Slippers',
-    description: 'Suavidad y calidez para tus pies en cada paso, dentro y fuera de casa.',
+    description:
+      'Suavidad y calidez para tus pies en cada paso, dentro y fuera de casa.',
     categories: ['pantuflas'],
   },
+
   antifaces: {
     title: 'Antifaces',
-    description: 'Descansa mejor con nuestros antifaces suaves y elegantes.',
+    description:
+      'Descansa mejor con nuestros antifaces suaves y elegantes.',
     categories: ['antifaces'],
   },
-  regala: {
-    title: 'Regala',
-    description: 'Guarda tus productos en nuestras bolsas/cajas de regalo.',
-    categories: ['regala'],
-  },
+
   accesorios: {
     title: 'Accesorios',
-    description: 'Los detalles que completan tu rutina de descanso.',
+    description:
+      'Los detalles que completan tu rutina de descanso.',
     categories: ['accesorios'],
     collectionFilters: [
       { label: 'Humidificadores', value: 'humidificadores' },
@@ -57,26 +65,113 @@ export const catalogConfigBySlug: Record<string, CatalogConfig> = {
       { label: 'Varios', value: 'varios' },
     ],
   },
+
+  regala: {
+    title: 'Regala',
+    description:
+      'Encuentra detalles especiales, empaques y kits perfectos para regalar.',
+    categories: ['regala'],
+    collectionFilters: [
+      { label: 'Empaque ideal', value: 'empaque ideal' },
+      { label: 'Kit de sueño', value: 'kit de sueño' },
+    ],
+  },
+
   'pijamas-essence': {
     title: 'Pijamas Essence',
-    description: 'Descubre los diseños de nuestra colección de pijamas Essence.',
+    description:
+      'Descubre los diseños de nuestra colección de pijamas Essence.',
     categories: ['pijamas'],
     collection: 'Essence',
   },
+
   'pijamas-deluxe': {
     title: 'Pijamas Deluxe',
-    description: 'Descubre los diseños de nuestra colección de pijamas Deluxe.',
+    description:
+      'Descubre los diseños de nuestra colección de pijamas Deluxe.',
     categories: ['pijamas'],
     collection: 'Deluxe',
   },
-  humidificadores: { title: 'Humidificadores', description: 'Humidificadores para completar tu rutina de descanso.', categories: ['accesorios'], collection: 'humidificadores' },
-  fundas: { title: 'Fundas', description: 'Fundas suaves para tus accesorios de descanso.', categories: ['accesorios'], collection: 'fundas' },
-  scrunchies: { title: 'Scrunchies', description: 'Scrunchies cómodos para acompañar tu rutina.', categories: ['accesorios'], collection: 'scrunchies' },
-  rizadores: { title: 'Rizadores', description: 'Rizadores para cuidar tu cabello mientras descansas.', categories: ['accesorios'], collection: 'rizadores' },
-  'gorros-en-satin': { title: 'Gorros en satín', description: 'Gorros en satín para proteger tu cabello durante la noche.', categories: ['accesorios'], collection: 'gorros en satin' },
-  lamparas: { title: 'Lámparas', description: 'Lámparas para crear un ambiente de descanso.', categories: ['accesorios'], collection: 'lamparas' },
-  cuelleros: { title: 'Cuelleros', description: 'Cuelleros suaves para descansar con más comodidad.', categories: ['accesorios'], collection: 'cuelleros' },
-  varios: { title: 'Varios', description: 'Otros accesorios para complementar tu rutina de descanso.', categories: ['accesorios'], collection: 'varios' },
+
+  humidificadores: {
+    title: 'Humidificadores',
+    description:
+      'Humidificadores para completar tu rutina de descanso.',
+    categories: ['accesorios'],
+    collection: 'humidificadores',
+  },
+
+  fundas: {
+    title: 'Fundas',
+    description:
+      'Fundas suaves para tus accesorios de descanso.',
+    categories: ['accesorios'],
+    collection: 'fundas',
+  },
+
+  scrunchies: {
+    title: 'Scrunchies',
+    description:
+      'Scrunchies cómodos para acompañar tu rutina.',
+    categories: ['accesorios'],
+    collection: 'scrunchies',
+  },
+
+  rizadores: {
+    title: 'Rizadores',
+    description:
+      'Rizadores para cuidar tu cabello mientras descansas.',
+    categories: ['accesorios'],
+    collection: 'rizadores',
+  },
+
+  'gorros-en-satin': {
+    title: 'Gorros en satín',
+    description:
+      'Gorros en satín para proteger tu cabello durante la noche.',
+    categories: ['accesorios'],
+    collection: 'gorros en satin',
+  },
+
+  lamparas: {
+    title: 'Lámparas',
+    description:
+      'Lámparas para crear un ambiente de descanso.',
+    categories: ['accesorios'],
+    collection: 'lamparas',
+  },
+
+  cuelleros: {
+    title: 'Cuelleros',
+    description:
+      'Cuelleros suaves para descansar con más comodidad.',
+    categories: ['accesorios'],
+    collection: 'cuelleros',
+  },
+
+  varios: {
+    title: 'Varios',
+    description:
+      'Otros accesorios para complementar tu rutina.',
+    categories: ['accesorios'],
+    collection: 'varios',
+  },
+
+  'empaque-ideal': {
+    title: 'Empaque ideal',
+    description:
+      'Encuentra el empaque perfecto para hacer tu regalo aún más especial.',
+    categories: ['regala'],
+    collection: 'empaque ideal',
+  },
+
+  'kit-de-sueno': {
+    title: 'Kit de sueño',
+    description:
+      'Kits especiales pensados para regalar momentos de descanso.',
+    categories: ['regala'],
+    collection: 'kit de sueño',
+  },
 }
 
 export const sleepwearCollectionLinks: CollectionLink[] = [
@@ -85,13 +180,25 @@ export const sleepwearCollectionLinks: CollectionLink[] = [
   { label: 'Deluxe', to: '/coleccion/pijamas-deluxe' },
 ]
 
-export function buildSleepwearCollectionLinks(collections: Array<string | null | undefined>): CollectionLink[] {
-  const existing = new Set(sleepwearCollectionLinks.map((link) => normalizeCollection(link.label)))
+export function buildSleepwearCollectionLinks(
+  collections: Array<string | null | undefined>
+): CollectionLink[] {
+  const existing = new Set(
+    sleepwearCollectionLinks.map((link) =>
+      normalizeCollection(link.label)
+    )
+  )
+
   const dynamic = collections
-    .filter((collection): collection is string => Boolean(collection?.trim()))
+    .filter(
+      (collection): collection is string =>
+        Boolean(collection?.trim())
+    )
     .filter((collection) => {
       const normalized = normalizeCollection(collection)
+
       if (existing.has(normalized)) return false
+
       existing.add(normalized)
       return true
     })
@@ -103,6 +210,7 @@ export function buildSleepwearCollectionLinks(collections: Array<string | null |
   return [...sleepwearCollectionLinks, ...dynamic]
 }
 
+
 export const accessoryCollectionLinks: CollectionLink[] = [
   { label: 'Ver todos', to: '/accesorios' },
   { label: 'Humidificadores', to: '/coleccion/humidificadores' },
@@ -113,6 +221,10 @@ export const accessoryCollectionLinks: CollectionLink[] = [
   { label: 'Lámparas', to: '/coleccion/lamparas' },
   { label: 'Cuelleros', to: '/coleccion/cuelleros' },
   { label: 'Varios', to: '/coleccion/varios' },
-  { label: 'Regala', to: '/coleccion/regala' },
+]
 
+export const giftCollectionLinks: CollectionLink[] = [
+  { label: 'Ver todos', to: '/regala' },
+  { label: 'Empaque ideal', to: '/coleccion/empaque-ideal' },
+  { label: 'Kit de sueño', to: '/coleccion/kit-de-sueno' },
 ]
