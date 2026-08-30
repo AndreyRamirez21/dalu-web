@@ -12,9 +12,6 @@ export function HeroCarousel({ images, intervalMs = 4500, children }: HeroCarous
   const [index, setIndex] = useState(0)
   const [loadedImages, setLoadedImages] = useState<Set<string>>(() => new Set())
 
-  // Cargamos solo la imagen visible y, cuando ella ya está lista, la siguiente.
-  // Bajar las cuatro a la vez saturaba la conexión y hacía que cada una tardara
-  // decenas de segundos, aunque los archivos fueran pequeños.
   useEffect(() => {
     let cancelled = false
     const currentImage = images[index]

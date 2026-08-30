@@ -129,30 +129,33 @@ export function HomePage() {
               </HeroCarousel>
             </section>
 
-      {/* Categorías */}
-      <section id="categorias" className="max-w-8xl mx-auto px-6 py-12">
-        <m.div {...reveal} className="text-center mb-8">
-          <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Explora Dalú</p>
-          <h2 className="font-display text-2xl text-text-primary">
-            <span className="sr-only">Pijamas, Pantuflas, Antifaces y Accesorios — </span>
-            Categorías para cada momento
-          </h2>
-        </m.div>
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
-          {homeCategories.map((category, index) => (
-            <m.div
-              key={category.id}
-              {...reveal}
-              transition={reduceMotion ? undefined : { duration: 0.5, delay: index * 0.09, ease: 'easeOut' }}
-            >
-              <CategoryCard category={category} />
-            </m.div>
-          ))}
+      {/* Categorías — fondo distinto para marcar el primer "capítulo" del scroll,
+          padding reducido porque es una sección de navegación rápida, no de contemplación */}
+      <section id="categorias" className="bg-surface py-12 md:py-14">
+        <div className="max-w-8xl mx-auto px-6">
+          <m.div {...reveal} className="text-center mb-8">
+            <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Explora Dalú</p>
+            <h2 className="font-display text-2xl text-text-primary">
+              <span className="sr-only">Pijamas, Pantuflas, Antifaces y Accesorios — </span>
+              Categorías para cada momento
+            </h2>
+          </m.div>
+          <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+            {homeCategories.map((category, index) => (
+              <m.div
+                key={category.id}
+                {...reveal}
+                transition={reduceMotion ? undefined : { duration: 0.5, delay: index * 0.09, ease: 'easeOut' }}
+              >
+                <CategoryCard category={category} />
+              </m.div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Compra por momento */}
-      <section className="max-w-8xl mx-auto px-6 py-12">
+      <section className="max-w-8xl mx-auto px-6 py-14">
         <m.div {...reveal} className="max-w-xl mb-8">
           <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">{moments?.eyebrow ?? 'Encuentra tu favorito'}</p>
           <h2 className="font-display text-2xl text-text-primary">{moments?.title ?? 'Compra según tu momento'}</h2>
@@ -166,7 +169,7 @@ export function HomePage() {
               transition={reduceMotion ? undefined : { duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
             >
               <Link to={moment.link} className="group relative block min-h-64 overflow-hidden rounded-2xl bg-primary-light">
-                {moment.imageUrl && (
+                {moment.imageUrl ? (
                   <img
                     src={moment.imageUrl}
                     alt=""
@@ -176,6 +179,10 @@ export function HomePage() {
                     decoding="async"
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
+                ) : (
+                  // Respaldo visual cuando falta la imagen en Supabase: en vez de
+                  // dejar el fondo plano, se ve intencional y no "roto"
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary-light via-primary/20 to-primary-strong/30" />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 text-white">
@@ -189,8 +196,8 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Colección destacada */}
-      <section className="max-w-8xl mx-auto px-6 py-12">
+      {/* Colección destacada — pieza de mayor impacto, se le deja más aire */}
+      <section className="max-w-8xl mx-auto px-6 py-16 md:py-20">
         <m.div {...reveal} className="relative overflow-hidden rounded-3xl bg-primary-light min-h-[420px] md:min-h-[460px]">
           <img
             src={collection?.mediaUrl ?? '/images/products/Pij11.webp'}
@@ -228,7 +235,7 @@ export function HomePage() {
 
       {/* Productos destacados */}
       {featuredLoading && (
-        <section className="max-w-8xl mx-auto px-6 py-12" aria-labelledby="featured-heading" aria-busy="true">
+        <section className="max-w-8xl mx-auto px-6 py-14" aria-labelledby="featured-heading" aria-busy="true">
           <h2 id="featured-heading" className="text-center font-display text-2xl text-text-primary mb-8">Productos destacados</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {Array.from({ length: 4 }, (_, index) => (
@@ -244,7 +251,7 @@ export function HomePage() {
       )}
 
       {!featuredLoading && featuredProducts.length > 0 && (
-        <section className="max-w-8xl mx-auto px-6 py-12">
+        <section className="max-w-8xl mx-auto px-6 py-14">
           <m.div {...reveal} className="text-center mb-8">
             <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Favoritos de la semana</p>
             <h2 className="font-display text-2xl text-text-primary">Productos destacados</h2>
@@ -272,36 +279,60 @@ export function HomePage() {
         </div>
       )}
 
-      <section className="max-w-8xl mx-auto px-6 py-16">
-        <m.div {...reveal} className="grid md:grid-cols-4 gap-5 text-center">
-          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="group rounded-2xl bg-surface shadow-sm px-6 py-9 hover:shadow-md transition-shadow">
-            <MessageCircle size={28} className="mx-auto text-primary mb-4" />
-            <h3 className="font-display text-xl text-text-primary">¿Tienes alguna duda?</h3>
-            <p className="text-sm text-text-secondary mt-2">Estamos para ayudarte.</p>
-            <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-5 group-hover:underline">Ir a WhatsApp</span>
-          </a>
+      {/* Cierre: banner de WhatsApp como CTA principal en vez de perderse
+          como una card más entre otras tres. Las 3 cards informativas quedan
+          debajo, más compactas, como apoyo secundario. Todo sobre bg-surface
+          para cerrar el home con un tono distinto al blanco puro. */}
+      <section className="bg-surface py-16 md:py-20">
+        <div className="max-w-8xl mx-auto px-6">
 
-          <Link to="/ubicacion" className="group rounded-2xl bg-surface shadow-sm px-6 py-9 hover:shadow-md transition-shadow">
-            <MapPin size={28} className="mx-auto text-primary mb-4" />
-            <h3 className="font-display text-xl text-text-primary">Showroom</h3>
-            <p className="text-sm text-text-secondary mt-2">{STORE_ADDRESS}</p>
-            <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-5 group-hover:underline">Ver ubicación</span>
-          </Link>
+          <m.a
+            {...reveal}
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden rounded-3xl bg-primary-strong px-8 py-10 md:px-14 md:py-14 text-center md:text-left"
+          >
+            <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-white/10" />
+            <div className="absolute -left-10 -bottom-20 h-48 w-48 rounded-full bg-white/10" />
 
-          <Link to="/envios" className="group rounded-2xl bg-surface shadow-sm px-6 py-9 hover:shadow-md transition-shadow">
-            <Truck size={28} className="mx-auto text-primary mb-4" />
-            <h3 className="font-display text-xl text-text-primary">Envíos a Colombia</h3>
-            <p className="text-sm text-text-secondary mt-2">Llevamos tus pijamas Dalú hasta tu puerta.</p>
-            <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-5 group-hover:underline">Conocer envíos</span>
-          </Link>
+            <div className="relative">
+              <h2 className="font-display text-2xl md:text-4xl text-white leading-tight">¿Lista para tu momento Dalú?</h2>
+              <p className="text-sm md:text-base text-white/85 mt-3 max-w-md">
+                Escríbenos por WhatsApp y te ayudamos a encontrar tu pijama, pantuflas o accesorio ideal.
+              </p>
+            </div>
 
-            <Link to="/envios" className="group rounded-2xl bg-surface shadow-sm px-6 py-9 hover:shadow-md transition-shadow">
-              <MotoDelivery size={28} className="mx-auto text-primary mb-4" />
-              <h3 className="font-display text-xl text-text-primary">Domicilios en Buga</h3>
-              <p className="text-sm text-text-secondary mt-2">Entregas el mismo día.</p>
-              <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-5 group-hover:underline">Conocer envíos</span>
+            <span className="relative inline-flex items-center gap-2 bg-white text-primary-strong font-semibold text-sm uppercase tracking-wide px-8 py-4 rounded-full transition-transform duration-300 group-hover:scale-[1.04] shrink-0">
+              <MessageCircle size={18} />
+              Chatear ahora
+            </span>
+          </m.a>
+
+          <m.div {...reveal} className="grid md:grid-cols-3 gap-5 text-center mt-6">
+            <Link to="/ubicacion" className="group rounded-2xl bg-background shadow-sm px-6 py-8 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <MapPin size={24} className="mx-auto text-primary mb-3" />
+              <h3 className="font-display text-lg text-text-primary">Showroom</h3>
+              <p className="text-sm text-text-secondary mt-1">{STORE_ADDRESS}</p>
+              <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-4 group-hover:underline">Ver ubicación</span>
             </Link>
-        </m.div>
+
+            <Link to="/envios" className="group rounded-2xl bg-background shadow-sm px-6 py-8 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <Truck size={24} className="mx-auto text-primary mb-3" />
+              <h3 className="font-display text-lg text-text-primary">Envíos a Colombia</h3>
+              <p className="text-sm text-text-secondary mt-1">Llevamos tus pijamas Dalú hasta tu puerta.</p>
+              <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-4 group-hover:underline">Conocer envíos</span>
+            </Link>
+
+            <Link to="/envios" className="group rounded-2xl bg-background shadow-sm px-6 py-8 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <MotoDelivery size={24} className="mx-auto text-primary mb-3" />
+              <h3 className="font-display text-lg text-text-primary">Domicilios en Buga</h3>
+              <p className="text-sm text-text-secondary mt-1">Entregas el mismo día.</p>
+              <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-4 group-hover:underline">Conocer envíos</span>
+            </Link>
+          </m.div>
+
+        </div>
       </section>
     </div>
   )
