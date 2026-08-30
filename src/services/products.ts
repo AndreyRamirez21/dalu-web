@@ -111,21 +111,52 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 }
 
 export async function getRelatedProducts(category: string, excludeId: string, limit = 4): Promise<Product[]> {
-  const { data, error } = await supabase
+  const POOL_SIZE = 30
+
+  // 1. Traer solo los IDs de la categoría (consulta liviana)
+  const { data: idsData, error: idsError } = await supabase
     .from('productos_web')
-    .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
+    .select('id')
     .eq('activo', true)
     .eq('coleccion_visible', true)
     .eq('categoria', category)
     .neq('id', Number(excludeId))
-    .limit(limit)
+
+  if (idsError) {
+    console.error('Error al obtener IDs de productos relacionados:', idsError)
+    throw new Error('No se pudieron cargar los productos relacionados.')
+  }
+
+  const allIds = (idsData || []).map((row) => row.id)
+  if (allIds.length === 0) return []
+
+  // 2. Elegir hasta 30 IDs al azar (Fisher-Yates)
+  for (let i = allIds.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[allIds[i], allIds[j]] = [allIds[j], allIds[i]]
+  }
+  const pickedIds = allIds.slice(0, POOL_SIZE)
+
+  // 3. Traer los datos completos solo de esos IDs seleccionados
+  const { data, error } = await supabase
+    .from('productos_web')
+    .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
+    .in('id', pickedIds)
 
   if (error) {
     console.error('Error al obtener productos relacionados:', error)
     throw new Error('No se pudieron cargar los productos relacionados.')
   }
 
-  return (data || []).map(mapProducto)
+  const productos = (data || []).map(mapProducto)
+
+  // 4. Mezclar de nuevo (Supabase no garantiza el orden de .in()) y cortar al límite final
+  for (let i = productos.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[productos[i], productos[j]] = [productos[j], productos[i]]
+  }
+
+  return productos.slice(0, limit)
 }
 
 export async function getProductsByIds(ids: string[]): Promise<Product[]> {

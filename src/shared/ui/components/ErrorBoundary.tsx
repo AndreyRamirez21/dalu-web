@@ -14,7 +14,7 @@ export function ErrorBoundary() {
       />
 
       <h1 className="font-display text-3xl text-primary mb-3">
-        {is404 ? 'Esta página no existe' : 'La página se encuentra descansando'}
+        {is404 ? 'Esta página no existe' : 'Tu internet se encuentra descansando'}
       </h1>
 
       <p className="text-text-secondary mb-8 max-w-sm">

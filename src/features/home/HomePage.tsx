@@ -14,6 +14,7 @@ import { VideoSection } from './components/VideoSection'
 import { STORE_ADDRESS, WHATSAPP_URL } from '@/shared/constants/contact'
 import { fallbackContent } from '@/services/homeContent'
 import ResponsiveSpecularButton from '@/shared/ui/components/ResponsiveSpecularButton'
+import MotoDelivery from "./components/icons/MotoDelivery";
 
 export function HomePage() {
   const { data: featured = [], isPending: featuredLoading, isError: featuredError, refetch } = useFeaturedProducts()
@@ -272,7 +273,7 @@ export function HomePage() {
       )}
 
       <section className="max-w-8xl mx-auto px-6 py-16">
-        <m.div {...reveal} className="grid md:grid-cols-3 gap-5 text-center">
+        <m.div {...reveal} className="grid md:grid-cols-4 gap-5 text-center">
           <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="group rounded-2xl bg-surface shadow-sm px-6 py-9 hover:shadow-md transition-shadow">
             <MessageCircle size={28} className="mx-auto text-primary mb-4" />
             <h3 className="font-display text-xl text-text-primary">¿Tienes alguna duda?</h3>
@@ -280,11 +281,11 @@ export function HomePage() {
             <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-5 group-hover:underline">Ir a WhatsApp</span>
           </a>
 
-          <Link to="/ubicacion" className="group rounded-2xl bg-primary-strong text-white shadow-sm px-6 py-9 hover:bg-primary-strong-hover transition-colors">
-            <MapPin size={28} className="mx-auto mb-4" />
-            <h3 className="font-display text-xl">Showroom</h3>
-            <p className="text-sm text-white/85 mt-2">{STORE_ADDRESS}</p>
-            <span className="inline-block text-xs font-semibold uppercase tracking-wide mt-5 group-hover:underline">Ver ubicación</span>
+          <Link to="/ubicacion" className="group rounded-2xl bg-surface shadow-sm px-6 py-9 hover:shadow-md transition-shadow">
+            <MapPin size={28} className="mx-auto text-primary mb-4" />
+            <h3 className="font-display text-xl text-text-primary">Showroom</h3>
+            <p className="text-sm text-text-secondary mt-2">{STORE_ADDRESS}</p>
+            <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-5 group-hover:underline">Ver ubicación</span>
           </Link>
 
           <Link to="/envios" className="group rounded-2xl bg-surface shadow-sm px-6 py-9 hover:shadow-md transition-shadow">
@@ -293,6 +294,13 @@ export function HomePage() {
             <p className="text-sm text-text-secondary mt-2">Llevamos tus pijamas Dalú hasta tu puerta.</p>
             <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-5 group-hover:underline">Conocer envíos</span>
           </Link>
+
+            <Link to="/envios" className="group rounded-2xl bg-surface shadow-sm px-6 py-9 hover:shadow-md transition-shadow">
+              <MotoDelivery size={28} className="mx-auto text-primary mb-4" />
+              <h3 className="font-display text-xl text-text-primary">Domicilios en Buga</h3>
+              <p className="text-sm text-text-secondary mt-2">Entregas el mismo día.</p>
+              <span className="inline-block text-xs font-semibold uppercase tracking-wide text-primary mt-5 group-hover:underline">Conocer envíos</span>
+            </Link>
         </m.div>
       </section>
     </div>

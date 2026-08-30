@@ -57,7 +57,7 @@ export function Footer() {
           <div>
             <img src={logoImg} alt="Dalú" className="h-16 w-auto mb-3" />
             <p className="text-sm text-text-secondary">
-              Buscamos cada pieza que combine comodidad, estilo y calidad para que te sientas increíble en cada momento.
+              Buscamos cada pijama y accesorio pensando en ti,comodidad,estilo y calidad para que cada momento de descanso sea una oportunidad para sentirte cómoda,bonita y siempre tú.
             </p>
             <div className="flex gap-4 mt-4 text-text-primary">
               <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram de Dalú" className="hover:text-primary transition-colors">

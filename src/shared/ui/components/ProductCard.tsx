@@ -20,8 +20,8 @@ export function ProductCard({ product }: ProductCardProps) {
   const favorite = isFavorite(product.id)
   const { showToast } = useToast()
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
-  const supportsQuickSizeSelection = product.category === 'pijamas' || product.category === 'pantuflas' || product.category === 'accesorios'
-  const selectionLabel = product.category === 'accesorios' ? 'variante' : 'talla'
+  const supportsQuickSizeSelection = product.category === 'pijamas' || product.category === 'pantuflas' || product.category === 'accesorios' || product.category === 'antifaces'
+  const selectionLabel = product.category === 'accesorios' || product.category === 'antifaces' ? 'variante' : 'talla'
   const selectedVariant = product.variants.find((variant) => variant.size === selectedSize)
   const selectedStock = getStockForSelection(product, selectedSize)
   const selectedInCart = items.find(
