@@ -34,13 +34,34 @@ export function Navbar() {
   const { data: pijamaProducts = [] } =
     useProductsByCategories(['pijamas'])
 
-  // Detectar cuando el usuario comienza a hacer scroll
+  // Detectar cuando el usuario comienza a hacer scroll.
+  // Se usan dos umbrales distintos (hysteresis) en vez de uno solo:
+  // así se evita que, al quedar el scroll justo en el límite, el estado
+  // "scrolled" oscile rápidamente entre true/false y la barra "vibre".
   useEffect(() => {
+    const SHOW_THRESHOLD = 24 // por debajo de esto, la barra siempre se muestra
+    const HIDE_THRESHOLD = 80 // por encima de esto, la barra siempre se oculta
+
+    let ticking = false
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10)
+      if (ticking) return
+      ticking = true
+
+      window.requestAnimationFrame(() => {
+        const y = window.scrollY
+
+        setScrolled((prev) => {
+          if (y > HIDE_THRESHOLD) return true
+          if (y < SHOW_THRESHOLD) return false
+          return prev // dentro de la zona muerta: no cambia el estado
+        })
+
+        ticking = false
+      })
     }
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
@@ -72,8 +93,10 @@ export function Navbar() {
     >
       {/* Barra superior */}
       <div
-        className={`bg-primary-strong text-white text-xs text-center py-2 px-4 transition-all duration-300 ${
-          scrolled ? 'opacity-95' : 'opacity-100'
+        className={`overflow-hidden bg-primary-strong text-white text-xs text-center transition-all duration-300 ${
+          scrolled
+            ? 'max-h-0 py-0 opacity-0'
+            : 'max-h-9 py-2 px-4 opacity-100'
         }`}
       >
         Envíos a toda Colombia · Compra fácil por WhatsApp
@@ -85,7 +108,7 @@ export function Navbar() {
           scrolled ? 'border-border/50' : 'border-border'
         }`}
       >
-        <div className="max-w-8xl mx-auto flex items-center justify-between px-6 py-4 md:grid md:grid-cols-[1fr_auto_1fr]">
+        <div className="max-w-8xl mx-auto flex items-center justify-between px-6 py-2.5 md:grid md:grid-cols-[1fr_auto_1fr]">
 
           {/* Logo + menú móvil */}
           <div className="flex items-center">
@@ -107,9 +130,7 @@ export function Navbar() {
               <img
                 src={logoDalu}
                 alt="Dalú - Siendo tú"
-                className={`w-auto transition-all duration-300 group-hover:brightness-90 group-hover:scale-[1.03] ${
-                  scrolled ? 'h-12' : 'h-16'
-                }`}
+                className="w-auto h-11 transition-all duration-300 group-hover:brightness-90 group-hover:scale-[1.03]"
               />
             </Link>
           </div>

@@ -38,28 +38,50 @@ export function HomePage() {
         transition: { duration: 0.55, ease: 'easeOut' as const },
       }
 
+  // Divide el título en la primera palabra y el resto, para poder
+  // pintarlas en dos tonos (negro + azul de marca) como en la referencia.
+  const heroTitleText = hero?.title ?? 'Comodidad que te acompaña'
+  const [heroTitleFirstWord, ...heroTitleRestWords] = heroTitleText.split(' ')
+  const heroTitleRest = heroTitleRestWords.join(' ')
+
   return (
     <div>
             {/* Hero */}
-            <section className="max-w-8xl mx-auto px-6 py-8">
+            <section className="max-w-8xl mx-auto px-6 py-5">
                 <HeroCarousel
                   key={heroSlides.join('\u0001')}
                   images={heroSlides}
                 >
                 <div className="max-w-md">
-                  <span className="inline-flex items-center gap-2 bg-primary-strong text-white text-xs font-semibold tracking-wide uppercase px-4 py-1.5 rounded-full mb-5">
-                     Nueva colección
-                  </span>
+                  <p className="text-xs font-bold tracking-[0.22em] uppercase text-primary-strong mb-1">
+                    Nueva colección
+                  </p>
+                  <span className="block h-0.5 w-10 bg-primary-strong mb-5" />
 
-                  <h1 className="font-display text-3xl md:text-5xl leading-tight text-text-primary">
+                  <h1
+                    className="font-sans font-extrabold uppercase text-4xl md:text-6xl leading-[0.95] tracking-tight text-neutral-900"
+                    style={{
+                      textShadow:
+                        '0 0 14px rgba(255,255,255,0.75), 0 0 4px rgba(255,255,255,0.9), 0 2px 6px rgba(0,0,0,0.15)',
+                    }}
+                  >
                     <span className="sr-only">Dalú | Pijamas, Pantuflas y Accesorios — </span>
                     {homeContentLoading ? (
                       <Skeleton className="h-10 w-3/4" />
                     ) : (
-                      hero?.title ?? 'Comodidad que te acompaña'
+                      <>
+                        {heroTitleFirstWord}
+                        {heroTitleRest && (
+                          <>
+                            <br />
+                            <span className="text-primary-strong">{heroTitleRest}</span>
+                          </>
+                        )}
+                      </>
                     )}
                   </h1>
-                  <p className="mt-4 text-text-secondary">
+
+                  <p className="mt-5 text-neutral-600">
                     {homeContentLoading ? (
                       <Skeleton className="h-4 w-1/2 mt-2" />
                     ) : (
@@ -131,9 +153,9 @@ export function HomePage() {
 
       {/* Categorías — fondo distinto para marcar el primer "capítulo" del scroll,
           padding reducido porque es una sección de navegación rápida, no de contemplación */}
-      <section id="categorias" className="bg-surface py-12 md:py-14">
+      <section id="categorias" className="bg-surface py-8 md:py-10">
         <div className="max-w-8xl mx-auto px-6">
-          <m.div {...reveal} className="text-center mb-8">
+          <m.div {...reveal} className="text-center mb-6">
             <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Explora Dalú</p>
             <h2 className="font-display text-2xl text-text-primary">
               <span className="sr-only">Pijamas, Pantuflas, Antifaces y Accesorios — </span>
@@ -155,8 +177,8 @@ export function HomePage() {
       </section>
 
       {/* Compra por momento */}
-      <section className="max-w-8xl mx-auto px-6 py-14">
-        <m.div {...reveal} className="max-w-xl mb-8">
+      <section className="max-w-8xl mx-auto px-6 py-9">
+        <m.div {...reveal} className="max-w-xl mb-6">
           <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">{moments?.eyebrow ?? 'Encuentra tu favorito'}</p>
           <h2 className="font-display text-2xl text-text-primary">{moments?.title ?? 'Compra según tu momento'}</h2>
           <p className="text-sm text-text-secondary mt-2">{moments?.description ?? 'Pequeños detalles para sentirte bien, descansar y regalar comodidad.'}</p>
@@ -168,7 +190,7 @@ export function HomePage() {
               {...reveal}
               transition={reduceMotion ? undefined : { duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
             >
-              <Link to={moment.link} className="group relative block min-h-64 overflow-hidden rounded-2xl bg-primary-light">
+              <Link to={moment.link} className="group relative block min-h-64 overflow-hidden bg-primary-light">
                 {moment.imageUrl ? (
                   <img
                     src={moment.imageUrl}
@@ -197,7 +219,7 @@ export function HomePage() {
       </section>
 
       {/* Colección destacada — pieza de mayor impacto, se le deja más aire */}
-      <section className="max-w-8xl mx-auto px-6 py-16 md:py-20">
+      <section className="max-w-8xl mx-auto px-6 py-10 md:py-12">
         <m.div {...reveal} className="relative overflow-hidden rounded-3xl bg-primary-light min-h-[420px] md:min-h-[460px]">
           <img
             src={collection?.mediaUrl ?? '/images/products/Pij11.webp'}
@@ -235,8 +257,8 @@ export function HomePage() {
 
       {/* Productos destacados */}
       {featuredLoading && (
-        <section className="max-w-8xl mx-auto px-6 py-14" aria-labelledby="featured-heading" aria-busy="true">
-          <h2 id="featured-heading" className="text-center font-display text-2xl text-text-primary mb-8">Productos destacados</h2>
+        <section className="max-w-8xl mx-auto px-6 py-9" aria-labelledby="featured-heading" aria-busy="true">
+          <h2 id="featured-heading" className="text-center font-display text-2xl text-text-primary mb-6">Productos destacados</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {Array.from({ length: 4 }, (_, index) => (
               <div key={index} aria-hidden="true">
@@ -251,8 +273,8 @@ export function HomePage() {
       )}
 
       {!featuredLoading && featuredProducts.length > 0 && (
-        <section className="max-w-8xl mx-auto px-6 py-14">
-          <m.div {...reveal} className="text-center mb-8">
+        <section className="max-w-8xl mx-auto px-6 py-9">
+          <m.div {...reveal} className="text-center mb-6">
             <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Favoritos de la semana</p>
             <h2 className="font-display text-2xl text-text-primary">Productos destacados</h2>
           </m.div>
@@ -283,7 +305,7 @@ export function HomePage() {
           como una card más entre otras tres. Las 3 cards informativas quedan
           debajo, más compactas, como apoyo secundario. Todo sobre bg-surface
           para cerrar el home con un tono distinto al blanco puro. */}
-      <section className="bg-surface py-16 md:py-20">
+      <section className="bg-surface py-10 md:py-12">
         <div className="max-w-8xl mx-auto px-6">
 
           <m.a

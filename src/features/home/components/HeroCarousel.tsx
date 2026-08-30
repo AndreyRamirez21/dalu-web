@@ -88,7 +88,9 @@ export function HeroCarousel({ images, intervalMs = 4500, children }: HeroCarous
           />
         )}
       </AnimatePresence>
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/40 md:bg-gradient-to-r md:from-background md:via-background/70 md:to-transparent" />
+      {/* Overlay reducido: menos opacidad y el degradado cubre una franja
+          más angosta, para que la foto se vea más nítida y menos "lavada" */}
+      <div className="absolute inset-0 bg-gradient-to-t from-background/100 via-background/25 to-transparent md:bg-gradient-to-r md:from-background/75 md:via-background/30 md:to-transparent" />
 
       <div className="relative min-h-[560px] md:h-full flex items-end md:items-center px-6 md:px-16 py-8 md:py-0">
         {children}
