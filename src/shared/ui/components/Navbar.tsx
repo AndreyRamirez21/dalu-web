@@ -21,6 +21,8 @@ const baseLinks: NavigationLink[] = [
     label: 'Accesorios',
     children: accessoryCollectionLinks,
   },
+  { to: '/regala', label: 'Regala' },
+
 ]
 
 export function Navbar() {

@@ -37,6 +37,11 @@ export const catalogConfigBySlug: Record<string, CatalogConfig> = {
     description: 'Descansa mejor con nuestros antifaces suaves y elegantes.',
     categories: ['antifaces'],
   },
+  regala: {
+    title: 'Regala',
+    description: 'Guarda tus productos en nuestras bolsas/cajas de regalo.',
+    categories: ['regala'],
+  },
   accesorios: {
     title: 'Accesorios',
     description: 'Los detalles que completan tu rutina de descanso.',
@@ -108,4 +113,6 @@ export const accessoryCollectionLinks: CollectionLink[] = [
   { label: 'Lámparas', to: '/coleccion/lamparas' },
   { label: 'Cuelleros', to: '/coleccion/cuelleros' },
   { label: 'Varios', to: '/coleccion/varios' },
+  { label: 'Regala', to: '/coleccion/regala' },
+
 ]
