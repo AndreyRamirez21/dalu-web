@@ -1,10 +1,22 @@
 import { Link } from 'react-router-dom'
-import { INSTAGRAM_URL, STORE_ADDRESS, STORE_MAP_URL, WHATSAPP_URL } from '@/shared/constants/contact'
+import {
+  INSTAGRAM_URL,
+  STORE_ADDRESS,
+  STORE_MAP_URL,
+  WHATSAPP_URL,
+} from '@/shared/constants/contact'
 import logoImg from '@/assets/logo-daluuu.webp'
 
 function InstagramIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
       <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
       <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
@@ -14,7 +26,12 @@ function InstagramIcon() {
 
 function FacebookIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
       <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
     </svg>
   )
@@ -22,7 +39,12 @@ function FacebookIcon() {
 
 function WhatsappIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
       <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.2h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2zm5.8 14.16c-.24.68-1.4 1.3-1.93 1.38-.5.08-1.13.11-1.82-.11a16.6 16.6 0 0 1-1.66-.61c-2.92-1.26-4.83-4.2-4.98-4.4-.15-.2-1.19-1.58-1.19-3.02 0-1.43.75-2.14 1.02-2.43.26-.29.58-.36.77-.36.19 0 .39 0 .55.01.18.01.42-.07.65.5.24.58.82 2.01.89 2.15.07.15.12.32.02.52-.1.2-.15.32-.29.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.6.17.29.75 1.24 1.62 2.01 1.11.99 2.05 1.3 2.34 1.44.29.15.47.13.64-.08.17-.2.71-.83.9-1.11.19-.29.38-.24.63-.15.26.1 1.66.78 1.94.92.29.15.48.22.55.34.07.13.07.75-.18 1.44z" />
     </svg>
   )
@@ -30,7 +52,12 @@ function WhatsappIcon() {
 
 function TiktokIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
       <path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z" />
     </svg>
   )
@@ -39,70 +66,300 @@ function TiktokIcon() {
 export function Footer() {
   return (
     <footer>
+      {/* =========================================
+          FRANJA SUPERIOR
+      ========================================== */}
       <div className="bg-primary-strong text-white">
         <div className="max-w-8xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 px-6 py-10">
+
           <div>
-            <p className="font-semibold">Envíos a todo Colombia</p>
-            <p className="text-sm opacity-90">Rápidos, seguros y con amor.</p>
+            <p className="font-semibold">
+              Envíos a todo Colombia
+            </p>
+
+            <p className="text-sm opacity-90">
+              Rápidos, seguros y con amor.
+            </p>
           </div>
+
           <div>
-            <p className="font-semibold">Paga como prefieras</p>
-            <p className="text-sm opacity-90">Transferencia, Nequi, Daviplata y más.</p>
+            <p className="font-semibold">
+              Paga como prefieras
+            </p>
+
+            <p className="text-sm opacity-90">
+              Transferencia, Nequi, Daviplata y más.
+            </p>
           </div>
+
         </div>
       </div>
 
+
+      {/* =========================================
+          FOOTER PRINCIPAL
+      ========================================== */}
       <div className="bg-surface">
-        <div className="max-w-8xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 px-6 py-14">
-          <div>
-            <img src={logoImg} alt="Dalú" className="h-16 w-auto mb-3" />
-            <p className="text-sm text-text-secondary">
-              Buscamos cada pijama y accesorio pensando en ti,comodidad,estilo y calidad para que cada momento de descanso sea una oportunidad para sentirte cómoda,bonita y siempre tú.
+
+        <div className="max-w-8xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 px-6 py-14">
+
+          {/* =====================================
+              MARCA
+          ====================================== */}
+          <div className="lg:pr-6">
+
+            <img
+              src={logoImg}
+              alt="Dalú"
+              className="h-16 w-auto mb-4"
+            />
+
+            <p className="text-sm text-text-secondary leading-relaxed">
+              Buscamos cada pijama y accesorio pensando en ti,
+              comodidad, estilo y calidad para que cada momento
+              de descanso sea una oportunidad para sentirte
+              cómoda, bonita y siempre tú.
             </p>
-            <div className="flex gap-4 mt-4 text-text-primary">
-              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram de Dalú" className="hover:text-primary transition-colors">
+
+            {/* Redes sociales */}
+            <div className="flex gap-4 mt-5 text-text-primary">
+
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram de Dalú"
+                className="hover:text-primary transition-colors"
+              >
                 <InstagramIcon />
               </a>
-              <a href="https://facebook.com/dalusiendotu" target="_blank" rel="noopener noreferrer" aria-label="Facebook de Dalú" className="hover:text-primary transition-colors">
+
+              <a
+                href="https://facebook.com/dalusiendotu"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook de Dalú"
+                className="hover:text-primary transition-colors"
+              >
                 <FacebookIcon />
               </a>
-              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp de Dalú" className="hover:text-primary transition-colors">
+
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp de Dalú"
+                className="hover:text-primary transition-colors"
+              >
                 <WhatsappIcon />
               </a>
-              <a href="https://www.tiktok.com/@dalusiendotu?_r=1&_t=ZS-98TvCJVYyjx" target="_blank" rel="noopener noreferrer" aria-label="Tiktok de Dalú" className="hover:text-primary transition-colors">
+
+              <a
+                href="https://www.tiktok.com/@dalusiendotu?_r=1&_t=ZS-98TvCJVYyjx"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok de Dalú"
+                className="hover:text-primary transition-colors"
+              >
                 <TiktokIcon />
               </a>
-
 
             </div>
           </div>
 
+
+          {/* =====================================
+              INFORMACIÓN
+          ====================================== */}
           <div>
-            <p className="font-semibold text-sm mb-4 text-text-primary">Información</p>
-            <ul className="space-y-2 text-sm text-text-secondary">
-              <li><Link to="/nosotros" className="hover:text-primary">Sobre nosotros</Link></li>
-              <li><Link to="/envios" className="hover:text-primary">Políticas de envío</Link></li>
-              <li><Link to="/cambios" className="hover:text-primary">Cambios y devoluciones</Link></li>
-              <li><Link to="/terminos" className="hover:text-primary">Términos y condiciones</Link></li>
+
+            <p className="font-semibold text-sm mb-5 text-text-primary">
+              Información
+            </p>
+
+            <ul className="space-y-3 text-sm text-text-secondary">
+
+              <li>
+                <Link
+                  to="/nosotros"
+                  className="hover:text-primary transition-colors"
+                >
+                  Sobre nosotros
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/proceso-compra"
+                  className="hover:text-primary transition-colors"
+                >
+                  Proceso de compra
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/envios"
+                  className="hover:text-primary transition-colors"
+                >
+                  Políticas de envío
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/pagos"
+                  className="hover:text-primary transition-colors"
+                >
+                  Métodos de pago
+                </Link>
+              </li>
+
             </ul>
           </div>
 
+
+          {/* =====================================
+              AYUDA
+          ====================================== */}
           <div>
-            <p className="font-semibold text-sm mb-4 text-text-primary">Ayuda</p>
-            <ul className="space-y-2 text-sm text-text-secondary">
-              <li><Link to="/contacto" className="hover:text-primary">Contacto</Link></li>
-              <li><a href={STORE_MAP_URL} target="_blank" rel="noopener noreferrer" className="hover:text-primary">{STORE_ADDRESS}</a></li>
-              <li><Link to="/tallas" className="hover:text-primary">Guía de tallas</Link></li>
-              <li><Link to="/pagos" className="hover:text-primary">Métodos de pago</Link></li>
-              <li><Link to="/faq" className="hover:text-primary">Preguntas frecuentes</Link></li>
+
+            <p className="font-semibold text-sm mb-5 text-text-primary">
+              Ayuda
+            </p>
+
+            <ul className="space-y-3 text-sm text-text-secondary">
+
+              <li>
+                <Link
+                  to="/contacto"
+                  className="hover:text-primary transition-colors"
+                >
+                  Contacto
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/tallas"
+                  className="hover:text-primary transition-colors"
+                >
+                  Guía de tallas
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/faq"
+                  className="hover:text-primary transition-colors"
+                >
+                  Preguntas frecuentes
+                </Link>
+              </li>
+
+            </ul>
+          </div>
+
+
+          {/* =====================================
+              LEGAL
+          ====================================== */}
+          <div>
+
+            <p className="font-semibold text-sm mb-5 text-text-primary">
+              Legal
+            </p>
+
+            <ul className="space-y-3 text-sm text-text-secondary">
+
+              <li>
+                <Link
+                  to="/terminos"
+                  className="hover:text-primary transition-colors"
+                >
+                  Términos y condiciones
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/cambios"
+                  className="hover:text-primary transition-colors"
+                >
+                  Cambios y devoluciones
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/datos"
+                  className="hover:text-primary transition-colors"
+                >
+                  Protección de datos
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/propiedad"
+                  className="hover:text-primary transition-colors"
+                >
+                  Propiedad intelectual
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/garantia"
+                  className="hover:text-primary transition-colors"
+                >
+                  Garantía
+                </Link>
+              </li>
+
             </ul>
           </div>
 
         </div>
 
+
+        {/* =========================================
+            INFORMACIÓN DE CONTACTO
+        ========================================== */}
+        <div className="max-w-8xl mx-auto px-6 pb-8">
+
+          <div className="border-t border-border pt-6 flex flex-col sm:flex-row justify-between gap-3 text-sm text-text-secondary">
+
+            <a
+              href={STORE_MAP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-colors"
+            >
+              {STORE_ADDRESS}
+            </a>
+
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-colors"
+            >
+              ¿Necesitas ayuda? Escríbenos por WhatsApp
+            </a>
+
+          </div>
+
+        </div>
+
+
+        {/* =========================================
+            COPYRIGHT
+        ========================================== */}
         <div className="border-t border-border text-center text-xs text-text-secondary py-5">
           © 2026 Dalú. Todos los derechos reservados.
         </div>
+
       </div>
     </footer>
   )

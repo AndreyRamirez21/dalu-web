@@ -33,7 +33,7 @@ export function ContactPage() {
             <div>
               <p className="font-semibold text-text-primary text-sm">Correo electrónico</p>
               <a href="mailto:hola@dalu.com" className="text-sm text-text-secondary hover:text-primary">
-                hola@dalu.com
+                dlsiendotu@gmail.com
               </a>
             </div>
           </div>
@@ -50,19 +50,10 @@ export function ContactPage() {
             <MapPin size={20} className="text-primary shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-text-primary text-sm">Ubicación</p>
-              <p className="text-sm text-text-secondary">Colombia — Envíos a todo el país</p>
+              <p className="text-sm text-text-secondary">Colombia (Buga) — Envíos a todo el país</p>
             </div>
           </div>
 
-          <div className="rounded-2xl overflow-hidden shadow-sm h-48 bg-surface flex items-center justify-center">
-            <img
-              src="https://picsum.photos/seed/dalu-map/700/300"
-              alt="Mapa de ejemplo"
-              width={700}
-              height={300}
-              className="w-full h-full object-cover opacity-70"
-            />
-          </div>
       </div>
 
       <div className="max-w-2xl mx-auto">
@@ -79,7 +70,7 @@ export function ContactPage() {
             {
               icon: <MessageCircle size={16} className="text-primary" />,
               title: '¿Puedo cambiar o devolver un producto?',
-              content: 'Aceptamos cambios de talla dentro de los primeros 4 días calendario posteriores a la compra, siempre que el producto esté sin uso, en perfecto estado y con sus etiquetas originales.',
+              content: 'Se aceptan cambios dentro de los 3 días calendario posteriores a la compra. (Aplica solo en tallaje) *No aplica en prendas íntimas*.',
             },
             {
               icon: <MessageCircle size={16} className="text-primary" />,
