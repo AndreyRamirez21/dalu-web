@@ -16,19 +16,30 @@ import { formatPrice } from '@/shared/lib/formatters'
 import { getStockForSelection } from '@/shared/lib/inventory'
 import { ZoomableImage } from '@/shared/ui/components/ZoomableImage'
 
-// Categoría de producto para la que aplica la guía de tallas actual.
-// Ajusta este valor si el slug real de "pijamas" en tu catálogo es distinto a 'sleepwear'.
+// Categoría de producto para la que aplica la guía de tallas.
 const SIZE_GUIDE_CATEGORY = 'pijamas'
 
-// Telas que usan la imagen de guía de tallas disponible hoy (GuiaTallas1.png).
-// Cuando tengas las imágenes de otras telas, agrega su propia entrada aquí.
-const SIZE_GUIDE_FABRICS = ['durazno', 'polilicra']
+// Cada grupo mapea un conjunto de telas (coincidencia parcial, sin tildes/mayúsculas)
+// a la imagen de guía de tallas que le corresponde. Agrega un grupo nuevo por cada
+// tela que tenga su propia imagen.
+const SIZE_GUIDE_IMAGES: { fabrics: string[]; image: string }[] = [
+  { fabrics: ['durazno', 'polilicra'], image: '/GuiaTallas1.png' },
+  { fabrics: ['satin', 'saten'], image: '/GuiaTallas2.png' },
+]
 
 function normalizeText(value?: string | null) {
   return (value ?? '')
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
+}
+
+function getSizeGuideImage(fabricType?: string | null): string | null {
+  const normalized = normalizeText(fabricType)
+  const match = SIZE_GUIDE_IMAGES.find((group) =>
+    group.fabrics.some((fabric) => normalized.includes(fabric))
+  )
+  return match?.image ?? null
 }
 
 export function ProductPage() {
@@ -125,9 +136,8 @@ function ProductPageContent({ slug }: { slug?: string }) {
   const availableQuantity = Math.max(0, stockForSelection - inCartForSelection)
   const canSelectQuantity = product.inStock && (!requiresSize || Boolean(selectedSize)) && availableQuantity > 0
 
-  const showsSizeGuide =
-    product.category === SIZE_GUIDE_CATEGORY &&
-    SIZE_GUIDE_FABRICS.some((fabric) => normalizeText(product.fabricType).includes(fabric))
+  const sizeGuideImage =
+    product.category === SIZE_GUIDE_CATEGORY ? getSizeGuideImage(product.fabricType) : null
 
   return (
     <div className="max-w-8xl mx-auto px-6 py-10">
@@ -221,7 +231,7 @@ function ProductPageContent({ slug }: { slug?: string }) {
             {formatPrice(product.price)}
           </p>
 
-          {showsSizeGuide && (
+          {sizeGuideImage && (
             <button
               type="button"
               onClick={() => setShowSizeGuide(true)}
@@ -382,11 +392,13 @@ function ProductPageContent({ slug }: { slug?: string }) {
         </section>
       )}
 
-      <SizeGuideModal
-        open={showSizeGuide}
-        onClose={() => setShowSizeGuide(false)}
-        image="/GuiaTallas1.png"
-      />
+      {sizeGuideImage && (
+        <SizeGuideModal
+          open={showSizeGuide}
+          onClose={() => setShowSizeGuide(false)}
+          image={sizeGuideImage}
+        />
+      )}
     </div>
   )
 }

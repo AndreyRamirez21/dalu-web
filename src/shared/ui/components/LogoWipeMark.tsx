@@ -3,19 +3,12 @@ import { m } from 'framer-motion';
 import { LOGO_PATH, LOGO_VIEWBOX } from './daluLogoPath';
 
 interface LogoWipeMarkProps {
-  /** Tamaño del contenedor, ej. "w-11 h-11" */
   className?: string;
   colorClassName?: string;
   durationS?: number;
   delayS?: number;
 }
 
-/**
- * Icono animado del logo Dalú con efecto "wipe reveal" (usado en el
- * LogoPreloader y también en el Navbar cuando el usuario hace scroll).
- * Cada instancia genera su propio clipPath id para poder montarse
- * varias veces en la página sin colisionar.
- */
 export function LogoWipeMark({
   className = 'w-11 h-20',
   colorClassName = 'text-[#5F9EA0]',
