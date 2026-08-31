@@ -1,6 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises'
 
-const siteUrl = (process.env.SITE_URL || 'https://dalu-web-alpha.vercel.app').replace(/\/$/, '')
+const siteUrl = (process.env.SITE_URL || 'https://www.dalusiendotu.com').replace(/\/$/, '')
 const staticRoutes = [
   ['/', '1.0'],
   ['/pijamas', '0.8'],
