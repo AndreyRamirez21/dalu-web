@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Button } from '@/shared/ui/components/Button'
+import { Canonical } from '@/shared/ui/components/Canonical'
 
 export function AboutPage() {
   return (
@@ -11,6 +12,7 @@ export function AboutPage() {
           name="description"
           content="Conoce la historia de Dalú y nuestra selección de pijamas, pantuflas y accesorios para tus momentos de descanso."
         />
+        <Canonical />
       </Helmet>
 
       {/* =========================================================
@@ -66,7 +68,7 @@ export function AboutPage() {
               </div>
 
               <div className="text-[#aac2c0] text-5xl font-serif leading-none mb-3">
-                “
+                "
               </div>
 
               <p className="font-display text-2xl leading-[1.25] text-[#454545]">

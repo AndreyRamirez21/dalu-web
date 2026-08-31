@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async'
 import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
 import { Accordion } from '@/shared/ui/components/Accordion'
+import { Canonical } from '@/shared/ui/components/Canonical'
 import { WHATSAPP_URL } from '@/shared/constants/contact'
 
 export function ContactPage() {
@@ -9,6 +10,7 @@ export function ContactPage() {
       <Helmet>
         <title>Contacto | Dalú</title>
         <meta name="description" content="Comunícate con Dalú por WhatsApp, correo o teléfono. Estamos aquí para ayudarte." />
+        <Canonical />
       </Helmet>
       <div className="text-center mb-12">
         <h1 className="font-display text-4xl text-text-primary">Contáctanos</h1>

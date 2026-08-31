@@ -15,7 +15,7 @@ import { useProduct, useRelatedProducts } from '@/shared/hooks/useProducts'
 import { formatPrice } from '@/shared/lib/formatters'
 import { getStockForSelection } from '@/shared/lib/inventory'
 import { ZoomableImage } from '@/shared/ui/components/ZoomableImage'
-
+import { Canonical } from '@/shared/ui/components/Canonical'
 // Categoría de producto para la que aplica la guía de tallas.
 const SIZE_GUIDE_CATEGORY = 'pijamas'
 
@@ -148,6 +148,8 @@ function ProductPageContent({ slug }: { slug?: string }) {
         <meta property="og:description" content={`Descubre ${product.name} en Dalú.`} />
         {product.images[0] && <meta property="og:image" content={product.images[0]} />}
         <meta property="og:type" content="product" />
+        <Canonical />
+
       </Helmet>
 
       <nav className="text-xs text-text-secondary mb-6">

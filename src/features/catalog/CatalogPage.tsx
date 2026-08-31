@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { m, AnimatePresence } from 'framer-motion'
 import { Helmet } from 'react-helmet-async'
 import { ProductCard } from '@/shared/ui/components/ProductCard'
+import { Canonical } from '@/shared/ui/components/Canonical'
 import { CatalogFilterDrawer } from './components/CatalogFilterDrawer'
 import { type SortOption } from './components/SortDropdown'
 import { catalogConfigBySlug, collectionToSlug } from './catalogConfig'
@@ -165,6 +166,7 @@ useEffect(() => {
       <Helmet>
         <title>{config.title} | Dalú</title>
         <meta name="description" content={config.description} />
+        <Canonical />
       </Helmet>
       <nav className="text-xs text-text-secondary mb-4">
         <Link to="/" className="hover:text-primary">Inicio</Link>
