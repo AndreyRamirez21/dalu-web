@@ -6,6 +6,7 @@ import { Button } from '@/shared/ui/components/Button'
 import { QuantitySelector } from '@/shared/ui/components/QuantitySelector'
 import { Accordion } from '@/shared/ui/components/Accordion'
 import { ProductCard } from '@/shared/ui/components/ProductCard'
+import { SizeGuideModal } from '@/shared/ui/components/SizeGuideModal'
 import { useCart } from '@/shared/hooks/useCart'
 import { useFavorites } from '@/shared/hooks/useFavorites'
 import { useToast } from '@/shared/hooks/useToast'
@@ -15,6 +16,20 @@ import { formatPrice } from '@/shared/lib/formatters'
 import { getStockForSelection } from '@/shared/lib/inventory'
 import { ZoomableImage } from '@/shared/ui/components/ZoomableImage'
 
+// Categoría de producto para la que aplica la guía de tallas actual.
+// Ajusta este valor si el slug real de "pijamas" en tu catálogo es distinto a 'sleepwear'.
+const SIZE_GUIDE_CATEGORY = 'pijamas'
+
+// Telas que usan la imagen de guía de tallas disponible hoy (GuiaTallas1.png).
+// Cuando tengas las imágenes de otras telas, agrega su propia entrada aquí.
+const SIZE_GUIDE_FABRICS = ['durazno', 'polilicra']
+
+function normalizeText(value?: string | null) {
+  return (value ?? '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+}
 
 export function ProductPage() {
   const { slug } = useParams()
@@ -34,6 +49,7 @@ function ProductPageContent({ slug }: { slug?: string }) {
   const [selectedColor, setSelectedColor] = useState<string | null>(null)
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
   const [quantity, setQuantity] = useState(1)
+  const [showSizeGuide, setShowSizeGuide] = useState(false)
 
   if (cargando) {
     return (
@@ -108,6 +124,10 @@ function ProductPageContent({ slug }: { slug?: string }) {
   )?.quantity ?? 0
   const availableQuantity = Math.max(0, stockForSelection - inCartForSelection)
   const canSelectQuantity = product.inStock && (!requiresSize || Boolean(selectedSize)) && availableQuantity > 0
+
+  const showsSizeGuide =
+    product.category === SIZE_GUIDE_CATEGORY &&
+    SIZE_GUIDE_FABRICS.some((fabric) => normalizeText(product.fabricType).includes(fabric))
 
   return (
     <div className="max-w-8xl mx-auto px-6 py-10">
@@ -201,7 +221,17 @@ function ProductPageContent({ slug }: { slug?: string }) {
             {formatPrice(product.price)}
           </p>
 
-          <div className="border-t border-border mt-6 pt-6">
+          {showsSizeGuide && (
+            <button
+              type="button"
+              onClick={() => setShowSizeGuide(true)}
+              className="mt-2 text-sm font-medium text-primary hover:underline"
+            >
+              Guía de tallas
+            </button>
+          )}
+
+          <div className="border-t border-border mt-3 pt-4">
             {product.colors.length > 0 && (
               <div>
                 <p className="text-sm font-semibold text-text-primary mb-2">Color</p>
@@ -321,7 +351,7 @@ function ProductPageContent({ slug }: { slug?: string }) {
               {
                 icon: <ShieldCheck size={16} className="text-primary" />,
                 title: 'Envíos y devoluciones',
-                content: 'Envíos a todo Colombia. Cambios y devoluciones dentro de los primeros 15 días de compra.',
+                content: 'Envíos a todo Colombia. Se aceptan cambios dentro de los 3 días calendario posteriores a la compra.',
               },
             ]}
           />
@@ -351,6 +381,12 @@ function ProductPageContent({ slug }: { slug?: string }) {
           </div>
         </section>
       )}
+
+      <SizeGuideModal
+        open={showSizeGuide}
+        onClose={() => setShowSizeGuide(false)}
+        image="/GuiaTallas1.png"
+      />
     </div>
   )
 }
