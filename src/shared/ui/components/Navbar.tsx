@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { m, AnimatePresence } from 'framer-motion'
 import { Search, ShoppingBag, Menu, Heart, ChevronDown } from 'lucide-react'
 import { useCart } from '@/shared/hooks/useCart'
 import { MobileMenu, type NavigationLink } from './MobileMenu'
@@ -10,6 +11,7 @@ import {
   giftCollectionLinks,
 } from '@/features/catalog/catalogConfig'
 import { useProductsByCategories } from '@/shared/hooks/useProducts'
+import { LogoWipeMark } from '@/shared/ui/components/LogoWipeMark'
 import logoDalu from '@/assets/logo-daluuu.webp'
 
 const baseLinks: NavigationLink[] = [
@@ -42,6 +44,7 @@ export function Navbar() {
   // Se usan dos umbrales distintos (hysteresis) en vez de uno solo:
   // así se evita que, al quedar el scroll justo en el límite, el estado
   // "scrolled" oscile rápidamente entre true/false y la barra "vibre".
+  // Este mismo estado controla también el cambio de logo en el header.
   useEffect(() => {
     const SHOW_THRESHOLD = 24 // por debajo de esto, la barra siempre se muestra
     const HIDE_THRESHOLD = 80 // por encima de esto, la barra siempre se oculta
@@ -129,13 +132,35 @@ export function Navbar() {
 
             <Link
               to="/"
-              className="flex items-center group ml-3 md:ml-24"
+              className="flex items-center group ml-3 md:ml-24 h-11"
             >
-              <img
-                src={logoDalu}
-                alt="Dalú - Siendo tú"
-                className="w-auto h-11 transition-all duration-300 group-hover:brightness-90 group-hover:scale-[1.03]"
-              />
+              <AnimatePresence mode="wait" initial={false}>
+                {scrolled ? (
+                  <m.div
+                    key="logo-animated"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <LogoWipeMark
+                      className="w-11 h-11 scale-[1.5] relative left-[18px] transition-transform duration-300 group-hover:scale-[1.5]"
+                      durationS={0.8}
+                    />
+                  </m.div>
+                ) : (
+                  <m.img
+                    key="logo-static"
+                    src={logoDalu}
+                    alt="Dalú - Siendo tú"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="w-auto h-11 group-hover:brightness-90 group-hover:scale-[1.03] transition-[filter,transform] duration-300"
+                  />
+                )}
+              </AnimatePresence>
             </Link>
           </div>
 
