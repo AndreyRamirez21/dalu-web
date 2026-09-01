@@ -15,7 +15,6 @@ import { useProduct, useRelatedProducts } from '@/shared/hooks/useProducts'
 import { formatPrice } from '@/shared/lib/formatters'
 import { getStockForSelection } from '@/shared/lib/inventory'
 import { ZoomableImage } from '@/shared/ui/components/ZoomableImage'
-import { Canonical } from '@/shared/ui/components/Canonical'
 // Categoría de producto para la que aplica la guía de tallas.
 const SIZE_GUIDE_CATEGORY = 'pijamas'
 

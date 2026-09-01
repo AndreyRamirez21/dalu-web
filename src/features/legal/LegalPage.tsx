@@ -1,7 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { legalContentBySlug } from './legalContent'
-import { Canonical } from '@/shared/ui/components/Canonical'
 
 export function LegalPage() {
   const location = useLocation()

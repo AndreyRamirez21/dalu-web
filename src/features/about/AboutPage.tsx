@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Button } from '@/shared/ui/components/Button'
-import { Canonical } from '@/shared/ui/components/Canonical'
 
 export function AboutPage() {
   return (

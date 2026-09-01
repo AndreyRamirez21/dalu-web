@@ -1,7 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
 import { Accordion } from '@/shared/ui/components/Accordion'
-import { Canonical } from '@/shared/ui/components/Canonical'
 import { WHATSAPP_URL } from '@/shared/constants/contact'
 
 export function ContactPage() {
