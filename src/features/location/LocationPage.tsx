@@ -11,7 +11,6 @@ export function LocationPage() {
       <Helmet>
         <title>Visítanos en Buga | Dalú</title>
         <meta name="description" content={`Encuentra a Dalú en ${STORE_ADDRESS}.`} />
-        <Canonical />
       </Helmet>
 
       <nav className="text-xs text-text-secondary mb-6">

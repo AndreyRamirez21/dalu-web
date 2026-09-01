@@ -26,7 +26,6 @@ export function LegalPage() {
       <Helmet>
         <title>{content.title} | Dalú</title>
         <meta name="description" content={content.intro} />
-        <Canonical />
       </Helmet>
       <nav className="text-xs text-text-secondary mb-6">
         <Link to="/" className="hover:text-primary">Inicio</Link>

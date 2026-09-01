@@ -166,7 +166,6 @@ useEffect(() => {
       <Helmet>
         <title>{config.title} | Dalú</title>
         <meta name="description" content={config.description} />
-        <Canonical />
       </Helmet>
       <nav className="text-xs text-text-secondary mb-4">
         <Link to="/" className="hover:text-primary">Inicio</Link>

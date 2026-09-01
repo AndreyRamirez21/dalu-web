@@ -12,7 +12,6 @@ export function AboutPage() {
           name="description"
           content="Conoce la historia de Dalú y nuestra selección de pijamas, pantuflas y accesorios para tus momentos de descanso."
         />
-        <Canonical />
       </Helmet>
 
       {/* =========================================================

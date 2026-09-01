@@ -148,7 +148,6 @@ function ProductPageContent({ slug }: { slug?: string }) {
         <meta property="og:description" content={`Descubre ${product.name} en Dalú.`} />
         {product.images[0] && <meta property="og:image" content={product.images[0]} />}
         <meta property="og:type" content="product" />
-        <Canonical />
 
       </Helmet>
 
