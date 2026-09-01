@@ -44,6 +44,15 @@ export function VideoSection({ videoSrc, title, description, to, ctaLabel }: Vid
     })
   }, [isVideoReady])
 
+  // Red de seguridad: si por algún motivo el evento de "video listo" no
+  // dispara (inconsistencias de red/navegador), igual quitamos el
+  // placeholder después de un tiempo prudente para no tapar el video para siempre.
+  useEffect(() => {
+    if (!shouldLoadVideo) return
+    const timeout = setTimeout(() => setIsVideoReady(true), 2500)
+    return () => clearTimeout(timeout)
+  }, [shouldLoadVideo])
+
   function togglePlay() {
     if (!shouldLoadVideo) {
       setShouldLoadVideo(true)
@@ -71,7 +80,7 @@ export function VideoSection({ videoSrc, title, description, to, ctaLabel }: Vid
           preload="auto"
           onPlay={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
-          onCanPlayThrough={() => setIsVideoReady(true)}
+          onLoadedData={() => setIsVideoReady(true)}
           className="absolute inset-0 w-full h-full object-cover"
         />
       )}
