@@ -21,7 +21,14 @@ export function HomePage() {
   const { data: homeContent, isPending: homeContentLoading } = useHomeContent()
   const hero = homeContent?.hero
   const heroSlides = hero?.slides ?? fallbackContent.hero.slides
-  const homeCategories = homeContent?.categories ?? categories
+  const homeCategories = (homeContent?.categories ?? categories).map((category) => {
+    const localMatch = categories.find((c) => c.slug === category.slug)
+    return {
+      ...category,
+      icon: category.icon ?? localMatch?.icon,
+      description: category.description ?? localMatch?.description,
+    }
+  })
   const moments = homeContent?.moments
   const collection = homeContent?.collection
   const video = homeContent?.video
@@ -148,18 +155,21 @@ export function HomePage() {
               </HeroCarousel>
             </section>
 
-      {/* Categorías — fondo distinto para marcar el primer "capítulo" del scroll,
-          padding reducido porque es una sección de navegación rápida, no de contemplación */}
-      <section id="categorias" className="bg-surface py-8 md:py-10">
+      <section id="categorias" className="bg-surface py-10 md:py-14">
         <div className="max-w-8xl mx-auto px-6">
-          <m.div {...reveal} className="text-center mb-6">
-            <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Explora Dalú</p>
-            <h2 className="font-display text-2xl text-text-primary">
+          <m.div {...reveal} className="text-center mb-10 md:mb-12">
+            <p className="text-xs font-semibold tracking-[0.22em] uppercase text-primary mb-2">Explora Dalú</p>
+            <h2 className="font-display text-3xl md:text-4xl text-text-primary">
               <span className="sr-only">Pijamas, Pantuflas, Antifaces y Accesorios — </span>
-              Categorías para cada momento
+              Categorías para <span className="italic text-primary-strong">cada momento</span>
             </h2>
+            <span className="block h-px w-14 bg-border mx-auto mt-4 mb-4" />
+            <p className="text-sm text-text-secondary max-w-md mx-auto">
+              Descubre tu pijama ideal para relajarte, dormir y sentirte tú.
+            </p>
           </m.div>
-          <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+
+          <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
             {homeCategories.map((category, index) => (
               <m.div
                 key={category.id}

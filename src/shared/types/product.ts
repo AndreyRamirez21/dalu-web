@@ -1,3 +1,5 @@
+import type { LucideIcon } from 'lucide-react'
+
 export interface ProductVariant {
   size: string
   stock: number
@@ -23,9 +25,20 @@ export interface Product {
 
 }
 
+export interface CategoryTheme {
+  cardBg: string
+  badgeBg: string
+  badgeIcon: string
+  buttonBg: string
+  buttonText: string
+}
+
 export interface Category {
   id: string
   slug: string
   name: string
   image: string
+  description?: string
+  icon?: LucideIcon
+  theme?: CategoryTheme
 }
