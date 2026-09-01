@@ -146,8 +146,8 @@ export const legalContentBySlug: Record<string, LegalPageContent> = {
       'Encuentra tu talla ideal para que tu prenda Dalú te quede cómoda y perfecta.',
     sections: [],
     images: [
-      '/images/tallas/Guia-tallas-1.png',
-      '/images/tallas/Guia-tallas-2.png',
+      '/images/tallas/GuiaTallas1.png',
+      '/images/tallas/GuiaTallas2.png',
     ],
   },
 
@@ -170,11 +170,6 @@ export const legalContentBySlug: Record<string, LegalPageContent> = {
         heading: 'Pago de pedidos apartados',
         body:
           'Para apartar una prenda se requiere un abono equivalente al 50% del valor total del pedido. El saldo restante deberá completarse dentro del plazo establecido de 3 semanas.',
-      },
-      {
-        heading: 'Tarjetas de crédito y débito',
-        body:
-          'Próximamente podrás pagar directamente en línea con tarjeta. Por ahora, la disponibilidad de este medio de pago deberá ser confirmada por WhatsApp.',
       },
     ],
   },
