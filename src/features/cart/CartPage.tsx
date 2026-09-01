@@ -61,21 +61,28 @@ export function CartPage() {
                 className="grid md:grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center py-5 border-b border-border"
               >
               <div className="flex items-center gap-4">
-                {item.product.images[0] ? (
-                  <img
-                    src={item.product.images[0]}
-                    alt={item.product.name}
-                    width={80}
-                    height={80}
-                    className="w-20 h-20 rounded-xl object-cover"
-                  />
-                ) : (
-                  <div className="w-20 h-20 rounded-xl bg-primary-light flex items-center justify-center shrink-0">
-                    <Package size={24} className="text-primary/40" />
-                  </div>
-                )}
+                <Link to={`/producto/${item.product.slug}`} className="shrink-0">
+                  {item.product.images[0] ? (
+                    <img
+                      src={item.product.images[0]}
+                      alt={item.product.name}
+                      width={80}
+                      height={80}
+                      className="w-20 h-20 rounded-xl object-cover"
+                    />
+                  ) : (
+                    <div className="w-20 h-20 rounded-xl bg-primary-light flex items-center justify-center">
+                      <Package size={24} className="text-primary/40" />
+                    </div>
+                  )}
+                </Link>
                 <div>
-                  <p className="font-medium text-text-primary text-sm">{item.product.name}</p>
+                  <Link
+                    to={`/producto/${item.product.slug}`}
+                    className="font-medium text-text-primary text-sm hover:text-primary hover:underline"
+                  >
+                    {item.product.name}
+                  </Link>
                   <p className="text-xs text-text-secondary mt-1">
                     {item.size && <>{item.product.category === 'accesorios' ? 'Variante' : 'Talla'}: {item.size}</>}
                   </p>

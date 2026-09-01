@@ -306,8 +306,10 @@ function ProductPageContent({ slug }: { slug?: string }) {
                   <p className="text-xs text-text-secondary mt-2">Selecciona una {selectionLabel} para ver las unidades disponibles.</p>
                 ) : availableQuantity > 0 && availableQuantity <= 3 ? (
                   <p className="text-xs text-text-secondary mt-2">Últimas unidades disponibles.</p>
-                ) : availableQuantity === 0 ? (
-                  <p className="text-xs text-danger mt-2">No quedan unidades disponibles de esta talla.</p>
+                ) : availableQuantity === 0 && stockForSelection === 0 ? (
+                  <p className="text-xs text-danger mt-2">No quedan unidades disponibles de esta {selectionLabel}.</p>
+                ) : availableQuantity === 0 && inCartForSelection > 0 ? (
+                  <p className="text-xs text-primary mt-2">Ya tienes {inCartForSelection === 1 ? 'la única unidad disponible' : 'todas las unidades disponibles'} en tu carrito.</p>
                 ) : null}
             </div>
 
@@ -316,10 +318,14 @@ function ProductPageContent({ slug }: { slug?: string }) {
                 variant="outline"
                 size="sm"
                 className="w-full mt-2"
-                disabled={!canSelectQuantity}
+                disabled={!canSelectQuantity && !(inCartForSelection > 0 && availableQuantity === 0)}
                 onClick={() => {
                   if (requiresSize && !selectedSize) {
                     showToast(`Por favor selecciona una ${selectionLabel}`)
+                    return
+                  }
+                  if (inCartForSelection > 0 && availableQuantity === 0) {
+                    showToast('Ya tienes esta unidad en tu carrito')
                     return
                   }
                   if (!addItem(product, quantity, selectedSize)) {
@@ -329,7 +335,11 @@ function ProductPageContent({ slug }: { slug?: string }) {
                   showToast(`${product.name} agregado al carrito`)
                 }}
               >
-                {!product.inStock ? 'Agotado' : 'Comprar'}
+                {!product.inStock
+                  ? 'Agotado'
+                  : inCartForSelection > 0 && availableQuantity === 0
+                  ? 'Ya en tu carrito'
+                  : 'Comprar'}
               </Button>
               <button
                 onClick={() => toggleFavorite(product.id)}
