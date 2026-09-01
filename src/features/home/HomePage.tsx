@@ -6,7 +6,7 @@ import { CategoryCard } from '@/shared/ui/components/CategoryCard'
 import { ProductCard } from '@/shared/ui/components/ProductCard'
 import { Skeleton } from '@/shared/ui/components/Skeleton'
 import { categories } from '@/data/categories'
-import { useFeaturedProducts } from '@/shared/hooks/useProducts'
+import { useLatestProducts } from '@/shared/hooks/useProducts'
 import { useHomeContent } from '@/shared/hooks/useHomeContent'
 import { HeroCarousel } from './components/HeroCarousel'
 import { InstagramFeed } from './components/InstagramFeed'
@@ -17,7 +17,7 @@ import ResponsiveSpecularButton from '@/shared/ui/components/ResponsiveSpecularB
 import MotoDelivery from "./components/icons/MotoDelivery";
 
 export function HomePage() {
-  const { data: featured = [], isPending: featuredLoading, isError: featuredError, refetch } = useFeaturedProducts()
+  const { data: latestProducts = [], isPending: latestLoading, isError: latestError, refetch } = useLatestProducts()
   const { data: homeContent, isPending: homeContentLoading } = useHomeContent()
   const hero = homeContent?.hero
   const heroSlides = hero?.slides ?? fallbackContent.hero.slides
@@ -25,9 +25,6 @@ export function HomePage() {
   const moments = homeContent?.moments
   const collection = homeContent?.collection
   const video = homeContent?.video
-  const featuredProducts = homeContent?.featuredReferences.length
-    ? [...featured].sort((a, b) => homeContent.featuredReferences.indexOf(a.reference) - homeContent.featuredReferences.indexOf(b.reference))
-    : featured
   const reduceMotion = useReducedMotion()
   const reveal = reduceMotion
     ? {}
@@ -255,10 +252,10 @@ export function HomePage() {
 
       <InstagramFeed />
 
-      {/* Productos destacados */}
-      {featuredLoading && (
-        <section className="max-w-8xl mx-auto px-6 py-9" aria-labelledby="featured-heading" aria-busy="true">
-          <h2 id="featured-heading" className="text-center font-display text-2xl text-text-primary mb-6">Productos destacados</h2>
+      {/* Últimos agregados */}
+      {latestLoading && (
+        <section className="max-w-8xl mx-auto px-6 py-9" aria-labelledby="latest-heading" aria-busy="true">
+          <h2 id="latest-heading" className="text-center font-display text-2xl text-text-primary mb-6">Recién llegados</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {Array.from({ length: 4 }, (_, index) => (
               <div key={index} aria-hidden="true">
@@ -272,14 +269,14 @@ export function HomePage() {
         </section>
       )}
 
-      {!featuredLoading && featuredProducts.length > 0 && (
+      {!latestLoading && latestProducts.length > 0 && (
         <section className="max-w-8xl mx-auto px-6 py-9">
           <m.div {...reveal} className="text-center mb-6">
-            <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Favoritos de la semana</p>
-            <h2 className="font-display text-2xl text-text-primary">Productos destacados</h2>
+            <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Lo nuevo en Dalú</p>
+            <h2 className="font-display text-2xl text-text-primary">Recién llegados</h2>
           </m.div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {featuredProducts.map((product, index) => (
+            {latestProducts.map((product, index) => (
               <m.div
                 key={product.id}
                 {...reveal}
@@ -292,9 +289,9 @@ export function HomePage() {
         </section>
       )}
 
-      {!featuredLoading && featuredError && (
+      {!latestLoading && latestError && (
         <div className="max-w-8xl mx-auto px-6 pb-12 text-center">
-          <p className="text-sm text-text-secondary">No pudimos cargar los productos destacados.</p>
+          <p className="text-sm text-text-secondary">No pudimos cargar los productos.</p>
           <button onClick={() => refetch()} className="mt-3 text-sm font-medium text-primary hover:underline">
             Reintentar
           </button>

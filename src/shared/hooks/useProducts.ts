@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import {
   getFeaturedProducts,
+  getLatestProducts,
   getProductBySlug,
   getProductsByCategories,
   getProductsByIds,
@@ -10,6 +11,7 @@ import {
 
 export const productQueryKeys = {
   featured: ['products', 'featured'] as const,
+  latest: ['products', 'latest'] as const,
   byCategories: (categories: string[]) => ['products', 'categories', categories] as const,
   bySlug: (slug: string) => ['products', 'detail', slug] as const,
   related: (category: string, productId: string) => ['products', 'related', category, productId] as const,
@@ -19,6 +21,10 @@ export const productQueryKeys = {
 
 export function useFeaturedProducts() {
   return useQuery({ queryKey: productQueryKeys.featured, queryFn: getFeaturedProducts })
+}
+
+export function useLatestProducts() {
+  return useQuery({ queryKey: productQueryKeys.latest, queryFn: () => getLatestProducts(4) })
 }
 
 export function useProductsByCategories(categories: string[]) {

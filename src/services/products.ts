@@ -77,6 +77,24 @@ export async function getFeaturedProducts(): Promise<Product[]> {
   return (data || []).map(mapProducto)
 }
 
+
+export async function getLatestProducts(limit = 4): Promise<Product[]> {
+  const { data, error } = await supabase
+    .from('productos_web')
+    .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
+    .eq('activo', true)
+    .eq('coleccion_visible', true)
+    .order('id', { ascending: false })
+    .limit(limit)
+
+  if (error) {
+    console.error('Error al obtener los últimos productos agregados:', error)
+    throw new Error('No se pudieron cargar los productos recientes.')
+  }
+
+  return (data || []).map(mapProducto)
+}
+
 export async function getProductsByCategories(categories: string[]): Promise<Product[]> {
   const { data, error } = await supabase
     .from('productos_web')

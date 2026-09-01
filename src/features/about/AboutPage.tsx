@@ -225,7 +225,7 @@ export function AboutPage() {
             <div className="col-span-2 lg:col-span-4">
               <div className="relative h-[420px] lg:h-[580px] rounded-[28px] overflow-hidden group">
                 <img
-                  src="/images/products/Pij1.webp"
+                  src="/images/products/About4.jpg"
                   alt="Momento Dalú"
                   width={640}
                   height={800}
@@ -238,7 +238,7 @@ export function AboutPage() {
             <div className="col-span-1 lg:col-span-3">
               <div className="relative h-[300px] lg:h-[580px] rounded-[28px] overflow-hidden group">
                 <img
-                  src="/images/products/Pij7.webp"
+                  src="/images/products/About1.jpg"
                   alt="Momento Dalú"
                   width={640}
                   height={800}
@@ -251,7 +251,7 @@ export function AboutPage() {
             <div className="col-span-1 lg:col-span-5 grid grid-rows-2 gap-4 lg:gap-5">
               <div className="relative h-[300px] lg:h-[280px] rounded-[28px] overflow-hidden group">
                 <img
-                  src="/images/products/Pij10.webp"
+                  src="/images/products/About2.jpg"
                   alt="Momento Dalú"
                   width={640}
                   height={800}
@@ -262,7 +262,7 @@ export function AboutPage() {
 
               <div className="relative h-[300px] lg:h-[280px] rounded-[28px] overflow-hidden group">
                 <img
-                  src="/images/products/Pij11.webp"
+                  src="/images/products/About3.jpg"
                   alt="Momento Dalú"
                   width={640}
                   height={800}
