@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, Heart, MapPin, MessageCircle, Package, Sparkles, Truck } from 'lucide-react'
 import { m, useReducedMotion } from 'framer-motion'
@@ -6,8 +7,9 @@ import { CategoryCard } from '@/shared/ui/components/CategoryCard'
 import { ProductCard } from '@/shared/ui/components/ProductCard'
 import { Skeleton } from '@/shared/ui/components/Skeleton'
 import { categories } from '@/data/categories'
-import { useLatestProducts } from '@/shared/hooks/useProducts'
+import { useProductsByCategories } from '@/shared/hooks/useProducts'
 import { useHomeContent } from '@/shared/hooks/useHomeContent'
+import { collectionToSlug } from '@/features/catalog/catalogConfig'
 import { HeroCarousel } from './components/HeroCarousel'
 import { InstagramFeed } from './components/InstagramFeed'
 import { VideoSection } from './components/VideoSection'
@@ -16,8 +18,38 @@ import { fallbackContent } from '@/services/homeContent'
 import ResponsiveSpecularButton from '@/shared/ui/components/ResponsiveSpecularButton'
 import MotoDelivery from "./components/icons/MotoDelivery";
 
+// Slug de la ruta /coleccion/:slug para la colección destacada del home.
+// Debe coincidir con lo que arma CatalogPage a partir de p.line / p.collection.
+const FEATURED_COLLECTION_SLUG = 'pijamas-coleccion-amor-y-amistad'
+
 export function HomePage() {
-  const { data: latestProducts = [], isPending: latestLoading, isError: latestError, refetch } = useLatestProducts()
+  const {
+    data: pijamasProducts = [],
+    isPending: collectionLoading,
+    isError: collectionError,
+    refetch: refetchCollection,
+  } = useProductsByCategories(['pijamas'])
+
+function shuffle<T>(array: T[]): T[] {
+  const result = [...array]
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[result[i], result[j]] = [result[j], result[i]]
+  }
+  return result
+}
+
+const collectionProducts = useMemo(() => {
+  const matches = pijamasProducts.filter((p) => {
+    const matchesLine = p.line && `pijamas-${collectionToSlug(p.line)}` === FEATURED_COLLECTION_SLUG
+    const matchesCollection =
+      p.collection && `pijamas-${collectionToSlug(p.collection)}` === FEATURED_COLLECTION_SLUG
+    return matchesLine || matchesCollection
+  })
+  return shuffle(matches)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [pijamasProducts])
+
   const { data: homeContent, isPending: homeContentLoading } = useHomeContent()
   const hero = homeContent?.hero
   const heroSlides = hero?.slides ?? fallbackContent.hero.slides
@@ -262,10 +294,12 @@ export function HomePage() {
 
       <InstagramFeed />
 
-      {/* Últimos agregados */}
-      {latestLoading && (
-        <section className="max-w-8xl mx-auto px-6 py-9" aria-labelledby="latest-heading" aria-busy="true">
-          <h2 id="latest-heading" className="text-center font-display text-2xl text-text-primary mb-6">Recién llegados</h2>
+      {/* Colección Amor y Amistad */}
+      {collectionLoading && (
+        <section className="max-w-8xl mx-auto px-6 py-9" aria-labelledby="collection-heading" aria-busy="true">
+          <h2 id="collection-heading" className="text-center font-display text-2xl text-text-primary mb-6">
+            Colección Amor y Amistad
+          </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {Array.from({ length: 4 }, (_, index) => (
               <div key={index} aria-hidden="true">
@@ -279,14 +313,14 @@ export function HomePage() {
         </section>
       )}
 
-      {!latestLoading && latestProducts.length > 0 && (
+      {!collectionLoading && collectionProducts.length > 0 && (
         <section className="max-w-8xl mx-auto px-6 py-9">
           <m.div {...reveal} className="text-center mb-6">
-            <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Lo nuevo en Dalú</p>
-            <h2 className="font-display text-2xl text-text-primary">Recién llegados</h2>
+            <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">Edición especial</p>
+            <h2 className="font-display text-2xl text-text-primary">Colección Amor y Amistad</h2>
           </m.div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {latestProducts.map((product, index) => (
+            {collectionProducts.slice(0, 4).map((product, index) => (
               <m.div
                 key={product.id}
                 {...reveal}
@@ -296,13 +330,21 @@ export function HomePage() {
               </m.div>
             ))}
           </div>
+          <div className="text-center mt-8">
+            <Link
+              to={`/coleccion/${FEATURED_COLLECTION_SLUG}`}
+              className="inline-block text-sm font-medium text-primary hover:underline"
+            >
+              Ver toda la colección
+            </Link>
+          </div>
         </section>
       )}
 
-      {!latestLoading && latestError && (
+      {!collectionLoading && collectionError && (
         <div className="max-w-8xl mx-auto px-6 pb-12 text-center">
-          <p className="text-sm text-text-secondary">No pudimos cargar los productos.</p>
-          <button onClick={() => refetch()} className="mt-3 text-sm font-medium text-primary hover:underline">
+          <p className="text-sm text-text-secondary">No pudimos cargar la colección.</p>
+          <button onClick={() => refetchCollection()} className="mt-3 text-sm font-medium text-primary hover:underline">
             Reintentar
           </button>
         </div>
