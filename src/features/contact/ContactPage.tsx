@@ -33,7 +33,7 @@ export function ContactPage() {
             <div>
               <p className="font-semibold text-text-primary text-sm">Correo electrónico</p>
               <a href="mailto:hola@dalu.com" className="text-sm text-text-secondary hover:text-primary">
-                dlsiendotu@gmail.com
+                dalusiendotu@gmail.com
               </a>
             </div>
           </div>

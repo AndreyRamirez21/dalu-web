@@ -22,6 +22,7 @@ export interface Product {
   inStock: boolean
   reference: string
   collection?: string | null
+  line: string | null
 
 }
 

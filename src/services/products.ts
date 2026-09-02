@@ -19,6 +19,7 @@ interface ProductoWebRow {
   featured: boolean
   activo: boolean
   variantes_web_publico: VarianteWeb[]
+  linea: string | null
   coleccion: string | null
   descripcion: string | null
   tipo_tela: string | null
@@ -55,6 +56,7 @@ function mapProducto(row: ProductoWebRow): Product {
     featured: row.featured,
     inStock: hayStock,
     reference: row.referencia,
+    line: row.linea ?? null,
     collection: row.coleccion ?? null,
     description: row.descripcion?.trim() || undefined,
     fabricType: row.tipo_tela?.trim() || undefined,

@@ -54,6 +54,7 @@ export function CatalogPage() {
   const availableCollections = useMemo(() => {
     const set = new Set<string>()
     allProducts.forEach((p) => {
+      if (p.line) set.add(p.line)
       if (p.collection) set.add(p.collection)
     })
     return Array.from(set)
@@ -93,10 +94,19 @@ useEffect(() => {
         }
 
     if (selectedCollection) {
-      result = result.filter((p) => p.collection && (
-        normalizeCollection(p.collection) === normalizeCollection(selectedCollection) ||
-        `pijamas-${collectionToSlug(p.collection)}` === selectedCollection
-      ))
+      result = result.filter((p) => {
+        const matchesLine =
+          p.line &&
+          (normalizeCollection(p.line) === normalizeCollection(selectedCollection) ||
+            `pijamas-${collectionToSlug(p.line)}` === selectedCollection)
+
+        const matchesCollection =
+          p.collection &&
+          (normalizeCollection(p.collection) === normalizeCollection(selectedCollection) ||
+            `pijamas-${collectionToSlug(p.collection)}` === selectedCollection)
+
+        return matchesLine || matchesCollection
+      })
     }
 
     if (sort === 'recientes') result = [...result].sort((a, b) => Number(b.id) - Number(a.id))
