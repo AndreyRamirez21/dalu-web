@@ -1,16 +1,16 @@
-import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 import { ExternalLink, MapPin } from 'lucide-react'
 import { Button } from '@/shared/ui/components/Button'
 import { STORE_ADDRESS, STORE_MAP_EMBED_URL, STORE_MAP_URL } from '@/shared/constants/contact'
+import { Canonical } from '@/shared/ui/components/Canonical'
+
 
 export function LocationPage() {
   return (
     <div className="max-w-8xl mx-auto px-6 py-10 md:py-16">
-      <Helmet>
         <title>Visítanos en Buga | Dalú</title>
         <meta name="description" content={`Encuentra a Dalú en ${STORE_ADDRESS}.`} />
-      </Helmet>
+        <Canonical />
 
       <nav className="text-xs text-text-secondary mb-6">
         <Link to="/" className="hover:text-primary">Inicio</Link>

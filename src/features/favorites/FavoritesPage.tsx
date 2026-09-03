@@ -5,6 +5,7 @@ import { useFavorites } from '@/shared/hooks/useFavorites'
 import { ProductCard } from '@/shared/ui/components/ProductCard'
 import { Button } from '@/shared/ui/components/Button'
 import { useFavoriteProducts } from '@/shared/hooks/useProducts'
+import { Canonical } from '@/shared/ui/components/Canonical'
 
 export function FavoritesPage() {
   const { favoriteIds, syncFavorites } = useFavorites()
@@ -21,6 +22,9 @@ export function FavoritesPage() {
   if (cargando) {
     return (
       <div className="max-w-8xl mx-auto px-6 py-20 text-center">
+        <title>Mis favoritos | Dalú</title>
+        <meta name="robots" content="noindex" />
+        <Canonical />
         <p className="text-text-secondary">Cargando favoritos…</p>
       </div>
     )
@@ -29,6 +33,9 @@ export function FavoritesPage() {
   if (loadError) {
     return (
       <div className="max-w-8xl mx-auto px-6 py-20 text-center">
+        <title>Mis favoritos | Dalú</title>
+        <meta name="robots" content="noindex" />
+        <Canonical />
         <h1 className="font-display text-3xl text-text-primary mb-3">No pudimos cargar tus favoritos</h1>
         <p className="text-text-secondary">Revisa tu conexión e inténtalo de nuevo.</p>
         <button onClick={() => refetch()} className="mt-3 text-sm font-medium text-primary hover:underline">
@@ -41,6 +48,9 @@ export function FavoritesPage() {
   if (favoriteProducts.length === 0) {
     return (
       <div className="max-w-8xl mx-auto px-6 py-20 text-center">
+        <title>Mis favoritos | Dalú</title>
+        <meta name="robots" content="noindex" />
+        <Canonical />
         <Heart size={40} className="text-primary mx-auto mb-4" />
         <h1 className="font-display text-3xl text-text-primary mb-3">Aún no tienes favoritos</h1>
         <p className="text-text-secondary mb-6">
@@ -55,6 +65,9 @@ export function FavoritesPage() {
 
   return (
     <div className="max-w-8xl mx-auto px-6 py-10">
+      <title>Mis favoritos | Dalú</title>
+      <meta name="robots" content="noindex" />
+      <Canonical />
       <h1 className="font-display text-3xl text-text-primary">Mis favoritos</h1>
       <p className="text-text-secondary text-sm mt-1 mb-8">
         Tienes {favoriteProducts.length} producto{favoriteProducts.length > 1 ? 's' : ''} guardado

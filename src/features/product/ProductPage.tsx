@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
 import { Heart, Package, ShieldCheck, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from '@/shared/ui/components/Button'
 import { QuantitySelector } from '@/shared/ui/components/QuantitySelector'
@@ -15,6 +14,8 @@ import { useProduct, useRelatedProducts } from '@/shared/hooks/useProducts'
 import { formatPrice } from '@/shared/lib/formatters'
 import { getStockForSelection } from '@/shared/lib/inventory'
 import { ZoomableImage } from '@/shared/ui/components/ZoomableImage'
+import { Canonical } from '@/shared/ui/components/Canonical'
+
 // Categoría de producto para la que aplica la guía de tallas.
 const SIZE_GUIDE_CATEGORY = 'pijamas'
 
@@ -140,16 +141,13 @@ function ProductPageContent({ slug }: { slug?: string }) {
 
   return (
     <div className="max-w-8xl mx-auto px-6 py-10">
-      <Helmet>
         <title>{product.name} | Dalú</title>
         <meta name="description" content={`${product.name} — ${formatPrice(product.price)}. Pijamas, pantuflas y accesorios Dalú.`} />
         <meta property="og:title" content={`${product.name} | Dalú`} />
         <meta property="og:description" content={`Descubre ${product.name} en Dalú.`} />
         {product.images[0] && <meta property="og:image" content={product.images[0]} />}
         <meta property="og:type" content="product" />
-
-      </Helmet>
-
+        <Canonical />
       <nav className="text-xs text-text-secondary mb-6">
         <Link to="/" className="hover:text-primary">Inicio</Link>
         <span className="mx-2">›</span>

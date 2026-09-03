@@ -1,5 +1,5 @@
 // URL base del sitio en producción. Cambia esto si el dominio cambia en el futuro.
-export const SITE_URL = 'https://dalusiendotu.com'
+export const SITE_URL = 'https://www.dalusiendotu.com'
 
 /**
  * Construye una URL absoluta y canónica a partir de un path relativo.

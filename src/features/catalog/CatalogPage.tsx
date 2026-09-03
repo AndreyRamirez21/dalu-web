@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { m, AnimatePresence } from 'framer-motion'
-import { Helmet } from 'react-helmet-async'
 import { ProductCard } from '@/shared/ui/components/ProductCard'
 import { CatalogFilterDrawer } from './components/CatalogFilterDrawer'
 import { type SortOption } from './components/SortDropdown'
 import { catalogConfigBySlug, collectionToSlug } from './catalogConfig'
 import { useProductsByCategories } from '@/shared/hooks/useProducts'
+import { Canonical } from '@/shared/ui/components/Canonical'
 
 const ITEMS_PER_LOAD = 12
 
@@ -172,10 +172,9 @@ useEffect(() => {
 
   return (
     <div className="max-w-[88rem] mx-auto px-6 sm:px-8 lg:px-14 py-10">
-      <Helmet>
         <title>{config.title} | Dalú</title>
         <meta name="description" content={config.description} />
-      </Helmet>
+        <Canonical />
       <nav className="text-xs text-text-secondary mb-4">
         <Link to="/" className="hover:text-primary">Inicio</Link>
         <span className="mx-2">›</span>

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { HelmetProvider } from 'react-helmet-async'
 import { RouterProvider } from 'react-router-dom'
 import { LazyMotion, domAnimation } from 'framer-motion'
 import { router } from '@/app/router'
@@ -26,7 +25,7 @@ function App() {
   }, [])
 
   return (
-    <HelmetProvider>
+    <>
       <LazyMotion features={domAnimation}>
         <LogoPreloader isLoading={!appReady} colorClassName="text-[#82BBBD]" />
         <QueryProvider>
@@ -41,7 +40,7 @@ function App() {
       </LazyMotion>
       <SpeedInsights />
       <Analytics />
-    </HelmetProvider>
+    </>
   )
 }
 

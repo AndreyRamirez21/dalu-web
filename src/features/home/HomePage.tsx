@@ -17,6 +17,8 @@ import { STORE_ADDRESS, WHATSAPP_URL } from '@/shared/constants/contact'
 import { fallbackContent } from '@/services/homeContent'
 import ResponsiveSpecularButton from '@/shared/ui/components/ResponsiveSpecularButton'
 import MotoDelivery from "./components/icons/MotoDelivery";
+import { Canonical } from '@/shared/ui/components/Canonical'
+
 
 // Slug de la ruta /coleccion/:slug para la colección destacada del home.
 // Debe coincidir con lo que arma CatalogPage a partir de p.line / p.collection.
@@ -82,7 +84,9 @@ const collectionProducts = useMemo(() => {
 
   return (
     <div>
-            {/* Hero */}
+        <title>Dalú | Pijamas, Pantuflas y Accesorios</title>
+        <meta name="description" content="Pijamas, pantuflas y accesorios para tus mejores momentos. Envíos a toda Colombia." />
+        <Canonical />
             <section className="max-w-8xl mx-auto px-6 py-5">
                 <HeroCarousel
                   key={heroSlides.join('\u0001')}

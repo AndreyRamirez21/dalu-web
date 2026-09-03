@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
 import { legalContentBySlug } from './legalContent'
+import { Canonical } from '@/shared/ui/components/Canonical'
+
 
 export function LegalPage() {
   const location = useLocation()
@@ -22,10 +23,9 @@ export function LegalPage() {
 
   return (
     <div className={`mx-auto px-6 py-16 ${hasImages ? 'max-w-5xl' : 'max-w-3xl'}`}>
-      <Helmet>
         <title>{content.title} | Dalú</title>
         <meta name="description" content={content.intro} />
-      </Helmet>
+        <Canonical />
       <nav className="text-xs text-text-secondary mb-6">
         <Link to="/" className="hover:text-primary">Inicio</Link>
         <span className="mx-2">›</span>

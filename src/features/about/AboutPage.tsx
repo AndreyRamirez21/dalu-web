@@ -1,17 +1,15 @@
 import { Link } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
 import { Button } from '@/shared/ui/components/Button'
+import { Canonical } from '@/shared/ui/components/Canonical'
 
 export function AboutPage() {
   return (
     <div className="bg-[#fbfaf8] text-text-primary overflow-hidden">
-      <Helmet>
         <title>Sobre nosotros | Dalú</title>
         <meta
           name="description"
-          content="Conoce la historia de Dalú y nuestra selección de pijamas, pantuflas y accesorios para tus momentos de descanso."
-        />
-      </Helmet>
+          content="Conoce la historia de Dalú y nuestra selección de pijamas, pantuflas y accesorios para tus momentos de descanso."/>
+        <Canonical />
 
       {/* =========================================================
           HERO

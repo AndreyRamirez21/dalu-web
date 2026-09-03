@@ -5,6 +5,7 @@ import { Button } from '@/shared/ui/components/Button'
 import { WHATSAPP_URL } from '@/shared/constants/contact'
 import { formatPrice } from '@/shared/lib/formatters'
 import { getStockForSelection } from '@/shared/lib/inventory'
+import { Canonical } from '@/shared/ui/components/Canonical'
 
 export function CartPage() {
   const { items, removeItem, updateQuantity, clearCart, subtotal } = useCart()
@@ -29,6 +30,9 @@ export function CartPage() {
   if (items.length === 0) {
     return (
       <div className="max-w-8xl mx-auto px-6 py-20 text-center">
+          <title>Carrito de compras | Dalú</title>
+          <meta name="robots" content="noindex" />
+          <Canonical />
         <h1 className="font-display text-3xl text-text-primary mb-3">Tu carrito está vacío</h1>
         <p className="text-text-secondary mb-6">Explora nuestra colección y encuentra tu próxima pijama favorita.</p>
         <Link to="/pijamas">
@@ -40,6 +44,9 @@ export function CartPage() {
 
   return (
     <div className="max-w-8xl mx-auto px-6 py-10">
+        <title>Carrito de compras | Dalú</title>
+        <meta name="robots" content="noindex" />
+        <Canonical />
       <h1 className="font-display text-3xl text-text-primary">Carrito de compras</h1>
       <p className="text-text-secondary text-sm mt-1 mb-8">
         Tienes {items.length} producto{items.length > 1 ? 's' : ''} en tu carrito
