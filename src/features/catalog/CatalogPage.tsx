@@ -170,9 +170,18 @@ useEffect(() => {
     )
   }
 
+const SEO_TITLE_OVERRIDES: Record<string, string> = {
+  Sleepwear: 'Pijamas',
+  Slippers: 'Pantuflas',
+}
+
+function getSeoTitle(brandTitle: string) {
+  return SEO_TITLE_OVERRIDES[brandTitle] ?? brandTitle
+}
+
   return (
     <div className="max-w-[88rem] mx-auto px-6 sm:px-8 lg:px-14 py-10">
-        <title>{config.title} | Dalú</title>
+        <title>{`${getSeoTitle(config.title)} en Buga | Dalú`}</title>
         <meta name="description" content={config.description} />
         <Canonical />
       <nav className="text-xs text-text-secondary mb-4">

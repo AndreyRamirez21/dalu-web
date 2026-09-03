@@ -84,7 +84,7 @@ const collectionProducts = useMemo(() => {
 
   return (
     <div>
-        <title>Dalú | Pijamas, Pantuflas y Accesorios</title>
+        <title>Dalú | Pijamas, Pantuflas y Accesorios - Colombia</title>
         <meta name="description" content="Pijamas, pantuflas y accesorios para tus mejores momentos. Envíos a toda Colombia." />
         <Canonical />
             <section className="max-w-8xl mx-auto px-6 py-5">
