@@ -16,12 +16,9 @@ import { getStockForSelection } from '@/shared/lib/inventory'
 import { ZoomableImage } from '@/shared/ui/components/ZoomableImage'
 import { Canonical } from '@/shared/ui/components/Canonical'
 
-// Categoría de producto para la que aplica la guía de tallas.
 const SIZE_GUIDE_CATEGORY = 'pijamas'
 
-// Cada grupo mapea un conjunto de telas (coincidencia parcial, sin tildes/mayúsculas)
-// a la imagen de guía de tallas que le corresponde. Agrega un grupo nuevo por cada
-// tela que tenga su propia imagen.
+
 const SIZE_GUIDE_IMAGES: { fabrics: string[]; image: string }[] = [
   { fabrics: ['durazno', 'polilicra'], image: '/GuiaTallas1.png' },
   { fabrics: ['satin', 'saten'], image: '/GuiaTallas2.png' },
@@ -62,66 +59,79 @@ function ProductPageContent({ slug }: { slug?: string }) {
   const [quantity, setQuantity] = useState(1)
   const [showSizeGuide, setShowSizeGuide] = useState(false)
 
+  const headTags = (
+    <>
+      <title>{product ? `${product.name} | Dalú` : 'Dalú'}</title>
+      <Canonical />
+    </>
+  )
+
   if (cargando) {
     return (
-      <div className="max-w-8xl mx-auto px-6 py-10 animate-pulse">
-        {/* Breadcrumb fantasma */}
-        <div className="h-3 w-40 bg-border rounded mb-6" />
+      <>
+        {headTags}
+        <div className="max-w-8xl mx-auto px-6 py-10 animate-pulse">
+          {/* Breadcrumb fantasma */}
+          <div className="h-3 w-40 bg-border rounded mb-6" />
 
-        <div className="grid lg:grid-cols-[80px_1fr_1fr_320px] gap-6">
-          {/* Miniaturas fantasma */}
-          <div className="hidden lg:flex lg:flex-col gap-3 order-2 lg:order-1">
-            <div className="w-20 h-20 rounded-xl bg-border" />
-            <div className="w-20 h-20 rounded-xl bg-border" />
-          </div>
-
-          {/* Imagen grande fantasma */}
-            <div className="order-1 lg:order-2">
-              <div className="bg-primary-light aspect-[3/4]" />
+          <div className="grid lg:grid-cols-[80px_1fr_1fr_320px] gap-6">
+            {/* Miniaturas fantasma */}
+            <div className="hidden lg:flex lg:flex-col gap-3 order-2 lg:order-1">
+              <div className="w-20 h-20 rounded-xl bg-border" />
+              <div className="w-20 h-20 rounded-xl bg-border" />
             </div>
 
-          {/* Info fantasma */}
-          <div className="order-3 space-y-4">
-            <div className="h-8 w-3/4 bg-border rounded" />
-            <div className="h-7 w-1/3 bg-border rounded" />
-            <div className="h-4 w-full bg-border rounded" />
-            <div className="h-4 w-2/3 bg-border rounded" />
-            <div className="pt-4 space-y-2">
-              <div className="h-4 w-16 bg-border rounded" />
-              <div className="flex gap-2">
-                <div className="h-10 w-10 rounded-full bg-border" />
-                <div className="h-10 w-10 rounded-full bg-border" />
-                <div className="h-10 w-10 rounded-full bg-border" />
+            {/* Imagen grande fantasma */}
+              <div className="order-1 lg:order-2">
+                <div className="bg-primary-light aspect-[3/4]" />
               </div>
-            </div>
-            <div className="h-12 w-full bg-border rounded-full mt-6" />
-          </div>
 
-          {/* Sidebar fantasma */}
-          <div className="order-4 hidden lg:block">
-            <div className="h-14 w-full bg-border rounded-xl" />
-            <div className="h-24 w-full bg-border rounded-2xl mt-6" />
+            {/* Info fantasma */}
+            <div className="order-3 space-y-4">
+              <div className="h-8 w-3/4 bg-border rounded" />
+              <div className="h-7 w-1/3 bg-border rounded" />
+              <div className="h-4 w-full bg-border rounded" />
+              <div className="h-4 w-2/3 bg-border rounded" />
+              <div className="pt-4 space-y-2">
+                <div className="h-4 w-16 bg-border rounded" />
+                <div className="flex gap-2">
+                  <div className="h-10 w-10 rounded-full bg-border" />
+                  <div className="h-10 w-10 rounded-full bg-border" />
+                  <div className="h-10 w-10 rounded-full bg-border" />
+                </div>
+              </div>
+              <div className="h-12 w-full bg-border rounded-full mt-6" />
+            </div>
+
+            {/* Sidebar fantasma */}
+            <div className="order-4 hidden lg:block">
+              <div className="h-14 w-full bg-border rounded-xl" />
+              <div className="h-24 w-full bg-border rounded-2xl mt-6" />
+            </div>
           </div>
         </div>
-      </div>
+      </>
     )
   }
 
   if (!product) {
     return (
-      <div className="max-w-8xl mx-auto px-6 py-20 text-center">
-        <p className="text-text-secondary">
-          {loadError ? 'No pudimos cargar este producto. Revisa tu conexión e inténtalo de nuevo.' : 'Producto no encontrado.'}
-        </p>
-        {loadError && (
-          <button onClick={() => refetch()} className="mt-3 text-sm font-medium text-primary hover:underline">
-            Reintentar
-          </button>
-        )}
-        <Link to="/pijamas" className="text-primary text-sm hover:underline mt-2 inline-block">
-          Volver al catálogo
-        </Link>
-      </div>
+      <>
+        {headTags}
+        <div className="max-w-8xl mx-auto px-6 py-20 text-center">
+          <p className="text-text-secondary">
+            {loadError ? 'No pudimos cargar este producto. Revisa tu conexión e inténtalo de nuevo.' : 'Producto no encontrado.'}
+          </p>
+          {loadError && (
+            <button onClick={() => refetch()} className="mt-3 text-sm font-medium text-primary hover:underline">
+              Reintentar
+            </button>
+          )}
+          <Link to="/pijamas" className="text-primary text-sm hover:underline mt-2 inline-block">
+            Volver al catálogo
+          </Link>
+        </div>
+      </>
     )
   }
 
@@ -141,13 +151,12 @@ function ProductPageContent({ slug }: { slug?: string }) {
 
   return (
     <div className="max-w-8xl mx-auto px-6 py-10">
-        <title>{product.name} | Dalú</title>
+        {headTags}
         <meta name="description" content={`${product.name} — ${formatPrice(product.price)}. Pijamas, pantuflas y accesorios Dalú.`} />
         <meta property="og:title" content={`${product.name} | Dalú`} />
         <meta property="og:description" content={`Descubre ${product.name} en Dalú.`} />
         {product.images[0] && <meta property="og:image" content={product.images[0]} />}
         <meta property="og:type" content="product" />
-        <Canonical />
       <nav className="text-xs text-text-secondary mb-6">
         <Link to="/" className="hover:text-primary">Inicio</Link>
         <span className="mx-2">›</span>
