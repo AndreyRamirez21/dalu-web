@@ -1,45 +1,22 @@
 import { Link } from 'react-router-dom'
-import { Heart, Package, X } from 'lucide-react'
-import { useState } from 'react'
+import { Heart, Package } from 'lucide-react'
 import type { Product } from '@/shared/types/product'
-import { Button } from './Button'
-import { useCart } from '@/shared/hooks/useCart'
 import { useFavorites } from '@/shared/hooks/useFavorites'
-import { useToast } from '@/shared/hooks/useToast'
 import { formatPrice } from '@/shared/lib/formatters'
-import { getStockForSelection } from '@/shared/lib/inventory'
 import { LazyImage } from './LazyImage'
+import { QuickViewButton } from './QuickViewModal'
 
 interface ProductCardProps {
   product: Product
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { addItem, items, openCartDrawer } = useCart()
   const { toggleFavorite, isFavorite } = useFavorites()
   const favorite = isFavorite(product.id)
-  const { showToast } = useToast()
-  const [selectedSize, setSelectedSize] = useState<string | null>(null)
-  const supportsQuickSizeSelection = product.category === 'pijamas' || product.category === 'pantuflas' || product.category === 'accesorios' || product.category === 'antifaces'|| product.category === 'regala'
-  const selectionLabel = product.category === 'accesorios' || product.category === 'antifaces' ? 'variante' : 'talla'
-  const selectedVariant = product.variants.find((variant) => variant.size === selectedSize)
-  const selectedStock = getStockForSelection(product, selectedSize)
-  const selectedInCart = items.find(
-    (item) => item.product.id === product.id && (item.size ?? null) === (selectedSize ?? null)
-  )?.quantity ?? 0
-  const canAddSelectedSize = Boolean(selectedVariant) && selectedStock > selectedInCart
   const hasHoverImage = product.images.length > 1
 
-  function addSelectedProduct() {
-    if (!selectedSize || !addItem(product, 1, selectedSize)) {
-      showToast(`Esta ${selectionLabel} ya no tiene unidades disponibles`)
-      return
-    }
-    openCartDrawer()
-  }
-
   return (
-    <div className="group">
+    <article className="group/card">
       <div className="relative overflow-hidden bg-surface">
         <Link to={`/producto/${product.slug}`}>
         {product.images[0] ? (
@@ -49,9 +26,9 @@ export function ProductCard({ product }: ProductCardProps) {
               alt={product.name}
               width={640}
               height={800}
-              className={`w-full aspect-[3/4] object-cover transition-[opacity,transform] duration-500 ease-out group-hover:scale-105 ${
+              className={`w-full aspect-[3/4] object-cover transition-[opacity,transform] duration-500 ease-out group-hover/card:scale-105 ${
                 !product.inStock ? 'opacity-50 grayscale' : ''
-              } ${hasHoverImage ? 'group-hover:opacity-0' : ''}`}
+              } ${hasHoverImage ? 'group-hover/card:opacity-0' : ''}`}
             />
 
             {hasHoverImage && (
@@ -62,8 +39,8 @@ export function ProductCard({ product }: ProductCardProps) {
                 height={800}
                 loading="lazy"
                 decoding="async"
-                className={`absolute inset-0 w-full h-full object-cover scale-105 opacity-0 transition-[opacity,transform] duration-500 ease-out group-hover:scale-100 group-hover:opacity-100 ${
-                  !product.inStock ? 'opacity-50 grayscale' : ''
+                className={`absolute inset-0 w-full h-full object-cover scale-105 opacity-0 transition-[opacity,transform] duration-500 ease-out group-hover/card:scale-100 group-hover/card:opacity-100 ${
+                  !product.inStock ? 'grayscale group-hover/card:!opacity-50' : ''
                 }`}
               />
             )}
@@ -81,15 +58,24 @@ export function ProductCard({ product }: ProductCardProps) {
           </span>
         )}
 
-        <button
-          onClick={() => toggleFavorite(product.id)}
-          aria-label="Agregar a favoritos"
-          className={`absolute top-3 right-3 bg-white/90 rounded-full p-2 shadow-sm transition-colors ${
-            favorite ? 'text-danger' : 'hover:text-danger'
-          }`}
-        >
-          <Heart size={16} className={favorite ? 'fill-danger' : ''} />
-        </button>
+        {product.inStock && (
+          <button
+            type="button"
+            onClick={() => toggleFavorite(product.id)}
+            aria-label={favorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+            className={`absolute left-3 top-3 z-10 rounded-full bg-white/90 p-2 shadow-sm transition-all hover:text-danger md:-translate-y-1 md:opacity-0 md:group-hover/card:translate-y-0 md:group-hover/card:opacity-100 ${
+              favorite ? 'text-danger md:translate-y-0 md:opacity-100' : ''
+            }`}
+          >
+            <Heart size={16} className={favorite ? 'fill-danger' : ''} />
+          </button>
+        )}
+
+        {product.inStock && <QuickViewButton product={product} variant="eye" />}
+
+        {product.inStock && (
+          <QuickViewButton product={product} variant="quick-purchase" />
+        )}
       </div>
 
       <div className="mt-3 space-y-1">
@@ -115,57 +101,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {formatPrice(product.price)}
         </p>
 
-        {supportsQuickSizeSelection && product.variants.length > 0 ? (
-          <div className="mt-3">
-            <div className="flex flex-wrap gap-1.5" aria-label={`${selectionLabel}s de ${product.name}`}>
-              {product.variants.map((variant) => {
-                const isSoldOut = variant.stock <= 0
-                const isSelected = selectedSize === variant.size
-
-                return (
-                  <button
-                    key={variant.size}
-                    onClick={() => setSelectedSize(variant.size)}
-                    disabled={isSoldOut}
-                    aria-label={isSoldOut ? `${selectionLabel} ${variant.size} agotada` : `Seleccionar ${selectionLabel} ${variant.size}`}
-                    className={`relative min-w-9 h-9 px-2 rounded-lg border text-xs font-medium transition-colors ${
-                      isSoldOut
-                        ? 'border-border text-text-secondary/50 cursor-not-allowed'
-                        : isSelected
-                          ? 'border-primary-strong bg-primary-strong text-white'
-                          : 'border-border text-text-primary hover:border-primary'
-                    }`}
-                  >
-                    {variant.size}
-                    {isSoldOut && <X size={14} strokeWidth={2.5} className="absolute inset-0 m-auto text-danger" aria-hidden="true" />}
-                  </button>
-                )
-              })}
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="w-full mt-3"
-              disabled={!canAddSelectedSize}
-              onClick={addSelectedProduct}
-            >
-              {selectedSize ? 'Añadir al carrito' : `Selecciona una ${selectionLabel}`}
-            </Button>
-          </div>
-        ) : (
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full mt-2"
-            disabled={!product.inStock}
-            onClick={() => {
-              if (addItem(product)) openCartDrawer()
-            }}
-          >
-            {product.inStock ? 'Agregar al carrito' : 'Agotado'}
-          </Button>
-        )}
       </div>
-    </div>
+    </article>
   )
 }

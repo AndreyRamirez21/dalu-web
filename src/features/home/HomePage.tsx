@@ -221,7 +221,7 @@ const collectionProducts = useMemo(() => {
 
       {/* Compra por momento */}
       <section className="max-w-8xl mx-auto px-6 py-9">
-        <m.div {...reveal} className="max-w-xl mb-6">
+        <m.div {...reveal} className="max-w-xl mx-auto text-center mb-6">
           <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary mb-2">{moments?.eyebrow ?? 'Encuentra tu favorito'}</p>
           <h2 className="font-display text-2xl text-text-primary">{moments?.title ?? 'Compra según tu momento'}</h2>
           <p className="text-sm text-text-secondary mt-2">{moments?.description ?? 'Pequeños detalles para sentirte bien, descansar y regalar comodidad.'}</p>

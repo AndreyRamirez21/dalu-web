@@ -11,7 +11,7 @@ import { useFavorites } from '@/shared/hooks/useFavorites'
 import { useToast } from '@/shared/hooks/useToast'
 import { categories } from '@/data/categories'
 import { useProduct, useRelatedProducts } from '@/shared/hooks/useProducts'
-import { formatPrice } from '@/shared/lib/formatters'
+import { formatPrice, generarAltText } from '@/shared/lib/formatters'
 import { getStockForSelection } from '@/shared/lib/inventory'
 import { ZoomableImage } from '@/shared/ui/components/ZoomableImage'
 import { Canonical } from '@/shared/ui/components/Canonical'
@@ -201,7 +201,7 @@ function ProductPageContent({ slug }: { slug?: string }) {
               {product.images[selectedImage] ? (
                   <ZoomableImage
                     src={product.images[selectedImage]}
-                    alt={product.name}
+                    alt={generarAltText(product, selectedSize)}
                   />
               ) : (
                 <div className="w-full aspect-[3/4] bg-primary-light flex items-center justify-center">
