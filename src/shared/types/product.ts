@@ -22,6 +22,8 @@ export interface Product {
   inStock: boolean
   reference: string
   collection?: string | null
+  /** Controls the collection landing page/navigation only; it does not unpublish the product. */
+  collectionVisible: boolean
   line: string | null
 
 }

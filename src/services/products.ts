@@ -23,6 +23,7 @@ interface ProductoWebRow {
   coleccion: string | null
   descripcion: string | null
   tipo_tela: string | null
+  coleccion_visible: boolean
 }
 
 function mapProducto(row: ProductoWebRow): Product {
@@ -58,6 +59,7 @@ function mapProducto(row: ProductoWebRow): Product {
     reference: row.referencia,
     line: row.linea ?? null,
     collection: row.coleccion ?? null,
+    collectionVisible: row.coleccion_visible,
     description: row.descripcion?.trim() || undefined,
     fabricType: row.tipo_tela?.trim() || undefined,
   }
@@ -68,7 +70,6 @@ export async function getFeaturedProducts(): Promise<Product[]> {
     .from('productos_web')
     .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
-    .eq('coleccion_visible', true)
     .eq('featured', true)
 
   if (error) {
@@ -85,7 +86,6 @@ export async function getLatestProducts(limit = 4): Promise<Product[]> {
     .from('productos_web')
     .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
-    .eq('coleccion_visible', true)
     .order('id', { ascending: false })
     .limit(limit)
 
@@ -102,7 +102,6 @@ export async function getProductsByCategories(categories: string[]): Promise<Pro
     .from('productos_web')
     .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
-    .eq('coleccion_visible', true)
     .in('categoria', categories)
 
   if (error) {
@@ -118,7 +117,6 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     .from('productos_web')
     .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
-    .eq('coleccion_visible', true)
     .eq('slug', slug)
     .maybeSingle()
 
@@ -138,7 +136,6 @@ export async function getRelatedProducts(category: string, excludeId: string, li
     .from('productos_web')
     .select('id')
     .eq('activo', true)
-    .eq('coleccion_visible', true)
     .eq('categoria', category)
     .neq('id', Number(excludeId))
 
@@ -186,7 +183,6 @@ export async function getProductsByIds(ids: string[]): Promise<Product[]> {
     .from('productos_web')
     .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
-    .eq('coleccion_visible', true)
     .in('id', ids)
 
   if (error) {
@@ -202,7 +198,6 @@ export async function searchProducts(query: string, limit = 6): Promise<Product[
     .from('productos_web')
     .select('*, variantes_web_publico(talla, disponible, cantidad_maxima)')
     .eq('activo', true)
-    .eq('coleccion_visible', true)
     .ilike('nombre', `%${query}%`)
     .limit(limit)
 

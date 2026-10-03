@@ -43,6 +43,7 @@ function shuffle<T>(array: T[]): T[] {
 
 const collectionProducts = useMemo(() => {
   const matches = pijamasProducts.filter((p) => {
+    if (!p.collectionVisible) return false
     const matchesLine = p.line && `pijamas-${collectionToSlug(p.line)}` === FEATURED_COLLECTION_SLUG
     const matchesCollection =
       p.collection && `pijamas-${collectionToSlug(p.collection)}` === FEATURED_COLLECTION_SLUG

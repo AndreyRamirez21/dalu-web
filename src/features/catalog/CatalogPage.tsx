@@ -54,6 +54,7 @@ export function CatalogPage() {
   const availableCollections = useMemo(() => {
     const set = new Set<string>()
     allProducts.forEach((p) => {
+      if (!p.collectionVisible) return
       if (p.line) set.add(p.line)
       if (p.collection) set.add(p.collection)
     })
@@ -105,7 +106,10 @@ useEffect(() => {
           (normalizeCollection(p.collection) === normalizeCollection(selectedCollection) ||
             `pijamas-${collectionToSlug(p.collection)}` === selectedCollection)
 
-        return matchesLine || matchesCollection
+        // La visibilidad solo controla la agrupación secundaria (`coleccion`).
+        // Una línea principal, como Deluxe, debe conservar todos sus productos
+        // aunque alguno pertenezca a una colección temporal que esté oculta.
+        return Boolean(matchesLine) || (p.collectionVisible && Boolean(matchesCollection))
       })
     }
 

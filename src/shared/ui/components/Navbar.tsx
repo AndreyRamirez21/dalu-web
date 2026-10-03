@@ -82,7 +82,9 @@ export function Navbar() {
           ? {
               ...link,
               children: buildSleepwearCollectionLinks(
-                pijamaProducts.map((product) => product.collection)
+                pijamaProducts
+                  .filter((product) => product.collectionVisible)
+                  .map((product) => product.collection)
               ),
             }
           : link
